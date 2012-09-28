@@ -1,0 +1,17 @@
+resurl: resurl
+MIDlet-1: MIDlet-1,,sheepwar.SheepWarMIDlet
+MIDlet-Jar-URL: sheepwar.jar
+sender: 123
+spid: 222
+MicroEdition-Configuration: CLDC-1.0
+loginurl: http://localhost:8080/itvgame/
+MIDlet-Version: 1.0.0
+authcode: authcode
+MIDlet-Vendor: MIDlet Suite Vendor
+MIDlet-Name: sheepwar MIDlet Suite
+usrid: 333
+MicroEdition-Profile: MIDP-2.1
+gameid: 111
+flush: flush
+rechargeflag: 10
+feeratio: 10
