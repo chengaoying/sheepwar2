@@ -50,10 +50,11 @@ public class StateShop implements Common{
 		Image game_bg = Resource.loadImage(Resource.id_game_bg);
 		Image shop_balance = Resource.loadImage(Resource.id_shop_balance);//{46,454}
 		Image shop_big = Resource.loadImage(Resource.id_shop_big);//{29,103}
-		Image shop_go_pay = Resource.loadImage(Resource.id_shop_go_pay);//{457,381}
+		Image shop_go_pay = Resource.loadImage(Resource.id_shop_go_pay);//{457,381}				//9/29被修改为单纯的文字图片
+		Image shop_go_pay_base = Resource.loadImage(Resource.id_achievement_left);				//单纯的 按钮图片
 		Image shop_midding = Resource.loadImage(Resource.id_shop_midding);//{434,103}
 		Image shop_out_base = Resource.loadImage(Resource.id_shop_out_base);
-		Image shop_out = Resource.loadImage(Resource.id_shop_out);//{457,429}
+		Image shop_out = Resource.loadImage(Resource.id_shop_out);//{457,429}					//9/29被修改为单纯的文字图片“返回”
 		Image shop_small_base = Resource.loadImage(Resource.id_shop_small_base);
 		Image shop_small = Resource.loadImage(Resource.id_shop_small);
 		Image price_quantity = Resource.loadImage(Resource.id_price_quantity);
@@ -176,15 +177,21 @@ public class StateShop implements Common{
 		}
 		 if(shopX==2){          //充值和返回被选择的阴影效果
 			 if(shopY==0){      //控制方向由左到右的入口方向
-				 g.drawImage(shop_go_pay, 457, 381, 20);
-			   	 g.drawImage(shop_out, 457-8, 429-5, 20);
+				 g.drawImage(shop_go_pay_base, 457, 381, 20);
+				 g.drawImage(shop_go_pay, 457+16, 381+5, 20);
+				 g.drawImage(shop_go_pay_base, 457-8, 429-5, 20);		//返回文字上的按钮
+			   	 g.drawImage(shop_out, 457-8+16, 429-5+7, 20);
 			  }else{
-			   	 g.drawImage(shop_go_pay, 457-8, 381-5, 20);
-			   	 g.drawImage(shop_out, 457, 429, 20);
+			   	 g.drawImage(shop_go_pay_base, 457-8, 381-5, 20);
+			   	 g.drawImage(shop_go_pay, 457-8+16, 381-5+5, 20);
+			   	 g.drawImage(shop_go_pay_base, 457, 429, 20);
+			   	 g.drawImage(shop_out, 457+16, 429+7, 20);
 			 }
 		    }else{
-		    	g.drawImage(shop_go_pay, 457 -8, 381-5, 20);
-		   		g.drawImage(shop_out, 457-8, 429-5, 20);
+		    	g.drawImage(shop_go_pay_base, 457 -8, 381-5, 20);
+		    	g.drawImage(shop_go_pay, 457-8+16, 381-5+5, 20);
+		   		g.drawImage(shop_go_pay_base, 457-8, 429-5, 20);
+		   		g.drawImage(shop_out, 457-8+16, 429-5+7, 20);
 		    }
 //		drawNum(g, engine.getEngineService().getBalance(), 103,452);  
 		g.drawString(/*String.valueOf(engine.getEngineService().getBalance())*/"1000000",103,452, 20);//用户余额

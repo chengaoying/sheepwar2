@@ -252,17 +252,19 @@ public class Weapon implements Common {
 			w.frame = (w.frame+1)%5;
 			for(int j = batches.npcs.size() - 1;j>=0;j--){
 				Role npc = (Role)batches.npcs.elementAt(j);
-				if(npc.position == ON_ONE_LADDER || npc.position ==ON_TWO_LADDER 
-						|| npc.position == ON_THREE_LADDER || npc.position == ON_FOUR_LADDER){
-					npc.status = ROLE_DEATH;
-					StateGame.HASWOLF_ONE = false;
-					StateGame.HASWOLF_TWO = false;
-					StateGame.HASWOLF_THREE = false;
-					StateGame.HASWOLF_FOUR = false;
-					batches.npcs.removeElement(npc);
+				if(StateGame.harpState){
+					if(npc.position == ON_ONE_LADDER || npc.position ==ON_TWO_LADDER 
+							|| npc.position == ON_THREE_LADDER || npc.position == ON_FOUR_LADDER){
+						npc.status = ROLE_DEATH;
+						StateGame.HASWOLF_ONE = false;
+						StateGame.HASWOLF_TWO = false;
+						StateGame.HASWOLF_THREE = false;
+						StateGame.HASWOLF_FOUR = false;
+						batches.npcs.removeElement(npc);
+					}
+					g.drawRegion(harpEffect, w.frame*harpEffect.getWidth()/5, 0, harpEffect.getWidth()/5, harpEffect.getHeight(), 
+							0, 444, 156, 20);
 				}
-				g.drawRegion(harpEffect, w.frame*harpEffect.getWidth()/5, 0, harpEffect.getWidth()/5, harpEffect.getHeight(), 
-						0, 444, 156, 20);
 			}
 		}
 	}

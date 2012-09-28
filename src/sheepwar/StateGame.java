@@ -92,11 +92,16 @@ public class StateGame implements Common{
 	private long addSpeedTime,addSpeedTime2;
 	private int speedLiquidInterval = 30;
 	
-	/*无敌*/
+	/*防狼套装*/
 	private long proEndTime;
 	private long proStartTime;
 	private long protectInterval = 5;
 	public static boolean protectState;
+	
+	/*驱散竖琴*/
+	private long harpStartTime,harpEndTime;
+	private long harpInterval = 1;				//便于控制驱散竖琴的效果
+	public static boolean harpState;
 	
 	/*强力磁石*/
 	private long magnetStartTime,magnetEndTime;
@@ -167,7 +172,9 @@ public class StateGame implements Common{
 				updateProp(propId);
 
 		}else if(keyState.containsAndRemove(KeyCode.NUM5)&& own.status ==ROLE_ALIVE){		//驱散竖琴
+			    harpState = true;
 				weapon.createHarp(own);
+				harpStartTime = System.currentTimeMillis()/1000;
 				int propId = engine.pm.propIds[4]-53;
 				updateProp(propId);
 		}else if(keyState.containsAndRemove(KeyCode.NUM6)&& own.status ==ROLE_ALIVE){		//速度提升液
@@ -281,6 +288,12 @@ public class StateGame implements Common{
 		proEndTime = System.currentTimeMillis()/1000;
 		if(proEndTime - proStartTime > protectInterval){
 			protectState = false;
+		}
+		
+		/*驱散竖琴时间间隔控制*/
+		harpEndTime = System.currentTimeMillis()/1000;
+		if(harpEndTime - harpStartTime >harpInterval){
+			harpState = false;
 		}
 		
 		/*强力磁石控制时间*/

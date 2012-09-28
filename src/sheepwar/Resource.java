@@ -135,7 +135,7 @@ public class Resource implements Common {
 		"/playing_stop.png",
 		"/game_bg.jpg",
 		"/playing_prop_memu.png",
-		"/playing_prop.png",
+		"/prop1.png",						//修改过的道具图片
 		"/playing_lunzi.png",
 		"/playing_shenzi.png",
 		"/playing_lift.png",    
@@ -180,12 +180,12 @@ public class Resource implements Common {
 		"/achievement_left.png",
 		"/slash.png",
 		
-		"/current_ranking.jpg",       //排行图片资源
+		"/current_ranking.png",       //排行图片资源
 		"/ranking_option.png",
 		"/ranking_option1.png",
 		"/ranking_stripe.jpg",       
 		"/ranking.png",
-		"/ranking_show.jpg",
+		"/show.png",								//替换了ranking_show.jpg
 		"/ranking_word.png",
 		
 		"/playing_level.png",
