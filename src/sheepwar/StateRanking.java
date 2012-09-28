@@ -58,6 +58,9 @@ public class StateRanking implements Common{
 		ranking_month = sw.queryRankingList(start, end, 0, 10);*/
 	}
 
+	private int cloudIndex, cloud2Index;
+	private int down_cloudIndex, down_cloud2Index;
+	int x1 = 20, x2 = 550, x3 = 424;
 	private void showRanking(SGraphics g) {
 
 		Image game_bg = Resource.loadImage(Resource.id_game_bg);
@@ -73,7 +76,79 @@ public class StateRanking implements Common{
 		Image ranking_show=Resource.loadImage(Resource.id_ranking_show);//{241,108}
 		Image ranking_word=Resource.loadImage(Resource.id_ranking_word);    
 		//Image slash = Resource.loadImage(Resource.id_slash);
+		
+		/*新添加的云朵元素*/
+		Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
+		Image pass_cloud1 = Resource.loadImage(Resource.id_pass_cloud1);
+		Image pass_cloud2 = Resource.loadImage(Resource.id_pass_cloud2);
+		
 		g.drawImage(game_bg, 0, 0, 20);
+		
+		/*增加的云层*/
+		/*上面第二层云*/
+		int cloud2W = pass_cloud2.getWidth(),cloud2H = pass_cloud2.getHeight();
+		int len = cloud2W-ScrW;
+		int cloud2Y = -6;
+		cloud2Index=(cloud2Index+1)%cloud2W;
+		if(cloud2Index<=len){
+			g.drawRegion(pass_cloud2, len-cloud2Index, 0, ScrW, cloud2H, 0, 0, cloud2Y, 20);
+		}else{
+			g.drawRegion(pass_cloud2, (cloud2W-cloud2Index), 0, ScrW-(cloud2W-cloud2Index), cloud2H, 0, 0, cloud2Y, 20);
+			g.drawRegion(pass_cloud2, 0, 0, (cloud2W-cloud2Index), cloud2H, 0, ScrW-(cloud2W-cloud2Index), cloud2Y, 20);
+		}
+		
+		/*下面第二层云*/
+		int down_cloud2Y = 484;
+		down_cloud2Index=(down_cloud2Index+1)%cloud2W;
+		if(down_cloud2Index<=len){
+			g.drawRegion(pass_cloud2, len-down_cloud2Index, 0, ScrW, cloud2H, 0, 0, down_cloud2Y, 20);
+		}else{
+			g.drawRegion(pass_cloud2, (cloud2W-down_cloud2Index), 0, ScrW-(cloud2W-down_cloud2Index), cloud2H, 0, 0, down_cloud2Y, 20);
+			g.drawRegion(pass_cloud2, 0, 0, (cloud2W-down_cloud2Index), cloud2H, 0, ScrW-(cloud2W-down_cloud2Index), down_cloud2Y, 20);
+		}
+
+		/*中间的云*/
+		int cloudW = pass_cloud.getWidth();
+		if(x1+cloudW<=0){
+			x1 = ScrW;
+		}else{
+			x1 -= 1;
+		}
+		if(x2+cloudW<=0){
+			x2 = ScrW;
+		}else{
+			x2 -= 1;
+		}
+		if(x3+cloudW<=0){
+			x3 = ScrW;
+		}else{
+			x3 -= 1;
+		}
+		g.drawImage(pass_cloud, x1, 152, 20);
+		g.drawImage(pass_cloud, x2, 180, 20);
+		g.drawImage(pass_cloud, x3, 265, 20);
+		
+		/*上面第一层云*/
+		int cloud1W = pass_cloud1.getWidth(),cloud1H = pass_cloud1.getHeight();
+		int cloud1Y = -23;
+		cloudIndex=(cloudIndex+1)%cloud1W;
+		if(cloudIndex<=cloud1W-ScrW){
+			g.drawRegion(pass_cloud1, cloudIndex, 0, ScrW, cloud1H, 0, 0, cloud1Y, 20);
+		}else{
+			g.drawRegion(pass_cloud1, cloudIndex, 0, cloud1W-cloudIndex, cloud1H, 0, 0, cloud1Y, 20);
+			g.drawRegion(pass_cloud1, 0, 0, cloudIndex, cloud1H, 0, cloud1W-cloudIndex, cloud1Y, 20);
+		}
+		
+		/*下面第一层云*/
+		int down_cloud1Y = 496;
+		down_cloudIndex=(down_cloudIndex+1)%cloud1W;
+		if(down_cloudIndex<=cloud1W-ScrW){
+			g.drawRegion(pass_cloud1, down_cloudIndex, 0, ScrW, cloud1H, 0, 0, down_cloud1Y, 20);
+		}else{
+			g.drawRegion(pass_cloud1, down_cloudIndex, 0, cloud1W-down_cloudIndex, cloud1H, 0, 0, down_cloud1Y, 20);
+			g.drawRegion(pass_cloud1, 0, 0, down_cloudIndex, cloud1H, 0, cloud1W-down_cloudIndex, down_cloud1Y, 20);
+		}
+		
 		int  rankLeftX = 39,rankLeftY = 112,rankLeftYSpace = 16;			//rankLeftX 左侧x坐标，rankLeftYSpace 上下间距
 		int rankShadowX = 4,rankShadowY = 4;								//排行阴影效果坐标差
 		
@@ -85,23 +160,20 @@ public class StateRanking implements Common{
 					rankLeftX, rankLeftY+(option1H+rankLeftYSpace)*i, 20);
 			if(rankY ==i){     		
 				g.drawRegion(ranking_option, 0, 0, optionW, optionH, 0,
-						rankLeftX-rankShadowX, rankLeftY-rankShadowY+(optionH+rankLeftYSpace)*i, 20);
-				g.drawRegion(ranking_word,0,i*workH, workW,	workH, 0, rankLeftX-rankShadowX+8,
-						rankLeftY-rankShadowY+8+(optionH+rankLeftYSpace)*i, 20);
-			}else{
-				g.drawRegion(ranking_option, 0, 0, optionW, optionH, 0,
 						rankLeftX, rankLeftY+(optionH+rankLeftYSpace)*i, 20);
 				g.drawRegion(ranking_word,0,i*workH, workW,	workH, 0, rankLeftX+8,
 						rankLeftY+8+(ranking_option.getHeight()+rankLeftYSpace)*i, 20);
+			}else{
+				g.drawRegion(ranking_option, 0, 0, optionW, optionH, 0,
+						rankLeftX-rankShadowX, rankLeftY-rankShadowY+(optionH+rankLeftYSpace)*i, 20);
+				g.drawRegion(ranking_word,0,i*workH, workW,	workH, 0, rankLeftX-rankShadowX+8,
+						rankLeftY-rankShadowY+8+(optionH+rankLeftYSpace)*i, 20);
 			}
 		}
 		
 		/*排行数据*/
-		/*if(rankY==0 && rankingList!=null){
-			for(int k=0;k<rankingList.length;k++){
-				
-			}
-		}*/
+		
+		
 		g.drawImage(shop_big, 233,101, 20);
 		//g.drawImage(slash, 523-slash.getWidth()/2, 447, 20);								//画出斜杠
 		g.drawImage(ranking_show,260,116, 20);
@@ -109,9 +181,12 @@ public class StateRanking implements Common{
 			g.drawImage(ranking_stripe,241,151+i*57, 20);
 		}
 		g.drawImage(current_ranking, 253,448, 20);
+		engine.setFont(19);
+		g.drawString("这里将显示排名", 253+current_ranking.getWidth()+5, 448+5, 20);
+		g.setColor(red);
+		engine.setDefaultFont();
 		g.drawImage(ranking, 232,18, 20);
 		g.drawImage(achievement_out1, 447,447, 20);
-		
 	}
 	
 	private void handleRanking(KeyState keyState) {
@@ -173,5 +248,8 @@ public class StateRanking implements Common{
     	Resource.freeImage(Resource.id_ranking_show);
     	Resource.freeImage(Resource.id_slash);
     	Resource.freeImage(Resource.id_shop_figure);
+    	Resource.freeImage(Resource.id_pass_cloud);       
+		Resource.freeImage(Resource.id_pass_cloud1);       
+		Resource.freeImage(Resource.id_pass_cloud1);     
 	}
 }
