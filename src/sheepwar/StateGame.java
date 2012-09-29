@@ -664,6 +664,7 @@ public class StateGame implements Common{
 				Weapon boom = (Weapon) weapon.booms.elementAt(k);
 				if(Collision.checkSquareCollision(bomb.mapx, bomb.mapy, bomb.width, bomb.height,boom.mapx, boom.mapy, boom.width, boom.height)){
 					hitBoom(boom);
+					System.out.println("weaponµÄ×´Ì¬"+weapon.status);
 					print();
 					weapon.bombs.removeElement(bomb);
 				}

@@ -145,6 +145,7 @@ public class Weapon implements Common {
 		Image boomEffect = Resource.loadImage(Resource.id_boom1);
 		Weapon w = null;
 		int tempx = 0,tempy = 0;
+		System.out.println("子弹容量:"+ booms.size());
 		for(int i = booms.size() - 1;i>=0;i --){
 			w = (Weapon)booms.elementAt(i);
 			if(w.status == BOOM_NOT_HIT){
@@ -159,9 +160,10 @@ public class Weapon implements Common {
 					w.frame = w.frame + 1;
 					g.drawRegion(boomEffect, w.frame*boomEffect.getWidth()/4, 0, boomEffect.getWidth()/4, boomEffect.getHeight(), 0,
 							tempx, tempy, 20);
+				}else{
+					booms.removeElement(w);
 				}
 			}
-
 		}
 		g.setClip(0, 0, ScrW, ScrH);
 	}
@@ -355,19 +357,20 @@ public class Weapon implements Common {
 		gloves.addElement(w);
 	}
 	
-	private int gloveIndex, gloveFlag;
+//	private int gloveIndex, gloveFlag;
 	/*显示拳套生成*/
 	public void showGloveCreate(SGraphics g){
 		Image glove = Resource.loadImage(Resource.id_prop_fist);
-		int w = glove.getWidth() / 2, h = glove.getHeight();
-		if(gloveFlag<3){
-			gloveIndex=1;
-			gloveFlag++;
-		}else{
-			gloveFlag=0;
-			gloveIndex=0;
-		}
-		g.drawRegion(glove, gloveIndex * w, 0, w, h, 0, 374, 163, 20);
+//		int w = glove.getWidth() / 2, h = glove.getHeight();
+//		if(gloveFlag<3){
+//			gloveIndex=1;
+//			gloveFlag++;
+//		}else{
+//			gloveFlag=0;
+//			gloveIndex=0;
+//		}
+//		g.drawRegion(glove, gloveIndex * w, 0, w, h, 0, 374, 163, 20);
+		g.drawImage(glove, 374, 163, 20);
 	}
 	
 	/*显示无敌拳套运用效果*/

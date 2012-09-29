@@ -4,8 +4,6 @@ import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.game.GameCanvas;
 import javax.microedition.midlet.MIDlet;
 
-import com.zte.iptv.j2me.stbapi.STBAPI;
-
 import cn.ohyeah.stb.res.UIResource;
 import cn.ohyeah.stb.ui.TextView;
 import cn.ohyeah.stb.key.KeyState;

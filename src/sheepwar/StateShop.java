@@ -64,7 +64,7 @@ public class StateShop implements Common{
 		Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
 		Image pass_cloud1 = Resource.loadImage(Resource.id_pass_cloud1);
 		Image pass_cloud2 = Resource.loadImage(Resource.id_pass_cloud2);
-		
+		g.setColor(0xffffff);
 		g.drawImage(game_bg, 0, 0, 20);
 		/*增加的云层*/
 		/*上面第二层云*/
@@ -148,7 +148,7 @@ public class StateShop implements Common{
 		    	 g.drawImage(shop_out_base, 457, 381+(spaceY+outH)*j, 20);
 		    	 g.drawImage(shop_small_base, x+(spaceX+baseW)*j, y+(spaceY+baseH)*i, 20);
 				if(shopX==j && shopY==i){
-					engine.setFont(25);	
+					engine.setFont(20);	
 					g.drawImage(shop_small, x+(spaceX+smallW)*j, y+(spaceY+smallH)*i, 20);
 					g.drawImage(price_quantity, x+(spaceX+smallW)*j+65, y+(spaceY+smallH)*i+12, 20);
 					g.drawRegion(playing_prop, getPropIndex(i, j)*p_propW, 0, p_propW, p_propH, 0,x+(spaceX+smallW)*j+8, y+(spaceY+smallH)*i+9, 20);
@@ -252,9 +252,8 @@ public class StateShop implements Common{
 		}else if (keyState.contains(KeyCode.OK)) {
 			keyState.remove(KeyCode.OK);
 			if(shopX==2 && shopY==0){//进入充值
-				/*StateRecharge sr = new StateRecharge(engine);
+				StateRecharge sr = new StateRecharge(engine);
 				sr.recharge();
-				*/
 			}else if(shopX==2 && shopY==1){
 				running = false;
 				shopX = 0;shopY = 0;
