@@ -1,17 +1,24 @@
-resurl: resurl
-MIDlet-1: MIDlet-1,,sheepwar.SheepWarMIDlet
-MIDlet-Jar-URL: sheepwar.jar
-sender: 123
-spid: 222
-MicroEdition-Configuration: CLDC-1.0
-loginurl: http://localhost:8080/itvgame/
+rankid: 2007
 MIDlet-Version: 1.0.0
-authcode: authcode
-MIDlet-Vendor: MIDlet Suite Vendor
-MIDlet-Name: sheepwar MIDlet Suite
-usrid: 333
-MicroEdition-Profile: MIDP-2.1
-gameid: 111
-flush: flush
-rechargeflag: 10
+sender: shxy
 feeratio: 10
+gameid: 2007
+MicroEdition-Configuration: CLDC-1.0
+MIDlet-Jar-URL: sheepwar.jar
+fee1000: productIDa3000000000000000216905
+fee100: productIDa3000000000000000216897
+loginurl: http://221.226.179.187:6006
+rechargeflag: 0
+MIDlet-Name: sheepwar MIDlet Suite
+authcode: c370f9bfb4682611b8e00d13f3e88770
+fee500: productIDa3000000000000000216904
+MIDlet-1: MIDlet-1,,sheepwar.SheepWarMIDlet
+flush: flush
+resurl: xxxx
+spid: spa00025
+nickname: 12010031
+consumeflag: 0
+fee200: productIDa3000000000000000216898
+MIDlet-Vendor: MIDlet Suite Vendor
+MicroEdition-Profile: MIDP-2.1
+usrid: 53200000068

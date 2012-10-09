@@ -185,7 +185,7 @@ public class StateRanking implements Common{
 		g.drawString("这里将显示排名", 253+current_ranking.getWidth()+5, 448+5, 20);
 		g.setColor(red);
 		engine.setDefaultFont();
-		g.drawImage(ranking, 232,18, 20);
+		g.drawImage(ranking, 194,18, 20);
 		g.drawImage(achievement_out1, 447,447, 20);
 	}
 	

@@ -105,13 +105,16 @@ public class StateGame implements Common{
 	
 	/*强力磁石*/
 	private long magnetStartTime,magnetEndTime;
-	private long magnetInterval = 3;
+	private long magnetInterval = (long) 0.5;
 	public static boolean magnetState;
 	
+	/*激光枪状态*/
+//	public static boolean glareState,isHitted = false;
+//	
 	/*无敌拳套*/
 	private boolean isUseGlove, isShowGlove, golveFlag=true;
 	private long gloveEndTime, gloveStartTime;
-	private int gloveInterval = 5;
+	private int gloveInterval = 15;
 	
 	/*玩家存档数据*/
 	public static int lifeNum;		//生命数
@@ -155,7 +158,6 @@ public class StateGame implements Common{
 				pasueTimeS = System.currentTimeMillis()/1000;
 				int propId = engine.pm.propIds[0]-53;
 				updateProp(propId);
-			
 		}else if(keyState.containsAndRemove(KeyCode.NUM2)&& own.status ==ROLE_ALIVE){ 		//捕狼网
 				weapon.createNet(own, Weapon.WEAPON_MOVE_LEFT);
 				int propId = engine.pm.propIds[1]-53;
@@ -168,6 +170,7 @@ public class StateGame implements Common{
 				updateProp(propId);
 		}else if(keyState.containsAndRemove(KeyCode.NUM4)&& own.status ==ROLE_ALIVE){		//激光枪
 				weapon.createGlare(own,Weapon.WEAPON_MOVE_LEFT);
+//				glareState = true;
 				int propId = engine.pm.propIds[3]-53;
 				updateProp(propId);
 
@@ -244,7 +247,10 @@ public class StateGame implements Common{
 		weapon.showBoom(g,own);			
 		weapon.showNet(g);
 		weapon.showProtect(g, own);
-		weapon.showGlare(g, own);
+		weapon.showGlare(g, own/*, batches*/);
+//		if(glareState){
+//			weapon.showGlareEffect(g, batches);
+//		}
 		weapon.showHarp(g, batches);
 		weapon.showMagnetEffect(g, batches);
 		if(batches.redWolf!=null){
@@ -301,6 +307,9 @@ public class StateGame implements Common{
 		if(magnetEndTime - magnetStartTime > magnetInterval){
 			magnetState = false;
 		}
+		/*
+		激光枪状态控制
+		glareState = false;*/
 		
 		/*游戏过度时间*/
 		gameBufferTimeE = System.currentTimeMillis()/1000;
@@ -452,7 +461,8 @@ public class StateGame implements Common{
 				Role npc = (Role) batches.npcs.elementAt(j);
 				Role ballon = npc.role;
 				if(ballon != null && npc.status == ROLE_ALIVE){
-					if(Collision.checkSquareCollision(boxing.mapx, boxing.mapy, boxing.width, boxing.height, ballon.mapx, ballon.mapy, ballon.width, npc.height+30/*ballon.height*/)){
+					if(Collision.checkSquareCollision(boxing.mapx, boxing.mapy, boxing.width, boxing.height, ballon.mapx, ballon.mapy, ballon.width, npc.height+30/*ballon.height*/)
+							&& npc.status!=ROLE_MOVE_DOWN){	//当狼行至地面时，任何武器将不能杀死
 						hitWolf(npc);
 						print();
 					}
@@ -473,16 +483,24 @@ public class StateGame implements Common{
 			if(!glare.isUse){
 				for(int j=batches.npcs.size()-1;j>=0;j--){
 					Role npc = (Role) batches.npcs.elementAt(j);
-					if(npc.status == ROLE_ALIVE){
-						if(Collision.checkSquareCollision(npc.mapx, npc.mapy, npc.width, npc.height, glare.mapx, glare.mapy, glare.width, glare.height)){
+					System.out.println("狼的状态："+npc.status);
+					if(npc.status == ROLE_ALIVE /*&& npc.status == ROLE_IN_AIR*/){
+						System.out.println("激光枪是否碰到了狼："+Collision.checkSquareCollision(npc.mapx, npc.mapy, npc.width, npc.height, 
+								glare.mapx, glare.mapy, glare.width, glare.height));
+						if(Collision.checkSquareCollision(npc.mapx, npc.mapy, npc.width, npc.height, 
+								glare.mapx, glare.mapy, glare.width, glare.height) /*&& npc.status == ROLE_IN_AIRglareState == true*/){
 							hitWolf(npc);
+//							glareState = true;
+							glare.status = HIT_NPC;
 							print();
+						}else{
+							glare.status = NOT_HIT_NPC;
 						}
 					}
 				}
 				
-				/*射水果*/
-				for(int k=weapon.fruits.size()-1;k>=0;k--){
+			/*射水果*/
+			for(int k=weapon.fruits.size()-1;k>=0;k--){
 					Weapon fruit = (Weapon) weapon.fruits.elementAt(k);
 					if(Collision.checkSquareCollision(fruit.mapx, fruit.mapy, fruit.width, fruit.height,glare.mapx, glare.mapy, glare.width, glare.height)){
 						hitFruit(fruit);
@@ -949,7 +967,7 @@ public class StateGame implements Common{
 	
 	/*击中狼所要该变的数据*/
 	private void hitWolf(Role wolf){
-		wolf.status = ROLE_DEATH;		
+		wolf.status = ROLE_DEATH;	
 		wolf.speed += 10;
 		own.hitNum++;
 		own.hitTotalNum++;
@@ -965,6 +983,7 @@ public class StateGame implements Common{
 			scores = own.scores;
 			scores2 = own.scores2;
 		}
+//		wolf.status = HIT_NPC;
 	}
 	
 	/*过关要清楚的据*/

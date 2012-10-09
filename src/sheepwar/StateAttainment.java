@@ -135,7 +135,7 @@ public class StateAttainment implements Common{
 			g.drawRegion(pass_cloud1, 0, 0, down_cloudIndex, cloud1H, 0, cloud1W-down_cloudIndex, down_cloud1Y, 20);
 		}
 		
-		g.drawImage(achievement, 270, 19, 20);
+		g.drawImage(achievement, 227, 19, 20);
 		g.drawImage(shop_midding, 28, 102, 20);
 		g.drawImage(achievement_out1, 55, 451, 20);
 		g.drawImage(shop_big, 235, 102, 20);

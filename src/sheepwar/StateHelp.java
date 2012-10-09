@@ -167,7 +167,7 @@ public class StateHelp implements Common{
 					achievement_left_right.getHeight(), 0, helpLeftRightX+sapceLeftRight+achLeftW,
 					helpLeftRightY, 20);
 		}
-		g.drawImage(game_help, 214,18, 20);
+		g.drawImage(game_help, 194,18, 20);
 		g.drawImage(achievement_out1, 17,498, 20);
 		g.setColor(0xffffff);				//设置字体颜色
 		TextView.showMultiLineText(g, Resource.gameInfo[helpX], 8,150, 130, 360, 334);			//写出描述信息

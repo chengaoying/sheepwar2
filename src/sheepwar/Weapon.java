@@ -206,9 +206,10 @@ public class Weapon implements Common {
 	}
 	
 	/*显示激光枪*/
-	public void showGlare(SGraphics g,Role player) {
+	public void showGlare(SGraphics g,Role player/*,Role npc*/) {
 		Image glare = Resource.loadImage(Resource.id_prop_4);
 		Image glareEffect = Resource.loadImage(Resource.id_prop_4_effect);
+		Image burnEffect = Resource.loadImage(Resource.id_burn);
 		Weapon w = null;
 		int tempx = 0,tempy = 0;
 		for(int i = glares.size() - 1;i >= 0;i --){
@@ -220,22 +221,51 @@ public class Weapon implements Common {
 				g.drawImage(glare, tempx, tempy, 20);
 			}
 			if (w.isUse == true) {
-				w.mapx -= w.speedX;
-				tempx = w.mapx;
-				tempy = w.mapy;
-				w.frame = (w.frame + 1) % 8;
-				w.height = glareEffect.getHeight();
-				if (w.width+w.speedX >= glareEffect.getWidth() / 8) {
-					w.width = glareEffect.getWidth() / 8;
-				} else {
-					w.width += w.speedX;
+				if(w.status == NOT_HIT_NPC){
+					w.mapx -= w.speedX;
+					tempx = w.mapx;
+					tempy = w.mapy;
+					w.frame = (w.frame + 1) % 8;
+					w.height = glareEffect.getHeight();
+					if (w.width+w.speedX >= glareEffect.getWidth() / 8) {
+						w.width = glareEffect.getWidth() / 8;
+					} else {
+						w.width += w.speedX;
+					}
+					w.isUse = false;
+					g.drawRegion(glareEffect, w.frame * glareEffect.getWidth() / 8,
+							0, w.width, glareEffect.getHeight(), 0, tempx, tempy, 20);
 				}
-				w.isUse = false;
-				g.drawRegion(glareEffect, w.frame * glareEffect.getWidth() / 8,
-						0, w.width, glareEffect.getHeight(), 0, tempx, tempy, 20);
+				/*显示燃烧效果*/
+				if(w.status == HIT_NPC){
+					tempy = w.mapy;
+					tempx = w.mapx;
+					if(w.frame<7){					//画出子弹被击中后粉碎的效果
+						w.frame = w.frame + 1;
+						g.drawRegion(burnEffect, w.frame*burnEffect.getWidth()/8, 0, burnEffect.getWidth()/8, burnEffect.getHeight(), 0,
+								tempx, tempy, 20);
+					}else{
+						glares.removeElement(w);
+					}
+				}
 			}
 		}
 	}
+	
+	/*显示激光枪燃烧效果*/
+	/*public void showGlareEffect(SGraphics g,Batches batches) {
+		Image burnEffect = Resource.loadImage(Resource.id_burn);
+		for(int j = batches.npcs.size() - 1;j>=0;j--){
+			Role npc = (Role)batches.npcs.elementAt(j);
+			if(StateGame.isHitted){
+				npc.frame = (npc.frame+1)%8;
+				npc.status = ROLE_DEATH;
+				g.drawRegion(burnEffect, npc.frame*burnEffect.getWidth()/8, 0, burnEffect.getWidth()/8, burnEffect.getHeight(), 
+						0, npc.mapx, npc.mapy, 20);
+				batches.npcs.removeElement(npc);
+			}
+		}
+	}*/
 	
 	/*创建驱散竖琴*/
 	public void createHarp(Role player){
@@ -276,7 +306,7 @@ public class Weapon implements Common {
 		Image magnetEffect = Resource.loadImage(Resource.id_prop_7_effect);
 		for(int j = batches.npcs.size() - 1;j>=0;j--){
 			Role npc = (Role)batches.npcs.elementAt(j);
-			if(npc.direction == ROLE_IN_AIR && StateGame.magnetState){
+			if(npc.direction == ROLE_IN_AIR && npc.mapy>30 && StateGame.magnetState){
 				npc.frame = (npc.frame+1)%2;
 				npc.status = ROLE_DEATH;
 				g.drawRegion(magnetEffect, npc.frame*magnetEffect.getWidth()/2, 0, magnetEffect.getWidth()/2, magnetEffect.getHeight(), 
@@ -352,8 +382,8 @@ public class Weapon implements Common {
 		w.mapy = own.mapy+20;					//轮子的高度+轮子的纵坐标
 		w.height = 32;
 		w.width = 129;
-		w.speedX = 10;
-		w.speedY = 5;
+		w.speedX = 15;
+		w.speedY = 10;
 		gloves.addElement(w);
 	}
 	
@@ -370,7 +400,7 @@ public class Weapon implements Common {
 //			gloveIndex=0;
 //		}
 //		g.drawRegion(glove, gloveIndex * w, 0, w, h, 0, 374, 163, 20);
-		g.drawImage(glove, 374, 163, 20);
+		g.drawImage(glove, 374-16, 163, 20);
 	}
 	
 	/*显示无敌拳套运用效果*/
@@ -381,10 +411,18 @@ public class Weapon implements Common {
 		int gloveW = gloveEffect.getWidth() / 3, gloveH = gloveEffect.getHeight();
 		for (int i = gloves.size() - 1; i >= 0; i--) {
 			w = (Weapon) gloves.elementAt(i);
-			w.mapx -= w.speedX;
-			w.mapy += w.speedY;
-			w.frame = (w.frame + 1) % 3;
-			g.drawRegion(gloveEffect, w.frame * gloveW,	0, gloveW, gloveH, 0, w.mapx, w.mapy, 20);
+				w.mapx -= w.speedX;
+				if(w.mapx<=260){					//无敌拳套发射时先水平飞一段距离再进行抛物线操作
+					w.mapy += w.speedY;
+				}else{
+					w.mapy = 163;
+				}
+				w.frame = (w.frame + 1) % 3;
+			if(w.mapx>=50){	
+				g.drawRegion(gloveEffect, w.frame * gloveW,	0, gloveW, gloveH, 0, w.mapx, w.mapy, 20);
+			}else{
+				g.drawRegion(gloveEffect, w.frame * gloveW,	0, gloveW, gloveH, 0, 60, w.mapy, 20);
+			}
 		}
 		g.setClip(0, 0, ScrW, ScrH);
 	}

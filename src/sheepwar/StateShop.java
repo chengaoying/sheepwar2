@@ -6,6 +6,7 @@ import cn.ohyeah.stb.game.SGraphics;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.ui.TextView;
+import cn.ohyeah.stb.util.RandomValue;
 
 public class StateShop implements Common{
 	
@@ -13,8 +14,12 @@ public class StateShop implements Common{
 	private boolean running;
 	private int shopX,  shopY;
 	
+	private int randCloud_1,randCloud_2,randCloud_3;
 	public void processShop(){
 		running = true;
+		randCloud_1 = RandomValue.getRandInt(8);
+		randCloud_2 = RandomValue.getRandInt(8);
+		randCloud_3 = RandomValue.getRandInt(8);
 		try {
 			KeyState keyState = engine.getKeyState();
 			SGraphics g = engine.getSGraphics();
@@ -64,6 +69,7 @@ public class StateShop implements Common{
 		Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
 		Image pass_cloud1 = Resource.loadImage(Resource.id_pass_cloud1);
 		Image pass_cloud2 = Resource.loadImage(Resource.id_pass_cloud2);
+		Image propCloud =  Resource.loadImage(Resource.id_propOfCloud);			//云朵上的道具
 		g.setColor(0xffffff);
 		g.drawImage(game_bg, 0, 0, 20);
 		/*增加的云层*/
@@ -88,6 +94,8 @@ public class StateShop implements Common{
 			g.drawRegion(pass_cloud2, (cloud2W-down_cloud2Index), 0, ScrW-(cloud2W-down_cloud2Index), cloud2H, 0, 0, down_cloud2Y, 20);
 			g.drawRegion(pass_cloud2, 0, 0, (cloud2W-down_cloud2Index), cloud2H, 0, ScrW-(cloud2W-down_cloud2Index), down_cloud2Y, 20);
 		}
+//		int frame = RandomValue.getRandInt(8);
+//		int frame = RandomValue.getRandInt(0, 7);		//随机的在云朵上显示道具信息
 
 		/*中间的云*/
 		int cloudW = pass_cloud.getWidth();
@@ -107,8 +115,15 @@ public class StateShop implements Common{
 			x3 -= 1;
 		}
 		g.drawImage(pass_cloud, x1, 152, 20);
+//		g.drawImage(propCloud, x1+10, 152+propCloud.getHeight()/4, 20);
+		g.drawRegion(propCloud, randCloud_1*propCloud.getWidth()/8,0 , propCloud.getWidth()/8, propCloud.getHeight(), 0,
+				x1+pass_cloud.getWidth()/4, 152-pass_cloud.getHeight()/4, 20);
 		g.drawImage(pass_cloud, x2, 180, 20);
+		g.drawRegion(propCloud, randCloud_2*propCloud.getWidth()/8,0 , propCloud.getWidth()/8, propCloud.getHeight(), 0,
+				x2+pass_cloud.getWidth()/4, 180-pass_cloud.getHeight()/4, 20);
 		g.drawImage(pass_cloud, x3, 265, 20);
+		g.drawRegion(propCloud,randCloud_3*propCloud.getWidth()/8,0 , propCloud.getWidth()/8, propCloud.getHeight(), 0,
+				x3+pass_cloud.getWidth()/4, 265-pass_cloud.getHeight()/4, 20);
 		
 		/*上面第一层云*/
 		int cloud1W = pass_cloud1.getWidth(),cloud1H = pass_cloud1.getHeight();
@@ -132,7 +147,7 @@ public class StateShop implements Common{
 		}
 		
 		
-		g.drawImage(shop, 217, 18, 20);
+		g.drawImage(shop, 161, 18, 20);
 		g.drawImage(shop_big, 29, 103, 20);
 		g.drawImage(shop_balance, 46, 454, 20);
 		g.drawImage(shop_midding, 434, 103, 20);
@@ -170,8 +185,11 @@ public class StateShop implements Common{
 					g.drawString(/*String.valueOf(engine.props[getPropIndex(i, j)].getPrice())*/"226",
 							mapx+(spaceX+smallW)*j+119, mapy+(spaceY+smallH)*i+11, 20);
 //					drawNum(g, engine.props[getPropIndex(i, j)].getNums(), mapx+(spaceX+smallW)*j+119, mapy+(spaceY+smallH)*i+36);
+//					int color = g.getColor();		//局部设置字体颜色并还原
+//					g.setColor(0xffffff);
 					g.drawString(/*String.valueOf(engine.props[getPropIndex(i, j)].getNums())*/"138", 
 							mapx+(spaceX+smallW)*j+119, mapy+(spaceY+smallH)*i+36, 20);
+//					g.setColor(color);
 				}
 			}
 		}
@@ -194,6 +212,10 @@ public class StateShop implements Common{
 		   		g.drawImage(shop_out, 457-8+16, 429-5+7, 20);
 		    }
 //		drawNum(g, engine.getEngineService().getBalance(), 103,452);  
+		 int colorBalance = g.getColor();
+		 g.setColor(0x000000);
+		g.drawString(/*String.valueOf(engine.getEngineService().getBalance())*/"1000000",100,449, 20);//用户余额
+		g.setColor(colorBalance);
 		g.drawString(/*String.valueOf(engine.getEngineService().getBalance())*/"1000000",103,452, 20);//用户余额
 	
 	}
@@ -287,5 +309,6 @@ public class StateShop implements Common{
 		Resource.freeImage(Resource.id_pass_cloud);       
 		Resource.freeImage(Resource.id_pass_cloud1);       
 		Resource.freeImage(Resource.id_pass_cloud1);   
+		Resource.freeImage(Resource.id_propOfCloud);   
 	}
 }

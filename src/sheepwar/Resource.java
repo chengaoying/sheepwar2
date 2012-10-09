@@ -120,6 +120,8 @@ public class Resource implements Common {
 	public static short id_prop_fist = NUMS++;    
 	public static short id_prop_fist_effect = NUMS++;    
 	public static short id_pumpkin = NUMS++;    
+	public static short id_propOfCloud = NUMS++;    		//道具商城中云朵上的道具显示图片
+	public static short id_burn = NUMS++;    				//激光枪燃烧效果
 	
 	
 	public static String[] imagesrcs = {
@@ -228,6 +230,8 @@ public class Resource implements Common {
 		"/prop_fist.png",             
 		"/prop_fist_effect.png",             
 		"/pumpkin.png",             
+		"/propOfCloud.png",             
+		"/burn.png",             
 		
 	};
 	

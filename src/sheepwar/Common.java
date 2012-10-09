@@ -60,8 +60,13 @@ public interface Common {
 	public static short FRUIT_NOT_HIT = 0;			//水果被击中
 	public static short FRUIT_HIT = 1;				//水果未被击中
 	
-	public static short BOOM_NOT_HIT = 0;				//水果未被击中
-	public static short BOOM_HIT = 1;					//水果未被击中
+	public static short BOOM_NOT_HIT = 0;				//子弹未被击中
+	public static short BOOM_HIT = 1;					//子弹被击中
+	
+	
+	/*激光枪状态*/
+	public static short HIT_NPC = 1;				//激光枪击中npc
+	public static short NOT_HIT_NPC = 0;			//激光枪没有击中npc
 	
 	/*随即选中水果*/
 	public final static short selectFruit[] = {apple,lemon,pear,watermelon};
