@@ -251,6 +251,7 @@ public class Batches implements Common{
 				/*向右的临界点*/
 				if(wolf.mapy >= 463){
 					wolf.direction = ROLE_MOVE_RIGHT;
+					wolf.status = ROLE_SUCCESS;				//该状态说明狼成功逃脱攻击(地面)，因此武器将攻击不到
 				}
 				/*向上临界点*/
 				if(wolf.mapx == 420){     
@@ -307,7 +308,7 @@ public class Batches implements Common{
 						tempy_ballon += wolf.role.speed;
 						wolf.role.mapy = tempy_ballon;
 					}
-					if(wolf.colorId != orange /*|| wolf.colorId != multicolour*/){			//根据狼气球的颜色区分是否攻击的狼
+					if(wolf.colorId != orange /*&& wolf.colorId != multicolour*/){			//根据狼气球的颜色区分是否攻击的狼
 						if(wolf.mapy == wolf.coorY){				
 							weapon.createBoom(wolf, Weapon.WEAPON_MOVE_RIGHT);
 						}
@@ -431,7 +432,7 @@ public class Batches implements Common{
 						tempy_ballon -= wolf.role.speed;
 						wolf.role.mapy = tempy_ballon;
 					}
-					if(wolf.colorId != orange /*|| wolf.colorId != multicolour*/){			//根据狼气球的颜色区分是否攻击的狼,橙色和彩色不会攻击
+					if(wolf.colorId != orange /*&& wolf.colorId != multicolour*/){			//根据狼气球的颜色区分是否攻击的狼,橙色和彩色不会攻击
 						if(wolf.mapy == wolf.coorY){				
 							weapon.createBoom(wolf, Weapon.WEAPON_MOVE_RIGHT);
 						}

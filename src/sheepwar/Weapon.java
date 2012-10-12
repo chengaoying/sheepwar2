@@ -27,6 +27,13 @@ public class Weapon implements Common {
 	int scores;				//提供的积分
 	boolean isUse;			//是否在使用
 	
+	public StateGame stateGame;
+	public Weapon(StateGame stateGame){
+		this.stateGame = stateGame;
+	}
+	public Weapon(){}
+	public Exploder	[] exploders;
+	
 	public final static int WEAPON_MOVE_LEFT = 0;
 	public final static int WEAPON_MOVE_RIGHT = 1;
 	public final static int WEAPON_MOVE_DOWN = 2;
@@ -90,6 +97,7 @@ public class Weapon implements Common {
 	/*捕狼网*/
 	public void createNet(Role own, int direction){
 		Weapon w = new Weapon();
+		w.id = netWeapon;
 		w.direction = direction;
 		w.mapx = own.mapx-20;  
 		w.mapy = own.mapy+45;  
@@ -171,6 +179,7 @@ public class Weapon implements Common {
 	/*创建防狼套装*/
 	public void createProtect(Role player) {
        Weapon w = new Weapon();
+       w.id = playerProtected;
        w.mapy = player.mapy + 30;
        w.mapx = player.mapx;
        w.height = 33;
@@ -196,9 +205,10 @@ public class Weapon implements Common {
 	/*创建激光枪*/
 	public void createGlare(Role player,int direction) {
 		Weapon w = new Weapon();
+		w.id = glareWeapon;
 		w.direction = direction;
-		w.mapy  = player.mapy +24-22;
-		w.mapx = player.mapx - 20;
+		w.mapy  = player.mapy +24-25;
+		w.mapx = player.mapx - 22;
 		w.height = 87;				//光波效果的高度
 		w.speedX = 40;
 		w.isUse = false;
@@ -206,10 +216,10 @@ public class Weapon implements Common {
 	}
 	
 	/*显示激光枪*/
-	public void showGlare(SGraphics g,Role player/*,Role npc*/) {
+	public void showGlare(SGraphics g,Role player,Batches batches) {
 		Image glare = Resource.loadImage(Resource.id_prop_4);
 		Image glareEffect = Resource.loadImage(Resource.id_prop_4_effect);
-		Image burnEffect = Resource.loadImage(Resource.id_burn);
+//		Image burnEffect = Resource.loadImage(Resource.id_burn);
 		Weapon w = null;
 		int tempx = 0,tempy = 0;
 		for(int i = glares.size() - 1;i >= 0;i --){
@@ -236,18 +246,6 @@ public class Weapon implements Common {
 					g.drawRegion(glareEffect, w.frame * glareEffect.getWidth() / 8,
 							0, w.width, glareEffect.getHeight(), 0, tempx, tempy, 20);
 				}
-				/*显示燃烧效果*/
-				if(w.status == HIT_NPC){
-					tempy = w.mapy;
-					tempx = w.mapx;
-					if(w.frame<7){					//画出子弹被击中后粉碎的效果
-						w.frame = w.frame + 1;
-						g.drawRegion(burnEffect, w.frame*burnEffect.getWidth()/8, 0, burnEffect.getWidth()/8, burnEffect.getHeight(), 0,
-								tempx, tempy, 20);
-					}else{
-						glares.removeElement(w);
-					}
-				}
 			}
 		}
 	}
@@ -270,6 +268,7 @@ public class Weapon implements Common {
 	/*创建驱散竖琴*/
 	public void createHarp(Role player){
 		Weapon w = new Weapon();
+		w.id = harpWeapon;
 		w.mapx = 444;
 		w.mapy = 156;
 		harps.addElement(w);
@@ -306,7 +305,8 @@ public class Weapon implements Common {
 		Image magnetEffect = Resource.loadImage(Resource.id_prop_7_effect);
 		for(int j = batches.npcs.size() - 1;j>=0;j--){
 			Role npc = (Role)batches.npcs.elementAt(j);
-			if(npc.direction == ROLE_IN_AIR && npc.mapy>30 && StateGame.magnetState){
+			System.out.println("npc状态:"+(npc.status==ROLE_SUCCESS));
+			if(npc.status2 == ROLE_IN_AIR && npc.status != ROLE_SUCCESS/*&& npc.mapy>30*/ && StateGame.magnetState){
 				npc.frame = (npc.frame+1)%2;
 				npc.status = ROLE_DEATH;
 				g.drawRegion(magnetEffect, npc.frame*magnetEffect.getWidth()/2, 0, magnetEffect.getWidth()/2, magnetEffect.getHeight(), 
@@ -403,7 +403,9 @@ public class Weapon implements Common {
 		g.drawImage(glove, 374-16, 163, 20);
 	}
 	
-	/*显示无敌拳套运用效果*/
+	/*显示无敌拳套运用效果
+	 *UNDO 无敌拳套更改为和普通攻击一样的形式进行发射,将画出两个方向的拳套
+	 * */
 	public void showGloves(SGraphics g,Role player) {			//每隔一段时间就会显示拳套于原始位置
 		g.setClip(0, 0, gameW, ScrH);
 		Image gloveEffect = Resource.loadImage(Resource.id_prop_fist_effect);

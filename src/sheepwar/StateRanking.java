@@ -172,16 +172,14 @@ public class StateRanking implements Common{
 		}
 		
 		/*排行数据*/
-		
-		
 		g.drawImage(shop_big, 233,101, 20);
 		//g.drawImage(slash, 523-slash.getWidth()/2, 447, 20);								//画出斜杠
 		g.drawImage(ranking_show,260,116, 20);
 		for(int i=0;i<5;i++){
-			g.drawImage(ranking_stripe,241,151+i*57, 20);
+			g.drawImage(ranking_stripe,240,151+i*56, 20);
 		}
 		g.drawImage(current_ranking, 253,448, 20);
-		engine.setFont(19);
+		engine.setFont(19,true);
 		g.drawString("这里将显示排名", 253+current_ranking.getWidth()+5, 448+5, 20);
 		g.setColor(red);
 		engine.setDefaultFont();

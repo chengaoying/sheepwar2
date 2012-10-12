@@ -186,7 +186,7 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		}
 		System.out.println("¶ÁÈ¡³É¾Í×´Ì¬£º"+sw.getServiceResult());
 	*/}
-	
+
 	/*private void printSaveAttainment(Role own){
 		System.out.println("own.hitBuble="+own.hitBuble);
 		System.out.println("own.hitFruits="+own.hitFruits);
@@ -207,23 +207,5 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		System.out.println("StateGame.scores="+StateGame.scores);
 	}*/
 
-	public String getAppProperty(String key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public long getAppStartMillis() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public void quitCurrentState() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public boolean isOffline() {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 }

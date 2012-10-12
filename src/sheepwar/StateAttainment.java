@@ -67,7 +67,7 @@ public class StateAttainment implements Common{
 		Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
 		Image pass_cloud1 = Resource.loadImage(Resource.id_pass_cloud1);
 		Image pass_cloud2 = Resource.loadImage(Resource.id_pass_cloud2);
-		engine.setFont(19);	
+		engine.setFont(19,true);	
 		g.drawImage(game_bg, 0, 0, 20);
 		
 		/*新添加的云层显示*/
@@ -140,9 +140,11 @@ public class StateAttainment implements Common{
 		g.drawImage(achievement_out1, 55, 451, 20);
 		g.drawImage(shop_big, 235, 102, 20);
 		g.drawImage(achievement_points, 250, 448, 20);
+		g.setColor(0x000000);
 		g.drawString("这里将显示总点数", 250+achievement_points.getWidth()+5, 448+5, 20);
-		g.drawImage(slash, 517, 450, 20);					
+		g.drawImage(slash, 517, 450, 20);
 		
+		g.setColor(0xffffff);
 		int leftX = 52,leftY = 122,leftSpace = 15,shadowX = 4,shadowY = 4, mapx, mapy;   
 		
 		//成就左侧条目

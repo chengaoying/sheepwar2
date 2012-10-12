@@ -10,18 +10,18 @@ import cn.ohyeah.stb.key.KeyState;
  * @version 1.0
  */
 public interface IEngine {
-	abstract public String getAppProperty(String key);
-	abstract long getAppStartMillis();
+	//abstract public String getAppProperty(String key);
+	//abstract long getAppStartMillis();
 	
-	abstract void quitCurrentState();
+	//abstract void quitCurrentState();
 	
 	
 	abstract public boolean isRunning();
 	abstract public void trySleep();
 	abstract public void trySleep(int milliseconds);
 	abstract public void setExit();
-	abstract public void setLoopCircle(int milliseconds);
-	abstract public int getLoopCircle();
+	//abstract public void setLoopCircle(int milliseconds);
+	//abstract public int getLoopCircle();
 	
 	abstract public int getScreenWidth();
 	abstract public int getScreenHeight();
@@ -30,10 +30,10 @@ public interface IEngine {
 	abstract public KeyState getKeyState();
 	abstract public Font getFont();
 	abstract public void setFont(Font font);
-	abstract public void setFont(int size);
+	abstract public void setFont(int size, boolean isBold);
 	abstract public void setDefaultFont();
 	
-	abstract public boolean isOffline();
+	//abstract public boolean isOffline();
 	abstract public boolean isDebugMode();
 	abstract public void addDebugUserMessage(String msg);
 

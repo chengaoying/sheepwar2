@@ -45,7 +45,6 @@ public class StateShop implements Common{
 		finally {
 			clear();
 		}
-		
 	}
 
 	private int cloudIndex, cloud2Index;
@@ -146,7 +145,6 @@ public class StateShop implements Common{
 			g.drawRegion(pass_cloud1, 0, 0, down_cloudIndex, cloud1H, 0, cloud1W-down_cloudIndex, down_cloud1Y, 20);
 		}
 		
-		
 		g.drawImage(shop, 161, 18, 20);
 		g.drawImage(shop_big, 29, 103, 20);
 		g.drawImage(shop_balance, 46, 454, 20);
@@ -163,7 +161,7 @@ public class StateShop implements Common{
 		    	 g.drawImage(shop_out_base, 457, 381+(spaceY+outH)*j, 20);
 		    	 g.drawImage(shop_small_base, x+(spaceX+baseW)*j, y+(spaceY+baseH)*i, 20);
 				if(shopX==j && shopY==i){
-					engine.setFont(20);	
+					engine.setFont(20,true);	
 					g.drawImage(shop_small, x+(spaceX+smallW)*j, y+(spaceY+smallH)*i, 20);
 					g.drawImage(price_quantity, x+(spaceX+smallW)*j+65, y+(spaceY+smallH)*i+12, 20);
 					g.drawRegion(playing_prop, getPropIndex(i, j)*p_propW, 0, p_propW, p_propH, 0,x+(spaceX+smallW)*j+8, y+(spaceY+smallH)*i+9, 20);
@@ -173,10 +171,15 @@ public class StateShop implements Common{
 //					drawNum(g, engine.props[getPropIndex(i, j)].getNums(), x+(spaceX+smallW)*j+119, y+(spaceY+smallH)*i+36);
 					g.drawString(/*String.valueOf(engine.props[getPropIndex(i, j)].getNums())*/"12123", 
 							x+(spaceX+smallW)*j+119, y+(spaceY+smallH)*i+36, 20);
-					g.setColor(0xffffff);				
-					
+					g.setColor(0xffffff);
+//					g.setColor(0x000000);
 					TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX], 5, 444, 140, 162, 220);
+					int textColor = g.getColor();
+//					g.setColor(0xffffff);	
+					g.setColor(0x000000);
+					TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX], 5, 443, 139, 162, 220);
 					engine.setDefaultFont();
+					g.setColor(textColor);
 				}else{
 					g.drawImage(shop_small, mapx+(spaceX+smallW)*j, mapy+(spaceY+smallH)*i, 20);
 					g.drawImage(price_quantity, mapx+(spaceX+smallW)*j+65, mapy+(spaceY+smallH)*i+12, 20);
@@ -212,12 +215,15 @@ public class StateShop implements Common{
 		   		g.drawImage(shop_out, 457-8+16, 429-5+7, 20);
 		    }
 //		drawNum(g, engine.getEngineService().getBalance(), 103,452);  
+		 engine.setFont(25, true);
+		 g.setColor(0xffffff);
 		 int colorBalance = g.getColor();
+		g.drawString(/*String.valueOf(engine.getEngineService().getBalance())*/"1000000",100,449+6, 20);//用户余额
+//		g.setColor(colorBalance);
 		 g.setColor(0x000000);
-		g.drawString(/*String.valueOf(engine.getEngineService().getBalance())*/"1000000",100,449, 20);//用户余额
+		g.drawString(/*String.valueOf(engine.getEngineService().getBalance())*/"1000000",99,448+6, 20);//用户余额
 		g.setColor(colorBalance);
-		g.drawString(/*String.valueOf(engine.getEngineService().getBalance())*/"1000000",103,452, 20);//用户余额
-	
+		engine.setDefaultFont();
 	}
 	
 	private int getPropIndex(int x, int y){
@@ -283,7 +289,6 @@ public class StateShop implements Common{
 				engine.pm.purchaseProp(shopX, shopY);
 			}
 		}
-	
 	}
 	
 	/*private void drawNum(SGraphics g, int num, int x, int y) {

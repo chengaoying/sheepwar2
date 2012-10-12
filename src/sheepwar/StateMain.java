@@ -51,10 +51,11 @@ public class StateMain implements Common{
 		
 		/*mainIndex为0是开始游戏*/
 		if(mainIndex == 0){
-			stateGame.weapon = new Weapon();
+			stateGame.weapon = new Weapon(stateGame);
 			stateGame.createRole = new CreateRole();
 			stateGame.batches = new Batches();
 			StateGame.own = stateGame.createRole.createSheep();
+			stateGame.stateSingleScore = new StateSingleScore();		//弹出分数
 		}
 	}
 	

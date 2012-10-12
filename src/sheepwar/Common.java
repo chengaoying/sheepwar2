@@ -50,6 +50,17 @@ public interface Common {
 	public final static short yellow = Resource.id_balloon_yellow;				//黄气球
 	public final static short orange = Resource.id_balloon_yellowred;			//橙色气球
 	
+	
+	/*武器对应id*/
+	public final static short clockWeapon = 1001;							//时光闹钟
+	public final static short netWeapon = 1002;							
+	public final static short playerProtected = 1003;							
+	public final static short glareWeapon = 1004;							
+	public final static short harpWeapon = 1005;							
+	public final static short speedLiquid = 1006;							
+	public final static short magnetWeapon= 1007;							
+	public final static short puppet= 1008;							
+	
 	/*水果id*/
 	public final static short apple = Resource.id_apple;						//苹果
 	public final static short lemon = Resource.id_lemon;						//柠檬
@@ -62,7 +73,6 @@ public interface Common {
 	
 	public static short BOOM_NOT_HIT = 0;				//子弹未被击中
 	public static short BOOM_HIT = 1;					//子弹被击中
-	
 	
 	/*激光枪状态*/
 	public static short HIT_NPC = 1;				//激光枪击中npc
