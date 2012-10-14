@@ -22,6 +22,11 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 	public StateGame stateGame;
 	public PropManager pm;
 	public Prop[] props;
+	
+	/**
+	 * 存放成就的二维数组，第一维是成就类型，第二维是某一成就类型中的一个成就对象
+	 */
+	public Attainment[][] attainments;
 
 	private SheepWarGameEngine(MIDlet midlet) {
 		super(midlet);
@@ -32,12 +37,13 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		stateMain = new StateMain(this,stateGame);
 		props = new Prop[8];
 		pm = new PropManager(this);
+		attainments = new Attainment[6][5];
 	}
 
 	public int state;
 	public int mainIndex, playingIndex;
 	//private long gameStartTime;
-	public int attainmentId;
+	//public int recordId;
 	
 	protected void loop() {
 		
@@ -83,19 +89,89 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		/*退出游戏*/
 		exit();
 	}
+	
+	/*初始化玩家成就*/
+	private void initAttainmen(){
+		Attainment[] ams;
+		Attainment attainment;
+		for(int i=0;i<Attainments.length;i++){
+			ams = new Attainment[5];
+			for(int j=0;j<Attainments[i].length;j++){
+				attainment = new Attainment();
+				attainment.setId(j);
+				attainment.setName(Attainments[i][j][0]);
+				attainment.setDesc(Attainments[i][j][1]);
+				attainment.setAward(Integer.parseInt(Attainments[i][j][2]));
+				attainment.setType(i);
+				
+				/*判断玩家是否达到成就条件*/
+				setAttainmentResult(attainment, i, j);
+				ams[j] = attainment;
+			}
+			attainments[i] = ams;
+		}
+	}
+	
+	/*更新玩家成就(主要是标记玩家是否达到某一成就的条件)*/
+	public void updateAttainmen(){
+		this.initAttainmen();
+	}
+	
+	private void setAttainmentResult(Attainment attainment, int i, int j){
+		if(attainment.getType()==Attainment_Type_Scores){
+			if(StateGame.scores>=Integer.parseInt(Attainments[i][j][3])){
+				attainment.setResult(true);
+			}else{
+				attainment.setResult(false);
+			}
+		}else if(attainment.getType()==Attainment_Type_HitWolf){
+			if(StateGame.hitTotalNum>=Integer.parseInt(Attainments[i][j][3])){
+				attainment.setResult(true);
+			}else{
+				attainment.setResult(false);
+			}
+		}else if(attainment.getType()==Attainment_Type_HitBomb){
+			if(StateGame.hitBooms>=Integer.parseInt(Attainments[i][j][3])){
+				attainment.setResult(true);
+			}else{
+				attainment.setResult(false);
+			}
+		}else if(attainment.getType()==Attainment_Type_UseProp){
+			if(StateGame.useProps>=Integer.parseInt(Attainments[i][j][3])){
+				attainment.setResult(true);
+			}else{
+				attainment.setResult(false);
+			}
+		}else if(attainment.getType()==Attainment_Type_HitFruit){
+			if(StateGame.hitFruits>=Integer.parseInt(Attainments[i][j][3])){
+				attainment.setResult(true);
+			}else{
+				attainment.setResult(false);
+			}
+		}else if(attainment.getType()==Attainment_Type_Level){
+			if(StateGame.level>=Integer.parseInt(Attainments[i][j][3])){
+				attainment.setResult(true);
+			}else{
+				attainment.setResult(false);
+			}
+		}
+	}
 
 	private void init() {
 		/*gameStartTime = engineService.getCurrentTime().getTime();
 		java.util.Date gst = new java.util.Date(gameStartTime);
 		int year = DateUtil.getYear(gst);
 		int month = DateUtil.getMonth(gst);
-		attainmentId = year*100+(month);*/
+		recordId = year*100+(month);*/
 		
 		/*查询道具*/
 		pm.queryAllOwnProps();
 		
 		/*读取成就*/
 		readAttainment();
+		
+		/*初始化玩家成就信息*/
+		initAttainmen();
 		
 		state = STATUS_MAIN_MENU;  
 	}

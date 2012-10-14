@@ -39,7 +39,7 @@ public class StateGame implements Common{
 	private int eIndex;
 
 	/*游戏关卡*/
-	public short level = 1; 
+	public static short level = 1; 
 	/*奖励关卡*/
 	public short rewardLevel = 1;
 	
@@ -230,6 +230,8 @@ public class StateGame implements Common{
 				engine.state = STATUS_MAIN_MENU;
 				clear();
 				initDataGameOver();
+				System.out.println("退出游戏");
+				printInfo();
 				
 				//同步道具
 				engine.pm.sysProps();
@@ -246,10 +248,11 @@ public class StateGame implements Common{
 	
 	private void updateProp(int propId){
 		if(!engine.isDebugMode()){
-			/*engine.props[propId].setNums(engine.props[propId].getNums()-1);
+			/*engine.props[propId].setNums(engine.props[propId].getNums()-1);*/
 			own.useProps++;
 			useProps = own.useProps;
-			own.scores += 1000;  //使用道具加1000分*/
+			own.scores += 1000;  //使用道具加1000分
+			scores = own.scores;
 		}
 	}
 	
@@ -332,7 +335,7 @@ public class StateGame implements Common{
 			harpState = false;
 		}
 		
-		System.out.println("magnetState:"+magnetState);
+		//System.out.println("magnetState:"+magnetState);
 		/*强力磁石控制时间*/
 		magnetEndTime = System.currentTimeMillis()/1000;
 		if(magnetEndTime - magnetStartTime > magnetInterval){
@@ -344,6 +347,9 @@ public class StateGame implements Common{
 		
 		/*游戏过度时间*/
 		gameBufferTimeE = System.currentTimeMillis()/1000;
+		
+		/*更新玩家成就*/
+		engine.updateAttainmen();
 		
 		/*创建一批狼*/
 		createNpc();
@@ -516,11 +522,8 @@ public class StateGame implements Common{
 			if(!glare.isUse){
 				for(int j=batches.npcs.size()-1;j>=0;j--){
 					Role npc = (Role) batches.npcs.elementAt(j);
-					System.out.println("狼的状态："+npc.status);
 					if(npc.status == ROLE_ALIVE ){
-//						System.out.println("激光枪是否碰到了狼："+Collision.checkSquareCollision(npc.mapx, npc.mapy, npc.width, npc.height, 
-//								glare.mapx, glare.mapy, glare.width, glare.height));
-						System.out.println("碰撞时激光的宽度："+glare.width);
+						//System.out.println("碰撞时激光的宽度："+glare.width);
 						if(Collision.checkSquareCollision(npc.mapx, npc.mapy, npc.width, npc.height, 
 								glare.mapx, glare.mapy, glare.width, glare.height)&& npc.status2 == ROLE_IN_AIR /*&& npc.status == ROLE_IN_AIRglareState == true*/){
 							Exploder exploder = new Exploder(npc.mapx,npc.mapy);
@@ -557,15 +560,15 @@ public class StateGame implements Common{
 	}
  	
  	private void print(){
- 		System.out.println("hitBuble:"+own.hitBuble);
- 		System.out.println("hitFruits:"+own.hitFruits);
- 		System.out.println("hitNum:"+own.hitNum);
- 		System.out.println("hitTotalNum:"+own.hitTotalNum);
- 		System.out.println("scores:"+own.scores);
- 		System.out.println("scores2:"+own.scores2);
- 		System.out.println("hitRatio:"+own.hitRatio);
- 		System.out.println("lifeNum:"+own.lifeNum);
- 		System.out.println("useProps:"+own.useProps);
+ 		System.out.println("own.hitBuble:"+own.hitBuble);
+ 		System.out.println("own.hitFruits:"+own.hitFruits);
+ 		System.out.println("own.hitNum:"+own.hitNum);
+ 		System.out.println("own.hitTotalNum:"+own.hitTotalNum);
+ 		System.out.println("own.scores:"+own.scores);
+ 		System.out.println("own.scores2:"+own.scores2);
+ 		System.out.println("own.hitRatio:"+own.hitRatio);
+ 		System.out.println("own.lifeNum:"+own.lifeNum);
+ 		System.out.println("own.useProps:"+own.useProps);
  	}
 
 	/*判断狼是否击中玩家*/
@@ -603,9 +606,7 @@ public class StateGame implements Common{
 						if(Collision.checkSquareCollision(npc.mapx, npc.mapy, npc.width,
 								npc.height, net.mapx, net.mapy, net.width, net.height)
 								&& npc.status != ROLE_SUCCESS){
-							System.out.println("狼的状态2:"+npc.status2);
 							hitWolf(npc);
-							System.out.println("狼的生命状态:"+npc.status);
 							print();
 						}
 					}
@@ -849,8 +850,6 @@ public class StateGame implements Common{
 			g.drawImage(playing_level, 491+32, 25, 20);								//游戏中 左侧的关卡图片		
 			drawNum(g, rewardLevel, 491+32+playing_level.getWidth()+10, 25);
 			drawNum(g, own.lifeNum, 491+66+multiply.getWidth()+10, 147);			//奖励关卡羊的生命数,应该改为一条命
-			System.out.println("奖励关卡--------》》》》"+rewardLevel);		//  8?
-			System.out.println("击中的狼数"+own.hitNum);
 			int num = REWARD_LEVEL_INFO[rewardLevel-1][1]-own.hitNum;
 			if(num<0){
 				num = 0;
@@ -916,7 +915,6 @@ public class StateGame implements Common{
 		g.drawImage(wolf_head, 12, 10, 20);								//游戏中 左侧 的狼的头像		
 		g.drawImage(multiply, 491+66, 147, 20);	
 		g.drawImage(multiply, 45, 12, 20);	
-		System.out.println("正常关卡------"+level);
 		int num =  LEVEL_INFO[level-1][1]-own.hitNum;
 		if(num<0){
 			num = 0;
@@ -1008,6 +1006,7 @@ public class StateGame implements Common{
 		hitFruits = own.hitFruits;
 		hitRatio = own.hitRatio;
 		fruit.status = FRUIT_HIT;
+		printInfo();
 	}
 	
 	/*击中子弹要改变的数据 */
@@ -1019,6 +1018,7 @@ public class StateGame implements Common{
 		hitRatio = own.hitRatio;
 		hitBooms = own.hitBooms;
 		boom.status = BOOM_HIT;
+		printInfo();
 	}
 	
 	/*击中狼所要该变的数据*/
@@ -1039,6 +1039,16 @@ public class StateGame implements Common{
 			scores = own.scores;
 			scores2 = own.scores2;
 		}
+		printInfo();
+	}
+	
+	public void printInfo(){
+		System.out.println("scores:"+scores);
+		System.out.println("hitTotalNum:"+hitTotalNum);
+		System.out.println("hitBooms:"+hitBooms);
+		System.out.println("useProps:"+useProps);
+		System.out.println("hitFruits:"+hitFruits);
+		System.out.println("level:"+level);
 	}
 	
 	/*过关要清楚的据*/
@@ -1054,7 +1064,7 @@ public class StateGame implements Common{
 	
 	/*游戏结束要清楚的数据*/
 	private void initDataGameOver(){
-		hitNum = own.hitNum = 0;
+		/*hitNum = own.hitNum = 0;
 		lifeNum = own.lifeNum = 0;
 		scores = own.scores = 0;
 		scores2 = own.scores2 = 0;
@@ -1062,7 +1072,11 @@ public class StateGame implements Common{
 		hitFruits = own.hitFruits = 0;
 		hitTotalNum = own.hitTotalNum = 0;
 		hitRatio = own.hitRatio = 0;
-		useProps = own.useProps = 0;
+		useProps = own.useProps = 0;*/
+		for(int i=0;i<exploders.length;i++){
+			exploders[i]=null;
+		}
+		own = null;
 		level = 1;
 		rewardLevel = 1;
 		batch = 0;

@@ -32,7 +32,6 @@ public class Weapon implements Common {
 		this.stateGame = stateGame;
 	}
 	public Weapon(){}
-	public Exploder	[] exploders;
 	
 	public final static int WEAPON_MOVE_LEFT = 0;
 	public final static int WEAPON_MOVE_RIGHT = 1;
@@ -153,7 +152,7 @@ public class Weapon implements Common {
 		Image boomEffect = Resource.loadImage(Resource.id_boom1);
 		Weapon w = null;
 		int tempx = 0,tempy = 0;
-		System.out.println("子弹容量:"+ booms.size());
+		//System.out.println("子弹容量:"+ booms.size());
 		for(int i = booms.size() - 1;i>=0;i --){
 			w = (Weapon)booms.elementAt(i);
 			if(w.status == BOOM_NOT_HIT){
@@ -305,7 +304,6 @@ public class Weapon implements Common {
 		Image magnetEffect = Resource.loadImage(Resource.id_prop_7_effect);
 		for(int j = batches.npcs.size() - 1;j>=0;j--){
 			Role npc = (Role)batches.npcs.elementAt(j);
-			System.out.println("npc状态:"+(npc.status==ROLE_SUCCESS));
 			if(npc.status2 == ROLE_IN_AIR && npc.status != ROLE_SUCCESS/*&& npc.mapy>30*/ && StateGame.magnetState){
 				npc.frame = (npc.frame+1)%2;
 				npc.status = ROLE_DEATH;
