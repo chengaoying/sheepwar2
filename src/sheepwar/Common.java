@@ -8,6 +8,7 @@ public interface Common {
 	public final static int STATUS_INIT = 0;			//初始
 	public final static int STATUS_MAIN_MENU = 1;		//游戏主菜单 
 	public final static int STATUS_GAME_PLAYING = 2;	//游戏中
+	public final static int STATUS_GAME_RECHARGE = 3;	//游戏中
 
 	public final static int ScrW = SheepWarGameEngine.ScrW;
 	public final static int ScrH = SheepWarGameEngine.ScrH;

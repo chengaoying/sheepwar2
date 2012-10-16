@@ -1,5 +1,5 @@
 MIDlet-1: MIDlet-1,,sheepwar.SheepWarMIDlet
-MIDlet-Jar-Size: 758980
+MIDlet-Jar-Size: 802916
 MIDlet-Jar-URL: sheepwar.jar
 MIDlet-Name: sheepwar MIDlet Suite
 MIDlet-Vendor: MIDlet Suite Vendor
@@ -15,7 +15,7 @@ fee500: productIDa3000000000000000216904
 feeratio: 10
 flush: flush
 gameid: 2007
-loginurl: http://221.226.179.187:6006
+loginurl: 221.226.179.187:6006
 nickname: 12010031
 rankid: 2007
 rechargeflag: 0

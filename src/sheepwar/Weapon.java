@@ -26,6 +26,7 @@ public class Weapon implements Common {
 	int height;				//武器高度
 	int scores;				//提供的积分
 	boolean isUse;			//是否在使用
+	int position;			//拳套初始位置，0-上方，1-下方
 	
 	public StateGame stateGame;
 	public Weapon(StateGame stateGame){
@@ -372,12 +373,12 @@ public class Weapon implements Common {
 	}
 	
 	/*创建无敌拳套*/
-	public void createGloves(Role own, int direction) {
+	public void createGloves(Role own, int position, int offY) {
 		Weapon w = new Weapon();
-		w.direction = direction;
+		w.position = position;
 		w.isUse =  false;
 		w.mapx = own.mapx;
-		w.mapy = own.mapy+20;					//轮子的高度+轮子的纵坐标
+		w.mapy = offY;					
 		w.height = 32;
 		w.width = 129;
 		w.speedX = 15;
@@ -385,44 +386,53 @@ public class Weapon implements Common {
 		gloves.addElement(w);
 	}
 	
-//	private int gloveIndex, gloveFlag;
 	/*显示拳套生成*/
 	public void showGloveCreate(SGraphics g){
 		Image glove = Resource.loadImage(Resource.id_prop_fist);
-//		int w = glove.getWidth() / 2, h = glove.getHeight();
-//		if(gloveFlag<3){
-//			gloveIndex=1;
-//			gloveFlag++;
-//		}else{
-//			gloveFlag=0;
-//			gloveIndex=0;
-//		}
-//		g.drawRegion(glove, gloveIndex * w, 0, w, h, 0, 374, 163, 20);
 		g.drawImage(glove, 374-16, 163, 20);
 	}
 	
-	/*显示无敌拳套运用效果
-	 *UNDO 无敌拳套更改为和普通攻击一样的形式进行发射,将画出两个方向的拳套
-	 * */
-	public void showGloves(SGraphics g,Role player) {			//每隔一段时间就会显示拳套于原始位置
+	public void showGloves(SGraphics g,Role player) {			
 		g.setClip(0, 0, gameW, ScrH);
-		Image gloveEffect = Resource.loadImage(Resource.id_prop_fist_effect);
+		Image gloveEffectLeft = Resource.loadImage(Resource.id_gloveLeft);
+		Image gloveEffectRight = Resource.loadImage(Resource.id_gloveRight);
+		//Image gloveEffect = Resource.loadImage(Resource.id_prop_fist_effect);
 		Weapon w = null;
-		int gloveW = gloveEffect.getWidth() / 3, gloveH = gloveEffect.getHeight();
+		int gloveW = gloveEffectRight.getWidth()/4, gloveH = gloveEffectRight.getHeight();
 		for (int i = gloves.size() - 1; i >= 0; i--) {
-			w = (Weapon) gloves.elementAt(i);
-				w.mapx -= w.speedX;
-				if(w.mapx<=260){					//无敌拳套发射时先水平飞一段距离再进行抛物线操作
-					w.mapy += w.speedY;
-				}else{
-					w.mapy = 163;
-				}
-				w.frame = (w.frame + 1) % 3;
-			if(w.mapx>=50){	
-				g.drawRegion(gloveEffect, w.frame * gloveW,	0, gloveW, gloveH, 0, w.mapx, w.mapy, 20);
-			}else{
-				g.drawRegion(gloveEffect, w.frame * gloveW,	0, gloveW, gloveH, 0, 60, w.mapy, 20);
+			w = (Weapon) gloves.elementAt(i);		
+			if(stateGame.isUseGlove){
+				g.drawRegion(gloveEffectRight, 0*gloveW, 0,	gloveW, gloveH, 0, player.mapx - 20, player.mapy + 4, 20);
+				g.drawRegion(gloveEffectLeft, 0*gloveW, 0, gloveW, gloveH, 0, player.mapx - 20, player.mapy + 30, 20);
 			}
+			if(w.position==0){
+				if(w.mapx >= 300){//拐点   
+					w.mapx -= w.speedX;
+					w.mapy -= w.speedY;
+					w.frame = (w.frame + 1)%4;
+					g.drawRegion(gloveEffectRight, w.frame*gloveW, 0,
+							gloveW, gloveH, 0, w.mapx, w.mapy, 20);
+				}else{
+					w.mapx -= w.speedX;
+					w.mapy += w.speedY;
+					w.frame = (w.frame + 1)%4;
+					g.drawRegion(gloveEffectRight, w.frame*gloveW, 0,
+							gloveW, gloveH, 0, w.mapx, w.mapy, 20);
+				}
+			}else{
+				if (w.mapx >= 300) {
+					w.mapx -= w.speedX;
+					w.mapy += w.speedY;
+					w.frame = (w.frame + 1) % 4;
+					g.drawRegion(gloveEffectLeft,w.frame * gloveW, 0,gloveW, gloveH, 0, w.mapx, w.mapy,20);
+				} else {
+					w.mapx -= w.speedX;
+					w.mapy -= w.speedY;
+					w.frame = (w.frame + 1) % 4;
+					g.drawRegion(gloveEffectLeft,w.frame * gloveW, 0,gloveW, gloveH, 0, w.mapx, w.mapy,20);
+				}
+			}
+
 		}
 		g.setClip(0, 0, ScrW, ScrH);
 	}

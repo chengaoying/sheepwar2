@@ -38,7 +38,7 @@ public class StateRecharge implements RechageInterface{
 		"/business/recharge0.png",
 	};
 	
-	private byte groupIndex;
+	private byte groupIndex=1;
 	private byte amountIndex;
 	private byte state;
 	private boolean back;
@@ -99,7 +99,7 @@ public class StateRecharge implements RechageInterface{
 		}
 	}
 	
-	private void show(SGraphics g) {
+	public void show(SGraphics g) {
 		switch(state) {
 		case STATE_SELECT_AMOUNT: 
 			showSelectAmount(g);
@@ -183,7 +183,7 @@ public class StateRecharge implements RechageInterface{
 		}
 	}
 	
-	private void handle(KeyState key) {
+	public void handle(KeyState key) {
 		switch(state) {
 		case STATE_SELECT_AMOUNT: 
 			handleSelectAmount(key);

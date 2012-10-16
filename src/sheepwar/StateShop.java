@@ -2,13 +2,18 @@ package sheepwar;
 
 import javax.microedition.lcdui.Image;
 
+import com.zte.iptv.j2me.stbapi.Account;
+import com.zte.iptv.j2me.stbapi.recharge.RechageInterface;
+
 import cn.ohyeah.stb.game.SGraphics;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
+import cn.ohyeah.stb.res.UIResource;
+import cn.ohyeah.stb.ui.PopupText;
 import cn.ohyeah.stb.ui.TextView;
 import cn.ohyeah.stb.util.RandomValue;
 
-public class StateShop implements Common{
+public class StateShop implements Common, RechageInterface{
 	
 	private SheepWarGameEngine engine = SheepWarGameEngine.instance;
 	private boolean running;
@@ -280,8 +285,20 @@ public class StateShop implements Common{
 		}else if (keyState.contains(KeyCode.OK)) {
 			keyState.remove(KeyCode.OK);
 			if(shopX==2 && shopY==0){//进入充值
-				StateRecharge sr = new StateRecharge(engine);
-				sr.recharge();
+				keyState.clear();
+				engine.state = STATUS_GAME_RECHARGE;
+				engine.isRecharge = false;
+				running = false;
+				//StateRecharge sr = new StateRecharge(engine);
+				//sr.recharge();
+				/*try {
+					getFeeCode(0);
+					STBAPI.RechargeEx(feeCode, productName, priceDesc, 0, "充值", this);
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (XmlPullParserException e) {
+					e.printStackTrace();
+				}*/
 			}else if(shopX==2 && shopY==1){
 				running = false;
 				shopX = 0;shopY = 0;
@@ -290,6 +307,26 @@ public class StateShop implements Common{
 			}
 		}
 	}
+	
+	/*private void getFeeCode(int index){
+		if(index==0){
+			feeCode = STBAPI.SysConfig.Fee100;
+			productName = "10"+unit;
+			priceDesc = "1元";
+		}else if(index==1){
+			feeCode = STBAPI.SysConfig.Fee200;
+			productName = "20"+unit;
+			priceDesc = "2元";
+		}else if(index==2){
+			feeCode = STBAPI.SysConfig.Fee500;
+			productName = "50"+unit;
+			priceDesc = "5元";
+		}else if(index==3){
+			feeCode = STBAPI.SysConfig.Fee1000;
+			productName = "100"+unit;
+			priceDesc = "10元";
+		} 
+	}*/
 	
 	/*private void drawNum(SGraphics g, int num, int x, int y) {
 		Image imgNumeber = Resource.loadImage(Resource.id_shop_figure);
@@ -315,5 +352,17 @@ public class StateShop implements Common{
 		Resource.freeImage(Resource.id_pass_cloud1);       
 		Resource.freeImage(Resource.id_pass_cloud1);   
 		Resource.freeImage(Resource.id_propOfCloud);   
+	}
+
+	public void AfterRechage(String s, Account account) {
+		if (account != null && account.getResult() == 0){
+			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+			pt.setText("充值成功!");
+			pt.popup();
+		}else{ 
+			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+			pt.setText("充值失败!");
+			pt.popup();
+		}
 	}
 }

@@ -1,13 +1,21 @@
 package sheepwar;
 
+import java.io.IOException;
+
 import javax.microedition.midlet.MIDlet;
+
+import com.zte.iptv.j2me.stbapi.Account;
+import com.zte.iptv.j2me.stbapi.STBAPI;
+import com.zte.iptv.j2me.stbapi.recharge.RechageInterface;
+import com.zte.iptv.j2me.stbapi.xmlParser.XmlPullParserException;
+
 import cn.ohyeah.stb.game.GameCanvasEngine;
 
 /**
  * 游戏引擎
  * @author Administrator
  */
-public class SheepWarGameEngine extends GameCanvasEngine implements Common {
+public class SheepWarGameEngine extends GameCanvasEngine implements Common, RechageInterface {
 	public static boolean isSupportFavor = false;
 	public static int ScrW = 0;
 	public static int ScrH = 0;
@@ -22,17 +30,26 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 	public StateGame stateGame;
 	public PropManager pm;
 	public Prop[] props;
+	public StateRecharge sr;
+	public boolean isRecharge;
 	
 	/**
 	 * 存放成就的二维数组，第一维是成就类型，第二维是某一成就类型中的一个成就对象
 	 */
 	public Attainment[][] attainments;
+	
+	/*充值参数*/
+	private String feeCode;
+	private String productName;
+	private String priceDesc;
+	private String unit = "游戏币";
 
 	private SheepWarGameEngine(MIDlet midlet) {
 		super(midlet);
 		setRelease(false);
 		ScrW = screenWidth;
 		ScrH = screenHeight;
+		sr = new StateRecharge(this);
 		stateGame = new StateGame(this);
 		stateMain = new StateMain(this,stateGame);
 		props = new Prop[8];
@@ -58,6 +75,11 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		case STATUS_GAME_PLAYING:
 			stateGame.handleKey(keyState);
 			break;
+		case STATUS_GAME_RECHARGE:
+			if(!isRecharge){
+				recharge();
+			}
+			break;
 		}
 
 		/*显示界面*/
@@ -70,6 +92,9 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 			break;
 		case STATUS_GAME_PLAYING:
 			stateGame.show(g);
+			break;
+		case STATUS_GAME_RECHARGE:
+			//sr.show(g);
 			break;
 		}
 		
@@ -84,12 +109,57 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		case STATUS_GAME_PLAYING:
 			stateGame.execute();
 			break;
+		case STATUS_GAME_RECHARGE:
+			//stateGame.execute();
+			break;
 		}
 		
 		/*退出游戏*/
 		exit();
 	}
 	
+	private void recharge() {
+		try {
+			getFeeCode(0);
+			isRecharge = true;
+			STBAPI.RechargeEx(feeCode, productName, priceDesc, 0, "充值", this);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (XmlPullParserException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void AfterRechage(String s, Account account) {
+		if (account != null && account.getResult() == 0){
+			System.out.println("do AfterRechage:successed");
+		}else{
+			System.out.println("do AfterRechage:failed");
+			//StateShop ss = new StateShop();
+			//ss.processShop();
+		}
+	}
+	
+	private void getFeeCode(int index){
+		if(index==0){
+			feeCode = STBAPI.SysConfig.Fee100;
+			productName = "10"+unit;
+			priceDesc = "1元";
+		}else if(index==1){
+			feeCode = STBAPI.SysConfig.Fee200;
+			productName = "20"+unit;
+			priceDesc = "2元";
+		}else if(index==2){
+			feeCode = STBAPI.SysConfig.Fee500;
+			productName = "50"+unit;
+			priceDesc = "5元";
+		}else if(index==3){
+			feeCode = STBAPI.SysConfig.Fee1000;
+			productName = "100"+unit;
+			priceDesc = "10元";
+		} 
+	}
+
 	/*初始化玩家成就*/
 	private void initAttainmen(){
 		Attainment[] ams;
@@ -172,7 +242,6 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		
 		/*初始化玩家成就信息*/
 		initAttainmen();
-		
 		state = STATUS_MAIN_MENU;  
 	}
 	private void exit(){

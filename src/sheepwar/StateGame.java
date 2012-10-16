@@ -119,7 +119,7 @@ public class StateGame implements Common{
 //	public static boolean glareState,isHitted = false;
 //	
 	/*无敌拳套*/
-	private boolean isUseGlove, isShowGlove, golveFlag=true;
+	public boolean isUseGlove, isShowGlove, golveFlag=true;
 	private long gloveEndTime, gloveStartTime;
 	private int gloveInterval = 15;
 	
@@ -147,7 +147,8 @@ public class StateGame implements Common{
 			
 		} else if (keyState.containsAndRemove(KeyCode.OK)&& own.status ==ROLE_ALIVE) {	
 			if(isUseGlove){
-				weapon.createGloves(own, Weapon.WEAPON_MOVE_LEFT);
+				weapon.createGloves(own, 0,own.mapy + 4);	//上面拳套
+				weapon.createGloves(own, 1,own.mapy + 30);	//下面拳套
 				isUseGlove = false;
 				golveFlag = true;
 				gloveStartTime = System.currentTimeMillis() / 1000;
