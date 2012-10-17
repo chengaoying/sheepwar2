@@ -6,6 +6,7 @@ import com.zte.iptv.j2me.stbapi.Account;
 import com.zte.iptv.j2me.stbapi.recharge.RechageInterface;
 
 import cn.ohyeah.stb.game.SGraphics;
+import cn.ohyeah.stb.game.StateRecharge;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.res.UIResource;
@@ -205,7 +206,7 @@ public class StateShop implements Common, RechageInterface{
 			 if(shopY==0){      //控制方向由左到右的入口方向
 				 g.drawImage(shop_go_pay_base, 457, 381, 20);
 				 g.drawImage(shop_go_pay, 457+16, 381+5, 20);
-				 g.drawImage(shop_go_pay_base, 457-8, 429-5, 20);		//返回文字上的按钮
+				 g.drawImage(shop_go_pay_base, 457-8, 429-5, 20);		
 			   	 g.drawImage(shop_out, 457-8+16, 429-5+7, 20);
 			  }else{
 			   	 g.drawImage(shop_go_pay_base, 457-8, 381-5, 20);
@@ -218,15 +219,14 @@ public class StateShop implements Common, RechageInterface{
 		    	g.drawImage(shop_go_pay, 457-8+16, 381-5+5, 20);
 		   		g.drawImage(shop_go_pay_base, 457-8, 429-5, 20);
 		   		g.drawImage(shop_out, 457-8+16, 429-5+7, 20);
-		    }
-//		drawNum(g, engine.getEngineService().getBalance(), 103,452);  
-		 engine.setFont(25, true);
-		 g.setColor(0xffffff);
-		 int colorBalance = g.getColor();
-		g.drawString(/*String.valueOf(engine.getEngineService().getBalance())*/"1000000",100,449+6, 20);//用户余额
-//		g.setColor(colorBalance);
-		 g.setColor(0x000000);
-		g.drawString(/*String.valueOf(engine.getEngineService().getBalance())*/"1000000",99,448+6, 20);//用户余额
+		}
+		 
+		engine.setFont(25, true);
+		g.setColor(0x000000);
+		int colorBalance = g.getColor();
+		g.drawString(String.valueOf(engine.account.getBalance()/10)+engine.amountUnit,100,449+6, 20);//用户余额
+		g.setColor(0xffff00);
+		g.drawString(String.valueOf(engine.account.getBalance()/10)+engine.amountUnit,99,448+6, 20);
 		g.setColor(colorBalance);
 		engine.setDefaultFont();
 	}
@@ -285,20 +285,12 @@ public class StateShop implements Common, RechageInterface{
 		}else if (keyState.contains(KeyCode.OK)) {
 			keyState.remove(KeyCode.OK);
 			if(shopX==2 && shopY==0){//进入充值
-				keyState.clear();
+				/*keyState.clear();
 				engine.state = STATUS_GAME_RECHARGE;
 				engine.isRecharge = false;
-				running = false;
-				//StateRecharge sr = new StateRecharge(engine);
-				//sr.recharge();
-				/*try {
-					getFeeCode(0);
-					STBAPI.RechargeEx(feeCode, productName, priceDesc, 0, "充值", this);
-				} catch (IOException e) {
-					e.printStackTrace();
-				} catch (XmlPullParserException e) {
-					e.printStackTrace();
-				}*/
+				running = false;*/
+				StateRecharge sr = new StateRecharge();
+				sr.recharge();
 			}else if(shopX==2 && shopY==1){
 				running = false;
 				shopX = 0;shopY = 0;
@@ -307,27 +299,6 @@ public class StateShop implements Common, RechageInterface{
 			}
 		}
 	}
-	
-	/*private void getFeeCode(int index){
-		if(index==0){
-			feeCode = STBAPI.SysConfig.Fee100;
-			productName = "10"+unit;
-			priceDesc = "1元";
-		}else if(index==1){
-			feeCode = STBAPI.SysConfig.Fee200;
-			productName = "20"+unit;
-			priceDesc = "2元";
-		}else if(index==2){
-			feeCode = STBAPI.SysConfig.Fee500;
-			productName = "50"+unit;
-			priceDesc = "5元";
-		}else if(index==3){
-			feeCode = STBAPI.SysConfig.Fee1000;
-			productName = "100"+unit;
-			priceDesc = "10元";
-		} 
-	}*/
-	
 	/*private void drawNum(SGraphics g, int num, int x, int y) {
 		Image imgNumeber = Resource.loadImage(Resource.id_shop_figure);
 		String number = String.valueOf(num);

@@ -9,8 +9,8 @@ public class PropManager implements Common{
 	public int[] propIds = {53,54,55,56,57,58,59,60};		//道具id 
 	public int[] propPrice = {20,20,30,30,30,30,50,50};		//道具价格
 	
-	public PropManager(SheepWarGameEngine e){
-		this.engine = e;
+	public PropManager(SheepWarGameEngine engine){
+		this.engine = engine;
 		props = engine.props;
 	}
 	

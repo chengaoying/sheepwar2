@@ -1,11 +1,11 @@
 package sheepwar;
-
-
 import javax.microedition.lcdui.Image;
-
+import com.zte.iptv.j2me.stbapi.STBAPI;
 import cn.ohyeah.stb.game.SGraphics;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
+import cn.ohyeah.stb.res.UIResource;
+import cn.ohyeah.stb.ui.PopupText;
 
 public class StateMain implements Common{
 	
@@ -65,6 +65,14 @@ public class StateMain implements Common{
 			engine.state = STATUS_GAME_PLAYING;
 			
 		} else if (mainIndex == 1) {// 道具商城
+			try {
+				engine.account = STBAPI.GetBalance();
+				System.out.println("查询余额");
+			} catch (Exception e) {
+				PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+				pt.setText("查询余额失败，原因："+e.getMessage());
+				pt.popup();
+			} 
 			StateShop ss =  new StateShop();
 			ss.processShop();
 			
