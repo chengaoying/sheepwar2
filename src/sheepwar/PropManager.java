@@ -1,5 +1,11 @@
 package sheepwar;
 
+import com.zte.iptv.j2me.stbapi.STBAPI;
+import cn.ohyeah.stb.game.StateRecharge;
+import cn.ohyeah.stb.res.UIResource;
+import cn.ohyeah.stb.ui.PopupConfirm;
+import cn.ohyeah.stb.ui.PopupText;
+
 
 public class PropManager implements Common{
 	
@@ -15,11 +21,10 @@ public class PropManager implements Common{
 	}
 	
 	/*查询玩家道具*/
-	public void queryAllOwnProps(){/*
+	public void queryAllOwnProps(){
 		
 		initProps(props);
-		ServiceWrapper sw = engine.getServiceWrapper();
-		OwnProp[] propList = sw.queryOwnPropList();
+		/*OwnProp[] propList = sw.queryOwnPropList();
 		if(propList==null){
 			return;
 		}
@@ -53,8 +58,8 @@ public class PropManager implements Common{
 		for(int i=0;i<props.length;i++){
 			System.out.println("道具ID=="+props[i].getPropId());
 			System.out.println("道具数量=="+props[i].getNums());
-		}
-	*/}
+		}*/
+	}
 	
 	/*初始道具设为0*/
 	public void initProps(Prop[] p){
@@ -80,35 +85,48 @@ public class PropManager implements Common{
 		return -1;
 	}
 	
-	//private boolean buyProp(int propId, int propCount, int price, String propName){
-	/*
-		if (engine.getEngineService().getBalance() >= price) {
-			ServiceWrapper sw = engine.getServiceWrapper();
-			sw.purchaseProp(propId, propCount, "购买"+propName);
+	private boolean buyProp(int propId, int propCount, int price, String propName){
+	
+		if (engine.account.getBalance() >= price) {
 			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
-			if (sw.isServiceSuccessful()) {
+			try {
+				engine.account = STBAPI.OrderTool("consumecode"+price*10, "购买道具");
+			} catch (Exception e) {
+				pt.setText("购买"+propName+"失败, 原因: "+e.getMessage());
+			} 
+			if (engine.account.getResult()==0) {
 				pt.setText("购买"+propName+"成功");
 			}
 			else {
-				pt.setText("购买"+propName+"失败, 原因: "+sw.getServiceMessage());
+				pt.setText("购买"+propName+"失败, 原因: "+getErrorMessage(engine.account.getResult()));
 				
 			}
 			pt.popup();
-			return sw.isServiceSuccessful();
+			return engine.account.getResult()==0?true:false;
 		}
 		else {
 			PopupConfirm pc = UIResource.getInstance().buildDefaultPopupConfirm();
 			pc.setText("游戏币不足,是否充值");
 			if (pc.popup() == 0) {
-				StateRecharge recharge = new StateRecharge(engine);
+				StateRecharge recharge = new StateRecharge();
 				recharge.recharge();
 			}
 			return false;
 		}
-	*///}
+	}
+	
+	private String getErrorMessage(int errorCode){
+		switch (errorCode){
+		case 2009:
+			return "道具代码不存在";
+		case 2019:
+			return "游戏账户余额不足";
+		default: return "未知错误";
+		}
+	}
 	
 	/*购买道具*/
-	public void purchaseProp(int shopX, int shopY) {/*
+	public void purchaseProp(int shopX, int shopY) {
 		
 		if (shopX == 0 && shopY == 0) {
 			int propId = propIds[0];
@@ -157,7 +175,8 @@ public class PropManager implements Common{
 			if (buyProp(propId, 1, propPrice[7], "替身玩偶")) {
 				props[7].setNums(props[7].getNums()+1);
 			}
-		}*/}
+		}
+	}
 	
 
 	/*同步道具*/

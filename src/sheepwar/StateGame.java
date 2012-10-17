@@ -606,7 +606,7 @@ public class StateGame implements Common{
 					if(npc.status == ROLE_ALIVE	/*&& ballon.id !=multicolour*//*&& npc.status2 == ROLE_IN_AIR*/){		//为了解决当狼成功逃脱后不受攻击
 						if(Collision.checkSquareCollision(npc.mapx, npc.mapy, npc.width,
 								npc.height, net.mapx, net.mapy, net.width, net.height)
-								&& npc.status != ROLE_SUCCESS){
+								&& (npc.status != ROLE_SUCCESS && npc.status2 != ROLE_ON_GROUND)){
 							hitWolf(npc);
 							print();
 						}
@@ -702,9 +702,9 @@ public class StateGame implements Common{
 			for(int j=batches.npcs.size()-1;j>=0;j--){
 				Role npc = (Role) batches.npcs.elementAt(j);
 				Role ballon = npc.role;
-				if(ballon != null && npc.status == ROLE_ALIVE /*&& npc.scores2 == ROLE_IN_AIR*/	/*&& ballon.id != multicolour*/){
+				if(ballon != null && npc.status == ROLE_ALIVE && npc.status2 == ROLE_IN_AIR){
 					if(Collision.checkSquareCollision(bomb.mapx, bomb.mapy, bomb.width, bomb.height,
-							ballon.mapx, ballon.mapy, ballon.width, 30/*ballon.height*/)){
+							ballon.mapx, ballon.mapy, ballon.width, 30/*ballon.height*/)&& ballon.id != multicolour){
 						hitWolf(npc);
 						print();
 						weapon.bombs.removeElement(bomb);

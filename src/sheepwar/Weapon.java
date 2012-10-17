@@ -301,15 +301,22 @@ public class Weapon implements Common {
 	}
 	
 	/*显示强力磁石效果*/
+	private int magFlag;
 	public void showMagnetEffect(SGraphics g,Batches batches) {
 		Image magnetEffect = Resource.loadImage(Resource.id_prop_7_effect);
 		for(int j = batches.npcs.size() - 1;j>=0;j--){
 			Role npc = (Role)batches.npcs.elementAt(j);
 			if(npc.status2 == ROLE_IN_AIR && npc.status != ROLE_SUCCESS/*&& npc.mapy>30*/ && StateGame.magnetState){
+				/*if (magFlag <= 10) {		//调整帧数大小---10-17
+					magFlag++;
+				} else {
+					npc.frame = (npc.frame + 1)%2;
+					magFlag = 0;
+				}*/
 				npc.frame = (npc.frame+1)%2;
-				npc.status = ROLE_DEATH;
 				g.drawRegion(magnetEffect, npc.frame*magnetEffect.getWidth()/2, 0, magnetEffect.getWidth()/2, magnetEffect.getHeight(), 
 						0, npc.mapx, npc.mapy, 20);
+				npc.status = ROLE_DEATH;
 				batches.npcs.removeElement(npc);
 			}
 		}

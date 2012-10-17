@@ -142,7 +142,7 @@ public class StateAttainment implements Common{
 		g.setColor(0x000000);
 		g.drawString("总点数", 250+achievement_points.getWidth()+5, 448+5, 20);
 		
-		g.setColor(0xffffff);
+		g.setColor(0xcccccc);
 		int leftX = 52,leftY = 122,leftSpace = 15,shadowX = 4,shadowY = 4, mapx, mapy;   
 		
 		//成就左侧条目

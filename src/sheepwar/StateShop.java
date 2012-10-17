@@ -2,19 +2,16 @@ package sheepwar;
 
 import javax.microedition.lcdui.Image;
 
-import com.zte.iptv.j2me.stbapi.Account;
-import com.zte.iptv.j2me.stbapi.recharge.RechageInterface;
-
 import cn.ohyeah.stb.game.SGraphics;
 import cn.ohyeah.stb.game.StateRecharge;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.res.UIResource;
-import cn.ohyeah.stb.ui.PopupText;
+import cn.ohyeah.stb.ui.PopupConfirm;
 import cn.ohyeah.stb.ui.TextView;
 import cn.ohyeah.stb.util.RandomValue;
 
-public class StateShop implements Common, RechageInterface{
+public class StateShop implements Common{
 	
 	private SheepWarGameEngine engine = SheepWarGameEngine.instance;
 	private boolean running;
@@ -99,8 +96,6 @@ public class StateShop implements Common, RechageInterface{
 			g.drawRegion(pass_cloud2, (cloud2W-down_cloud2Index), 0, ScrW-(cloud2W-down_cloud2Index), cloud2H, 0, 0, down_cloud2Y, 20);
 			g.drawRegion(pass_cloud2, 0, 0, (cloud2W-down_cloud2Index), cloud2H, 0, ScrW-(cloud2W-down_cloud2Index), down_cloud2Y, 20);
 		}
-//		int frame = RandomValue.getRandInt(8);
-//		int frame = RandomValue.getRandInt(0, 7);		//随机的在云朵上显示道具信息
 
 		/*中间的云*/
 		int cloudW = pass_cloud.getWidth();
@@ -120,7 +115,6 @@ public class StateShop implements Common, RechageInterface{
 			x3 -= 1;
 		}
 		g.drawImage(pass_cloud, x1, 152, 20);
-//		g.drawImage(propCloud, x1+10, 152+propCloud.getHeight()/4, 20);
 		g.drawRegion(propCloud, randCloud_1*propCloud.getWidth()/8,0 , propCloud.getWidth()/8, propCloud.getHeight(), 0,
 				x1+pass_cloud.getWidth()/4, 152-pass_cloud.getHeight()/4, 20);
 		g.drawImage(pass_cloud, x2, 180, 20);
@@ -153,11 +147,11 @@ public class StateShop implements Common, RechageInterface{
 		
 		g.drawImage(shop, 161, 18, 20);
 		g.drawImage(shop_big, 29, 103, 20);
-		g.drawImage(shop_balance, 46, 454, 20);
+		g.drawImage(shop_balance, 46, 457, 20);
 		g.drawImage(shop_midding, 434, 103, 20);
 		
-		int x =42, y = 120, spaceX = 15, spaceY = 8;
-		int mapx=37,mapy=112;       
+		int x =42, y = 123, spaceX = 15, spaceY = 8;
+		int mapx=37,mapy=115;       
 		int smallW = shop_small.getWidth(), smallH = shop_small.getHeight();
 		int p_propW = playing_prop.getWidth()/8, p_propH = playing_prop.getHeight();
 		int baseW = shop_small_base.getWidth(), baseH = shop_small_base.getHeight();
@@ -167,38 +161,40 @@ public class StateShop implements Common, RechageInterface{
 		    	 g.drawImage(shop_out_base, 457, 381+(spaceY+outH)*j, 20);
 		    	 g.drawImage(shop_small_base, x+(spaceX+baseW)*j, y+(spaceY+baseH)*i, 20);
 				if(shopX==j && shopY==i){
-					engine.setFont(20,true);	
+					engine.setFont(30,true);	
+					g.setColor(0xffff00);
 					g.drawImage(shop_small, x+(spaceX+smallW)*j, y+(spaceY+smallH)*i, 20);
 					g.drawImage(price_quantity, x+(spaceX+smallW)*j+65, y+(spaceY+smallH)*i+12, 20);
 					g.drawRegion(playing_prop, getPropIndex(i, j)*p_propW, 0, p_propW, p_propH, 0,x+(spaceX+smallW)*j+8, y+(spaceY+smallH)*i+9, 20);
 //					drawNum(g, engine.props[getPropIndex(i, j)].getPrice(), x+(spaceX+smallW)*j+119, y+(spaceY+smallH)*i+11);
-					g.drawString(/*String.valueOf(engine.props[getPropIndex(i, j)].getPrice())*/"1212",
+					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getPrice()),
 							x+(spaceX+smallW)*j+119, y+(spaceY+smallH)*i+11, 20);
 //					drawNum(g, engine.props[getPropIndex(i, j)].getNums(), x+(spaceX+smallW)*j+119, y+(spaceY+smallH)*i+36);
-					g.drawString(/*String.valueOf(engine.props[getPropIndex(i, j)].getNums())*/"12123", 
+					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getNums()), 
 							x+(spaceX+smallW)*j+119, y+(spaceY+smallH)*i+36, 20);
 					g.setColor(0xffffff);
-//					g.setColor(0x000000);
-					TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX], 5, 444, 140, 162, 220);
+					engine.setFont(25, true);
+					TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX], 5, 444, 120, 162, 220);
 					int textColor = g.getColor();
-//					g.setColor(0xffffff);	
 					g.setColor(0x000000);
-					TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX], 5, 443, 139, 162, 220);
+					TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX], 5, 443, 119, 162, 220);
 					engine.setDefaultFont();
 					g.setColor(textColor);
 				}else{
+					engine.setFont(30,true);
+					int col = g.getColor();
+					g.setColor(0xffff00);
 					g.drawImage(shop_small, mapx+(spaceX+smallW)*j, mapy+(spaceY+smallH)*i, 20);
 					g.drawImage(price_quantity, mapx+(spaceX+smallW)*j+65, mapy+(spaceY+smallH)*i+12, 20);
 					g.drawRegion(playing_prop, getPropIndex(i, j)*p_propW, 0, p_propW, p_propH, 0,mapx+(spaceX+smallW)*j+8, mapy+(spaceY+smallH)*i+9, 20);
 //					drawNum(g, engine.props[getPropIndex(i, j)].getPrice(), mapx+(spaceX+smallW)*j+119, mapy+(spaceY+smallH)*i+11);
-					g.drawString(/*String.valueOf(engine.props[getPropIndex(i, j)].getPrice())*/"226",
+					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getPrice()),
 							mapx+(spaceX+smallW)*j+119, mapy+(spaceY+smallH)*i+11, 20);
 //					drawNum(g, engine.props[getPropIndex(i, j)].getNums(), mapx+(spaceX+smallW)*j+119, mapy+(spaceY+smallH)*i+36);
-//					int color = g.getColor();		//局部设置字体颜色并还原
-//					g.setColor(0xffffff);
-					g.drawString(/*String.valueOf(engine.props[getPropIndex(i, j)].getNums())*/"138", 
+					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getNums()), 
 							mapx+(spaceX+smallW)*j+119, mapy+(spaceY+smallH)*i+36, 20);
-//					g.setColor(color);
+					engine.setDefaultFont();
+					g.setColor(col);
 				}
 			}
 		}
@@ -221,12 +217,12 @@ public class StateShop implements Common, RechageInterface{
 		   		g.drawImage(shop_out, 457-8+16, 429-5+7, 20);
 		}
 		 
-		engine.setFont(25, true);
+		engine.setFont(30, true);
 		g.setColor(0x000000);
 		int colorBalance = g.getColor();
-		g.drawString(String.valueOf(engine.account.getBalance()/10)+engine.amountUnit,100,449+6, 20);//用户余额
-		g.setColor(0xffff00);
-		g.drawString(String.valueOf(engine.account.getBalance()/10)+engine.amountUnit,99,448+6, 20);
+		g.drawString(String.valueOf(engine.account.getBalance()/10)+engine.amountUnit,110,449+6, 20);//用户余额
+		g.setColor(0xff0000);
+		g.drawString(String.valueOf(engine.account.getBalance()/10)+engine.amountUnit,109,448+6, 20);
 		g.setColor(colorBalance);
 		engine.setDefaultFont();
 	}
@@ -295,7 +291,11 @@ public class StateShop implements Common, RechageInterface{
 				running = false;
 				shopX = 0;shopY = 0;
 			}else{
-				engine.pm.purchaseProp(shopX, shopY);
+				PopupConfirm pc = UIResource.getInstance().buildDefaultPopupConfirm();
+				pc.setText("确定要购买吗?");
+				if(pc.popup()==0){
+					engine.pm.purchaseProp(shopX, shopY);
+				}
 			}
 		}
 	}
@@ -323,17 +323,5 @@ public class StateShop implements Common, RechageInterface{
 		Resource.freeImage(Resource.id_pass_cloud1);       
 		Resource.freeImage(Resource.id_pass_cloud1);   
 		Resource.freeImage(Resource.id_propOfCloud);   
-	}
-
-	public void AfterRechage(String s, Account account) {
-		if (account != null && account.getResult() == 0){
-			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
-			pt.setText("充值成功!");
-			pt.popup();
-		}else{ 
-			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
-			pt.setText("充值失败!");
-			pt.popup();
-		}
 	}
 }
