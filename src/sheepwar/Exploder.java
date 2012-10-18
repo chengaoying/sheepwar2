@@ -21,9 +21,7 @@ public class Exploder implements Common {
 	
 	private Image burstImage;
 	public void drawExplode(SGraphics g, StateGame stateGame) {
-		System.out.println(i);
-		if (i <7) {	//for循环为什么不可以
-			 //画出激光击中狼的燃烧效果 
+		if (i <7) {	
 			try {
 				burstImage = Resource.loadImage(Resource.id_burn);
 				g.drawRegion(burstImage, frame[i] * burstImage.getWidth() / 8, 0, burstImage.getWidth() / 8,

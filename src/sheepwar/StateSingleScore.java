@@ -30,13 +30,10 @@ public class StateSingleScore implements Common {
 	public void showAttackBoom(SGraphics g,Weapon weapon,Role player) {
 		Weapon boom = null;
 		for (int i = weapon.booms.size()-1;i>=0;i--){
-			System.out.println(i);
 			boom = (Weapon)weapon.booms.elementAt(i);
 			System.out.println(boom);
 			if(boom.status == BOOM_HIT){
 				scoreY = player.mapy;
-				System.out.println("射中子弹的得分："+boom.scores);
-				System.out.println("子弹的横坐标："+boom.mapx);
 				g.setColor(0xffffff);
 				g.drawString(/*"显示气球的 分数："*/String.valueOf(boom.scores), boom.mapx, tempY, 20);
 			}

@@ -59,7 +59,7 @@ public class StateHelp implements Common{
 		Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
 		Image pass_cloud1 = Resource.loadImage(Resource.id_pass_cloud1);
 		Image pass_cloud2 = Resource.loadImage(Resource.id_pass_cloud2);
-		engine.setFont(19,true);					//设置字体大小
+		engine.setFont(25,true);					//设置字体大小
 		g.drawImage(game_bg, 0, 0, 20);
 		/*增加的云层*/
 		/*上面第二层云*/
@@ -133,35 +133,22 @@ public class StateHelp implements Common{
 		int achLeftW = achievement_left_right.getWidth()/2;
 		int achRight1W = achievement_left_right1.getWidth()/2;
 		g.drawImage(slash, helpLeftRightX+achLeftW+15, helpLeftRightY+7, 20);
-//		drawNum(g, 3, helpLeftRightX+achLeftW+slash.getWidth()+14, helpLeftRightY+8);
 		g.drawString("3", helpLeftRightX+achLeftW+slash.getWidth()+14, helpLeftRightY+8, 20);
 		g.drawRegion(achievement_left_right1, 0, 0, achRight1W, 		//翻页左按钮
 				achievement_left_right1.getHeight(), 0, helpLeftRightX, helpLeftRightY, 20);
-		/*g.drawRegion(achievement_left_right, 0, 0, achLeftW, 		//翻页左按钮
-				achievement_left_right.getHeight(), 0, helpLeftRightX-helpShadowX, helpLeftRightY-helpShadowY, 20);*/
 		g.drawRegion(achievement_left_right1, achRight1W, 0,			//翻页右按钮
 				achRight1W, achievement_left_right1.getHeight(),
 				0, helpLeftRightX+sapceLeftRight+achRight1W, helpLeftRightY, 20);
-	/*	g.drawRegion(achievement_left_right, 1*achLeftW, 0, achLeftW,
-				achievement_left_right.getHeight(), 0, helpLeftRightX-helpShadowX+sapceLeftRight+achLeftW,
-				helpLeftRightY-helpShadowY, 20);*/
 		if(pageIndex == 0){
 			g.drawRegion(achievement_left_right, 0, 0, achLeftW, 		//翻页左按钮
 					achievement_left_right.getHeight(), 0, helpLeftRightX, helpLeftRightY, 20);
-//			drawNum(g,helpX+1,helpLeftRightX+achLeftW+3,helpLeftRightY+8); 		//页面码
 			g.drawString(String.valueOf(helpX+1),helpLeftRightX+achLeftW+3,helpLeftRightY+8, 20);
-			/*g.drawRegion(achievement_left_right, 1*achLeftW, 0, achLeftW,
-					achievement_left_right.getHeight(), 0, helpLeftRightX+sapceLeftRight+achLeftW,
-					helpLeftRightY, 20);*/
 			g.drawRegion(achievement_left_right, 1*achLeftW, 0, achLeftW,
 					achievement_left_right.getHeight(), 0, helpLeftRightX-helpShadowX+sapceLeftRight+achLeftW,
 					helpLeftRightY-helpShadowY, 20);
 		}else if(pageIndex == 1){
-			/*g.drawRegion(achievement_left_right, 0, 0, achLeftW, 		//翻页左按钮
-					achievement_left_right.getHeight(), 0, helpLeftRightX, helpLeftRightY, 20);*/
 			g.drawRegion(achievement_left_right, 0, 0, achLeftW, 		//翻页左按钮
 					achievement_left_right.getHeight(), 0, helpLeftRightX-helpShadowX, helpLeftRightY-helpShadowY, 20);
-//			drawNum(g,helpX+1,helpLeftRightX+achLeftW+3,helpLeftRightY+8);		//页面码
 			g.drawString(String.valueOf(helpX+1),helpLeftRightX+achLeftW+3,helpLeftRightY+8, 20);
 			g.drawRegion(achievement_left_right, 1*achLeftW, 0, achLeftW,
 					achievement_left_right.getHeight(), 0, helpLeftRightX+sapceLeftRight+achLeftW,
@@ -169,12 +156,6 @@ public class StateHelp implements Common{
 		}
 		g.drawImage(game_help, 194,18, 20);
 		g.drawImage(achievement_out1, 17,498, 20);
-//		g.setColor(0xffffff);				//设置字体颜色
-//		int textColor = g.getColor();
-//		g.setColor(0xffffff);	
-//	
-//		TextView.showMultiLineText(g, Resource.gameInfo[helpX], 6,150, 135, 360, 334);			//写出描述信息
-//		g.setColor(textColor);
 		g.setColor(0x000000);
 		TextView.showMultiLineText(g, Resource.gameInfo[helpX], 6,150, 135, 359, 333);	
 		engine.setDefaultFont();

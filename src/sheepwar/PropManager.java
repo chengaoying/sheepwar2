@@ -21,44 +21,17 @@ public class PropManager implements Common{
 	}
 	
 	/*查询玩家道具*/
-	public void queryAllOwnProps(){
-		
+	public void updateProps(){
 		initProps(props);
-		/*OwnProp[] propList = sw.queryOwnPropList();
-		if(propList==null){
-			return;
-		}
-		for(int i=0;i<propList.length;i++){
-			if(propList[i].getPropId()==propIds[0]){
-				props[0].setNums(propList[i].getCount());
-			}
-			if(propList[i].getPropId()==propIds[1]){
-				props[1].setNums(propList[i].getCount());
-			}
-			if(propList[i].getPropId()==propIds[2]){
-				props[2].setNums(propList[i].getCount());
-			}
-			if(propList[i].getPropId()==propIds[3]){
-				props[3].setNums(propList[i].getCount());
-			}
-			if(propList[i].getPropId()==propIds[4]){
-				props[4].setNums(propList[i].getCount());
-			}
-			if(propList[i].getPropId()==propIds[5]){
-				props[5].setNums(propList[i].getCount());
-			}
-			if(propList[i].getPropId()==propIds[6]){
-				props[6].setNums(propList[i].getCount());
-			}
-			if(propList[i].getPropId()==propIds[7]){
-				props[7].setNums(propList[i].getCount());
-			}
+		String[] pps = engine.p;
+		for(int i=0;i<pps.length;i++){
+			props[i].setNums(Integer.parseInt(pps[i]));
 		}
 		
 		for(int i=0;i<props.length;i++){
 			System.out.println("道具ID=="+props[i].getPropId());
 			System.out.println("道具数量=="+props[i].getNums());
-		}*/
+		}
 	}
 	
 	/*初始道具设为0*/

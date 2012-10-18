@@ -43,7 +43,7 @@ public class StateGame implements Common{
 	/*奖励关卡*/
 	public short rewardLevel = 1;
 	
-	public boolean isRewardLevel, isReward;
+	public boolean isRewardLevel/*, isReward*/;
 	
 	/*当前关卡狼出现的批次*/
 	public short batch;
@@ -135,6 +135,8 @@ public class StateGame implements Common{
 	public static int hitRatio;		//击中目标数
 	public static int hitBooms;		//击中子弹数
 	public static int attainment;	//成就数
+	
+	public static int scores3;		//成就中的积分
 	
 	private int tempx=ScrW, tempy=20, tempx2=ScrW, tempy2=30, sWidth, sTempy;
 	
@@ -238,11 +240,7 @@ public class StateGame implements Common{
 				engine.pm.sysProps();
 				
 				//保存成就
-			/*	ServiceWrapper sw = engine.getServiceWrapper();
-				GameAttainment ga = sw.readAttainment(engine.attainmentId);
-				if(((ga==null && own.scores>0) || (ga.getScores()<=own.scores) && own.scores>0)){
-					engine.saveAttainment(own);
-				}*/
+				engine.saveRecord();
 			}
 		}
 	}
@@ -436,8 +434,7 @@ public class StateGame implements Common{
 					batch = 0;
 					hitNum = own.hitNum = 0;
 					isRewardLevel = false;
-					isReward = true;
-					if(rewardLevel <6){		//如果没有判断，rewardLevel=7后，rewardLevel++=8数组越界10-11
+					if(rewardLevel <6){		
 						rewardLevel++;
 					}
 					if(batches.redWolf!=null){
@@ -453,7 +450,6 @@ public class StateGame implements Common{
 			initDataNextLevel();	//清空数据
 			StateNextLevel stateLevel = new StateNextLevel();
 			stateLevel.processNextLevel(own);
-			isReward = false;
 		}
 	}
 	
@@ -463,7 +459,8 @@ public class StateGame implements Common{
 			isGameOver = true;
 			isSuccess = false;
 			gameBufferTimeS = System.currentTimeMillis()/1000;
-			
+			//保存数据
+			engine.saveRecord();
 		}else if(level > 15 && !isGameOver){	/*游戏通关*/
 			System.out.println("游戏成功：");
 			isGameOver = true;
@@ -471,13 +468,8 @@ public class StateGame implements Common{
 			gameBufferTimeS = System.currentTimeMillis()/1000;
 			//同步道具
 			engine.pm.sysProps();
-			
-			//保存成就
-			/*ServiceWrapper sw = engine.getServiceWrapper();
-			GameAttainment ga = sw.readAttainment(engine.attainmentId);
-			if(((ga==null && own.scores>0) || (ga.getScores()<=own.scores) && own.scores>0)){
-				engine.saveAttainment(own);
-			}*/
+			//保存数据
+			engine.saveRecord();
 		}
 	}
 	
@@ -776,7 +768,7 @@ public class StateGame implements Common{
 		Image pumpkin = Resource.loadImage(Resource.id_pumpkin);
 		
 		g.drawImage(game_bg, 0, 0, 20);
-		if((isRewardLevel && !isNextLevel) || isReward){		//画出奖励关卡界面
+		if((isRewardLevel && !isNextLevel)/* || isReward*/){		//画出奖励关卡界面
 			g.drawImage(pass_cloud, 50, 80, 20);
 			g.drawImage(pass_cloud, 216, 80, 20);
 			g.drawImage(pass_cloud, 404, 140, 20);		//轮子下面的云朵

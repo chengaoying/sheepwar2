@@ -301,7 +301,7 @@ public class Weapon implements Common {
 	}
 	
 	/*显示强力磁石效果*/
-	private int magFlag;
+	//private int magFlag;
 	public void showMagnetEffect(SGraphics g,Batches batches) {
 		Image magnetEffect = Resource.loadImage(Resource.id_prop_7_effect);
 		for(int j = batches.npcs.size() - 1;j>=0;j--){

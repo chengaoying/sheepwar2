@@ -2,6 +2,10 @@ package sheepwar;
 
 import javax.microedition.lcdui.Image;
 
+import com.zte.iptv.j2me.stbapi.RankInfo;
+import com.zte.iptv.j2me.stbapi.RankList;
+import com.zte.iptv.j2me.stbapi.STBAPI;
+
 import cn.ohyeah.stb.game.SGraphics;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
@@ -11,6 +15,9 @@ public class StateRanking implements Common{
 	private SheepWarGameEngine engine = SheepWarGameEngine.instance;
 	private boolean running;
 	private int rankingIndex, rankX, rankY;
+	private  RankList  ranklist_month;
+	private  RankList  ranklist_week;
+	private RankList rankList;
 	
 	public void processRanking(){
 		running = true;
@@ -44,18 +51,33 @@ public class StateRanking implements Common{
 	}
 	
 	private void queryRanking(){
-		/*Date date = new Date(engine.getEngineService().getCurrentTime().getTime());
-		System.out.println(date);
-		int year = DateUtil.getYear(date);
-		int month = DateUtil.getMonth(date);
-		//int day = DateUtil.getDay(date);
-		Date start = DateUtil.createTime(year, month, 1);
-		Date end = DateUtil.createTime(year, month+1, 1);
-		System.out.println("start:"+start);
-		System.out.println("end:"+end);
-		ServiceWrapper sw = engine.getServiceWrapper();
-		rankingList = sw.queryRankingList(0, 10);
-		ranking_month = sw.queryRankingList(start, end, 0, 10);*/
+		try
+		{
+			ranklist_month = STBAPI.GetRankList(STBAPI.SysConfig.RankID,0,1,10);
+			ranklist_week = STBAPI.GetRankList(STBAPI.SysConfig.RankID,2,1,10);
+		    System.out.println("GetRankList:");
+		    System.out.println("   Result  ="   + Integer.toString(ranklist_month.getResult()));
+		    System.out.println("   TotalNum="  + Integer.toString(ranklist_month.getTotalNum()));
+		    System.out.println("   CurNum ="  + Integer.toString(ranklist_month.getCurNum()));
+		    System.out.println("   MyRankNo=" + Integer.toString(ranklist_month.getMyRankNo()));
+		    System.out.println("   MyScore ="  + Integer.toString(ranklist_month.getMyScore()));
+		    
+		    if (ranklist_month.getResult() != 0 || ranklist_month.getCurNum() ==0 )
+		        return;
+		    
+		    for (int i = 0; i <  ranklist_month.list.length; i++)
+		    {
+		        System.out.println(" <rankinfo>:"+Integer.toString(i+1));
+		        System.out.println("UserID  =" + ranklist_month.list[i].getUserID());
+		        System.out.println("UserName=" + ranklist_month.list[i].getUserName());
+		        System.out.println(" RankNo =" + Integer.toString(ranklist_month.list[i].getRankNo()));
+		        System.out.println(" Score  =" + Integer.toString(ranklist_month.list[i].getScore()));
+		    }
+		} 
+		catch (Exception e)
+		{
+		    e.printStackTrace();
+		} 
 	}
 
 	private int cloudIndex, cloud2Index;
@@ -152,10 +174,10 @@ public class StateRanking implements Common{
 		int  rankLeftX = 39,rankLeftY = 112,rankLeftYSpace = 16;			//rankLeftX 左侧x坐标，rankLeftYSpace 上下间距
 		int rankShadowX = 4,rankShadowY = 4;								//排行阴影效果坐标差
 		
-		int workH = ranking_word.getHeight() / 3, workW = ranking_word.getWidth();
+		int workH = ranking_word.getHeight() / 2, workW = ranking_word.getWidth();
 		int option1W = ranking_option1.getWidth(), option1H = ranking_option1.getHeight();
 		int optionW = ranking_option.getWidth(), optionH = ranking_option.getHeight();
-		for(int i=0;i<3;i++){//排行左侧条目
+		for(int i=0;i<2;i++){//排行左侧条目
 			g.drawRegion(ranking_option1, 0, 0, option1W, option1H, 0,
 					rankLeftX, rankLeftY+(option1H+rankLeftYSpace)*i, 20);
 			if(rankY ==i){     		
@@ -173,14 +195,31 @@ public class StateRanking implements Common{
 		
 		/*排行数据*/
 		g.drawImage(shop_big, 233,101, 20);
-		//g.drawImage(slash, 523-slash.getWidth()/2, 447, 20);								//画出斜杠
 		g.drawImage(ranking_show,260,116, 20);
 		for(int i=0;i<5;i++){
 			g.drawImage(ranking_stripe,240,151+i*56, 20);
 		}
 		g.drawImage(current_ranking, 253,448, 20);
-		engine.setFont(19,true);
-		g.drawString("这里将显示排名", 253+current_ranking.getWidth()+5, 448+5, 20);
+		engine.setFont(25,true);
+		if(rankY==0){
+			rankList = ranklist_month;
+		}else{
+			rankList = ranklist_week;
+		}
+		RankInfo info = null;
+		int offY = 155;
+		for(int m=0;m<rankList.list.length;m++){
+			info = rankList.list[m];
+			String id = info.getUserID();
+			int rank = info.getRankNo();
+			int scores = info.getScore();
+			g.drawString(String.valueOf(rank), 270, offY, 20);
+			g.drawString(id, 380, offY, 20);
+			g.drawString(String.valueOf(scores), 505, offY, 20);
+			offY += 28;
+		}
+		String myRankNo = rankList.getMyRankNo()==0?"":String.valueOf(rankList.getMyRankNo());
+		g.drawString(myRankNo, 260+current_ranking.getWidth(), 448, 20);
 		g.setColor(red);
 		engine.setDefaultFont();
 		g.drawImage(ranking, 194,18, 20);
@@ -209,27 +248,10 @@ public class StateRanking implements Common{
 			}
 		}else if(keyState.contains(KeyCode.DOWN)){
 			keyState.remove(KeyCode.DOWN);
-			if(rankX == 0 && rankY <3){
-				rankY = (rankY + 1)%3;
+			if(rankX == 0 && rankY <2){
+				rankY = (rankY + 1)%2;
 			}
 		}
-		/*if(keyState.contains(KeyCode.LEFT)){
-			keyState.remove(KeyCode.LEFT);
-			if(rankX > 0){
-				rankX = rankX - 1;
-			}else {
-				rankX = 0;
-			}
-		}
-		if(keyState.contains(KeyCode.RIGHT)){
-			keyState.remove(KeyCode.RIGHT);
-			if(rankX < 2){
-				rankX = rankX + 1;
-			}else{
-				rankX = 2;
-			}
-		}*/
-	
 	}
 
 	private void clear() {
