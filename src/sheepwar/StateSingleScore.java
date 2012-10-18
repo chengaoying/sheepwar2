@@ -14,13 +14,12 @@ public class StateSingleScore implements Common {
 		Role npc = null;
 		for(int i = 0;i< batches.npcs.size()-1;i++){
 			npc = (Role)batches.npcs.elementAt(i);
-			if(npc.status == ROLE_DEATH){				//结果只有第一个被击中的狼才有文字提示
-				scoreY = player.mapy;
-				if((npc.mapy-scoreY)>40){				/*暂时让显示静止于死亡的地方*/
-					tempY = scoreY;
-					g.setColor(0xffffff);
-					g.drawString(/*"显示气球的 分数："*/String.valueOf(npc.scores), npc.mapx, tempY, 20);
-//					scoreY -= 5;
+			if(npc.status == ROLE_DEATH){				
+				tempY = scoreY = player.mapy-30;
+				if((scoreY-tempY)<50){	
+					tempY -= 10;
+					g.setColor(0x000000);
+					g.drawString("+"+String.valueOf(npc.scores), npc.mapx, tempY, 20);
 				}
 			}
 		}
@@ -31,11 +30,10 @@ public class StateSingleScore implements Common {
 		Weapon boom = null;
 		for (int i = weapon.booms.size()-1;i>=0;i--){
 			boom = (Weapon)weapon.booms.elementAt(i);
-			System.out.println(boom);
 			if(boom.status == BOOM_HIT){
 				scoreY = player.mapy;
-				g.setColor(0xffffff);
-				g.drawString(/*"显示气球的 分数："*/String.valueOf(boom.scores), boom.mapx, tempY, 20);
+				g.setColor(0x000000);
+				g.drawString("+"+String.valueOf(boom.scores), boom.mapx, tempY, 20);
 			}
 			
 		}

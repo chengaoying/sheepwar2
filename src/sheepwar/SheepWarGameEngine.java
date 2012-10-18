@@ -54,7 +54,7 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		ScrW = screenWidth;
 		ScrH = screenHeight;
 		stateGame = new StateGame(this);
-		stateMain = new StateMain(this,stateGame);
+		stateMain = new StateMain(this);
 		props = new Prop[8];
 		achi = new String[6];
 		p = new String[8];
@@ -211,15 +211,15 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 
 	private void init() {
 		
-		/*初始化道具信息*/
+		/*创建道具数组*/
 		pm.initProps(props);
 		
 		setRecordId();
 		//saveRecord();
 		loadGameRecord();
-		
-		/*读取成就*/
-		readAttainment();
+
+		/*初始化道具信息*/
+		pm.updateProps();
 		
 		/*初始化玩家成就信息*/
 		initAttainmen();
@@ -258,7 +258,7 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		    	p[j] = str[1];
 		    }
 		} catch (Exception e){
-			e.printStackTrace();
+			System.out.println("获取加载游戏数据失败，原因："+e.getMessage());
 		}
 	}
 
@@ -313,7 +313,7 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		} 
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			 System.out.println("获取保存记录失败，原因："+e.getMessage());
 		}
 		
 		/*上报积分*/
@@ -325,13 +325,8 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		} 
 		catch (Exception e)
 		{
-			e.printStackTrace();
+			System.out.println("获取上报积分失败，原因："+e.getMessage());
 		}
 	}
 	
-	/*读取成就*/
-	public void readAttainment(){
-		
-	}
-
 }

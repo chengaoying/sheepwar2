@@ -57,7 +57,7 @@ public class StateRecharge {
 		{'9', 'w', 'W', 'x', 'X', 'y', 'Y', 'z', 'Z'}
 	};
 	
-	private SheepWarGameEngine engine = SheepWarGameEngine.instance;
+	private SheepWarGameEngine engine;
 	private byte groupIndex;
 	private byte confirmIndex;
 	private byte amountIndex;
@@ -78,7 +78,8 @@ public class StateRecharge {
 	private String productName;
 	private String priceDesc;
 	
-	public StateRecharge() {
+	public StateRecharge(SheepWarGameEngine engine) {
+		this.engine = engine;
 		resource = ResourceManager.createImageResourceManager(imagePaths);
 	}
 	

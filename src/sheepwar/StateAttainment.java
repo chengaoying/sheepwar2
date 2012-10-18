@@ -43,10 +43,10 @@ public class StateAttainment implements Common{
 	}
 
 	private int cloudIndex, cloud2Index;
-	private int down_cloudIndex, down_cloud2Index;
+	//private int down_cloudIndex, down_cloud2Index;
 	int x1 = 20, x2 = 550, x3 = 424;
 	private void ShowAttainment(SGraphics g) {
-		Image game_bg = Resource.loadImage(Resource.id_game_bg);
+		Image game_bg = Resource.loadImage(Resource.id_achievement_bottom);
 		Image shop_midding = Resource.loadImage(Resource.id_shop_midding);//{28,102}
 		Image shop_big = Resource.loadImage(Resource.id_shop_big);//{235,102}
 		Image achievement_left = Resource.loadImage(Resource.id_achievement_left);//{457,381}//{51,123},{51,178},{51,232},{51,286},{51,342},{51,396}
@@ -82,16 +82,6 @@ public class StateAttainment implements Common{
 			g.drawRegion(pass_cloud2, 0, 0, (cloud2W-cloud2Index), cloud2H, 0, ScrW-(cloud2W-cloud2Index), cloud2Y, 20);
 		}
 		
-		/*下面第二层云*/
-		int down_cloud2Y = 484;
-		down_cloud2Index=(down_cloud2Index+1)%cloud2W;
-		if(down_cloud2Index<=len){
-			g.drawRegion(pass_cloud2, len-down_cloud2Index, 0, ScrW, cloud2H, 0, 0, down_cloud2Y, 20);
-		}else{
-			g.drawRegion(pass_cloud2, (cloud2W-down_cloud2Index), 0, ScrW-(cloud2W-down_cloud2Index), cloud2H, 0, 0, down_cloud2Y, 20);
-			g.drawRegion(pass_cloud2, 0, 0, (cloud2W-down_cloud2Index), cloud2H, 0, ScrW-(cloud2W-down_cloud2Index), down_cloud2Y, 20);
-		}
-
 		/*中间的云*/
 		int cloudW = pass_cloud.getWidth();
 		if(x1+cloudW<=0){
@@ -122,16 +112,6 @@ public class StateAttainment implements Common{
 		}else{
 			g.drawRegion(pass_cloud1, cloudIndex, 0, cloud1W-cloudIndex, cloud1H, 0, 0, cloud1Y, 20);
 			g.drawRegion(pass_cloud1, 0, 0, cloudIndex, cloud1H, 0, cloud1W-cloudIndex, cloud1Y, 20);
-		}
-		
-		/*下面第一层云*/
-		int down_cloud1Y = 496;
-		down_cloudIndex=(down_cloudIndex+1)%cloud1W;
-		if(down_cloudIndex<=cloud1W-ScrW){
-			g.drawRegion(pass_cloud1, down_cloudIndex, 0, ScrW, cloud1H, 0, 0, down_cloud1Y, 20);
-		}else{
-			g.drawRegion(pass_cloud1, down_cloudIndex, 0, cloud1W-down_cloudIndex, cloud1H, 0, 0, down_cloud1Y, 20);
-			g.drawRegion(pass_cloud1, 0, 0, down_cloudIndex, cloud1H, 0, cloud1W-down_cloudIndex, down_cloud1Y, 20);
 		}
 		
 		g.drawImage(achievement, 227, 19, 20);

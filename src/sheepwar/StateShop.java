@@ -9,20 +9,23 @@ import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.res.UIResource;
 import cn.ohyeah.stb.ui.PopupConfirm;
 import cn.ohyeah.stb.ui.TextView;
-import cn.ohyeah.stb.util.RandomValue;
 
 public class StateShop implements Common{
 	
-	private SheepWarGameEngine engine = SheepWarGameEngine.instance;
+	private SheepWarGameEngine engine;
 	private boolean running;
 	private int shopX,  shopY;
 	
-	private int randCloud_1,randCloud_2,randCloud_3;
+	public StateShop(SheepWarGameEngine engine){
+		this.engine = engine;
+	}
+	
+	//private int randCloud_1,randCloud_2,randCloud_3;
 	public void processShop(){
 		running = true;
-		randCloud_1 = RandomValue.getRandInt(8);
+		/*randCloud_1 = RandomValue.getRandInt(8);
 		randCloud_2 = RandomValue.getRandInt(8);
-		randCloud_3 = RandomValue.getRandInt(8);
+		randCloud_3 = RandomValue.getRandInt(8);*/
 		try {
 			KeyState keyState = engine.getKeyState();
 			SGraphics g = engine.getSGraphics();
@@ -50,11 +53,11 @@ public class StateShop implements Common{
 		}
 	}
 
-	private int cloudIndex, cloud2Index;
-	private int down_cloudIndex, down_cloud2Index;
+	/*private int cloudIndex, cloud2Index;
+	private int down_cloudIndex, down_cloud2Index;*/
 	int x1 = 20, x2 = 550, x3 = 424;
 	private void showShop(SGraphics g) {
-		Image game_bg = Resource.loadImage(Resource.id_game_bg);
+		Image game_bg = Resource.loadImage(Resource.id_shop_bottom);
 		Image shop_balance = Resource.loadImage(Resource.id_shop_balance);//{46,454}
 		Image shop_big = Resource.loadImage(Resource.id_shop_big);//{29,103}
 		Image shop_go_pay = Resource.loadImage(Resource.id_shop_go_pay);//{457,381}				//9/29被修改为单纯的文字图片
@@ -68,14 +71,14 @@ public class StateShop implements Common{
 		Image shop = Resource.loadImage(Resource.id_shop);//{217,18}
 		Image playing_prop=Resource.loadImage(Resource.id_playing_prop);
 		/*增加的元素*/
-		Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
+		/*Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
 		Image pass_cloud1 = Resource.loadImage(Resource.id_pass_cloud1);
 		Image pass_cloud2 = Resource.loadImage(Resource.id_pass_cloud2);
 		Image propCloud =  Resource.loadImage(Resource.id_propOfCloud);			//云朵上的道具
-		g.setColor(0xffffff);
+*/		g.setColor(0xffffff);
 		g.drawImage(game_bg, 0, 0, 20);
-		/*增加的云层*/
-		/*上面第二层云*/
+		/*增加的云层
+		上面第二层云
 		int cloud2W = pass_cloud2.getWidth(),cloud2H = pass_cloud2.getHeight();
 		int len = cloud2W-ScrW;
 		int cloud2Y = -6;
@@ -87,7 +90,7 @@ public class StateShop implements Common{
 			g.drawRegion(pass_cloud2, 0, 0, (cloud2W-cloud2Index), cloud2H, 0, ScrW-(cloud2W-cloud2Index), cloud2Y, 20);
 		}
 		
-		/*下面第二层云*/
+		下面第二层云
 		int down_cloud2Y = 484;
 		down_cloud2Index=(down_cloud2Index+1)%cloud2W;
 		if(down_cloud2Index<=len){
@@ -97,7 +100,7 @@ public class StateShop implements Common{
 			g.drawRegion(pass_cloud2, 0, 0, (cloud2W-down_cloud2Index), cloud2H, 0, ScrW-(cloud2W-down_cloud2Index), down_cloud2Y, 20);
 		}
 
-		/*中间的云*/
+		/*中间的云
 		int cloudW = pass_cloud.getWidth();
 		if(x1+cloudW<=0){
 			x1 = ScrW;
@@ -124,7 +127,7 @@ public class StateShop implements Common{
 		g.drawRegion(propCloud,randCloud_3*propCloud.getWidth()/8,0 , propCloud.getWidth()/8, propCloud.getHeight(), 0,
 				x3+pass_cloud.getWidth()/4, 265-pass_cloud.getHeight()/4, 20);
 		
-		/*上面第一层云*/
+	上面第一层云
 		int cloud1W = pass_cloud1.getWidth(),cloud1H = pass_cloud1.getHeight();
 		int cloud1Y = -23;
 		cloudIndex=(cloudIndex+1)%cloud1W;
@@ -135,7 +138,7 @@ public class StateShop implements Common{
 			g.drawRegion(pass_cloud1, 0, 0, cloudIndex, cloud1H, 0, cloud1W-cloudIndex, cloud1Y, 20);
 		}
 		
-		/*下面第一层云*/
+		下面第一层云
 		int down_cloud1Y = 496;
 		down_cloudIndex=(down_cloudIndex+1)%cloud1W;
 		if(down_cloudIndex<=cloud1W-ScrW){
@@ -144,7 +147,7 @@ public class StateShop implements Common{
 			g.drawRegion(pass_cloud1, down_cloudIndex, 0, cloud1W-down_cloudIndex, cloud1H, 0, 0, down_cloud1Y, 20);
 			g.drawRegion(pass_cloud1, 0, 0, down_cloudIndex, cloud1H, 0, cloud1W-down_cloudIndex, down_cloud1Y, 20);
 		}
-		
+*/		
 		g.drawImage(shop, 161, 18, 20);
 		g.drawImage(shop_big, 29, 103, 20);
 		g.drawImage(shop_balance, 46, 457, 20);
@@ -285,7 +288,7 @@ public class StateShop implements Common{
 				engine.state = STATUS_GAME_RECHARGE;
 				engine.isRecharge = false;
 				running = false;*/
-				StateRecharge sr = new StateRecharge();
+				StateRecharge sr = new StateRecharge(engine);
 				sr.recharge();
 			}else if(shopX==2 && shopY==1){
 				running = false;

@@ -80,16 +80,14 @@ public class StateRanking implements Common{
 		} 
 	}
 
-	private int cloudIndex, cloud2Index;
-	private int down_cloudIndex, down_cloud2Index;
+	/*private int cloudIndex, cloud2Index;
+	private int down_cloudIndex, down_cloud2Index;*/
 	int x1 = 20, x2 = 550, x3 = 424;
 	private void showRanking(SGraphics g) {
 
-		Image game_bg = Resource.loadImage(Resource.id_game_bg);
+		Image game_bg = Resource.loadImage(Resource.id_rank_bottom);
 		Image achievement_out1 = Resource.loadImage(Resource.id_achievement_out1);//{61,462}
 		Image shop_big = Resource.loadImage(Resource.id_shop_big);//{233,101}
-		//Image achievement_left_right = Resource.loadImage(Resource.id_achievement_left_right);//{457,440}
-		//Image achievement_left_right1 = Resource.loadImage(Resource.id_achievement_left_right1);//{457,440}
 		Image current_ranking=Resource.loadImage(Resource.id_current_ranking);//{253,448}
 		Image ranking_option=Resource.loadImage(Resource.id_ranking_option);//{39,112} Y相差54 
 		Image ranking_option1=Resource.loadImage(Resource.id_ranking_option1);
@@ -97,38 +95,11 @@ public class StateRanking implements Common{
 		Image ranking=Resource.loadImage(Resource.id_ranking);//{232,18}
 		Image ranking_show=Resource.loadImage(Resource.id_ranking_show);//{241,108}
 		Image ranking_word=Resource.loadImage(Resource.id_ranking_word);    
-		//Image slash = Resource.loadImage(Resource.id_slash);
 		
 		/*新添加的云朵元素*/
 		Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
-		Image pass_cloud1 = Resource.loadImage(Resource.id_pass_cloud1);
-		Image pass_cloud2 = Resource.loadImage(Resource.id_pass_cloud2);
-		
 		g.drawImage(game_bg, 0, 0, 20);
 		
-		/*增加的云层*/
-		/*上面第二层云*/
-		int cloud2W = pass_cloud2.getWidth(),cloud2H = pass_cloud2.getHeight();
-		int len = cloud2W-ScrW;
-		int cloud2Y = -6;
-		cloud2Index=(cloud2Index+1)%cloud2W;
-		if(cloud2Index<=len){
-			g.drawRegion(pass_cloud2, len-cloud2Index, 0, ScrW, cloud2H, 0, 0, cloud2Y, 20);
-		}else{
-			g.drawRegion(pass_cloud2, (cloud2W-cloud2Index), 0, ScrW-(cloud2W-cloud2Index), cloud2H, 0, 0, cloud2Y, 20);
-			g.drawRegion(pass_cloud2, 0, 0, (cloud2W-cloud2Index), cloud2H, 0, ScrW-(cloud2W-cloud2Index), cloud2Y, 20);
-		}
-		
-		/*下面第二层云*/
-		int down_cloud2Y = 484;
-		down_cloud2Index=(down_cloud2Index+1)%cloud2W;
-		if(down_cloud2Index<=len){
-			g.drawRegion(pass_cloud2, len-down_cloud2Index, 0, ScrW, cloud2H, 0, 0, down_cloud2Y, 20);
-		}else{
-			g.drawRegion(pass_cloud2, (cloud2W-down_cloud2Index), 0, ScrW-(cloud2W-down_cloud2Index), cloud2H, 0, 0, down_cloud2Y, 20);
-			g.drawRegion(pass_cloud2, 0, 0, (cloud2W-down_cloud2Index), cloud2H, 0, ScrW-(cloud2W-down_cloud2Index), down_cloud2Y, 20);
-		}
-
 		/*中间的云*/
 		int cloudW = pass_cloud.getWidth();
 		if(x1+cloudW<=0){
@@ -149,27 +120,6 @@ public class StateRanking implements Common{
 		g.drawImage(pass_cloud, x1, 152, 20);
 		g.drawImage(pass_cloud, x2, 180, 20);
 		g.drawImage(pass_cloud, x3, 265, 20);
-		
-		/*上面第一层云*/
-		int cloud1W = pass_cloud1.getWidth(),cloud1H = pass_cloud1.getHeight();
-		int cloud1Y = -23;
-		cloudIndex=(cloudIndex+1)%cloud1W;
-		if(cloudIndex<=cloud1W-ScrW){
-			g.drawRegion(pass_cloud1, cloudIndex, 0, ScrW, cloud1H, 0, 0, cloud1Y, 20);
-		}else{
-			g.drawRegion(pass_cloud1, cloudIndex, 0, cloud1W-cloudIndex, cloud1H, 0, 0, cloud1Y, 20);
-			g.drawRegion(pass_cloud1, 0, 0, cloudIndex, cloud1H, 0, cloud1W-cloudIndex, cloud1Y, 20);
-		}
-		
-		/*下面第一层云*/
-		int down_cloud1Y = 496;
-		down_cloudIndex=(down_cloudIndex+1)%cloud1W;
-		if(down_cloudIndex<=cloud1W-ScrW){
-			g.drawRegion(pass_cloud1, down_cloudIndex, 0, ScrW, cloud1H, 0, 0, down_cloud1Y, 20);
-		}else{
-			g.drawRegion(pass_cloud1, down_cloudIndex, 0, cloud1W-down_cloudIndex, cloud1H, 0, 0, down_cloud1Y, 20);
-			g.drawRegion(pass_cloud1, 0, 0, down_cloudIndex, cloud1H, 0, cloud1W-down_cloudIndex, down_cloud1Y, 20);
-		}
 		
 		int  rankLeftX = 39,rankLeftY = 112,rankLeftYSpace = 16;			//rankLeftX 左侧x坐标，rankLeftYSpace 上下间距
 		int rankShadowX = 4,rankShadowY = 4;								//排行阴影效果坐标差

@@ -12,9 +12,9 @@ public class StateMain implements Common{
 	public boolean exit;
 	private StateGame stateGame;
 	private SheepWarGameEngine engine;
-	public StateMain(SheepWarGameEngine engine, StateGame stateGame){
+	public StateMain(SheepWarGameEngine engine){
 		this.engine = engine;
-		this.stateGame = stateGame;
+		this.stateGame = engine.stateGame;
 	}
 	
 	public int menuAxis[][] = { { 523, 243 }, { 466, 288 }, { 523, 333 },
@@ -40,11 +40,31 @@ public class StateMain implements Common{
 	public void show(SGraphics g) {
 		Image main_bg = Resource.loadImage(Resource.id_main_bg);
 		Image main_menu = Resource.loadImage(Resource.id_main_menu);
+		Image main_select_right = Resource.loadImage(Resource.id_main_select_right);
+		Image main_select_left = Resource.loadImage(Resource.id_main_select_left);
+		Image main_select_right_base = Resource.loadImage(Resource.id_main_select_right_base);
+		Image main_select_left_base = Resource.loadImage(Resource.id_main_select_left_base);
 		g.drawImage(main_bg, 0, 0, 0);
 		int sw = main_menu.getWidth() / 2, sh = main_menu.getHeight() / 6;
-		for (int i = 0; i < menuAxis.length; ++i) {
-			g.drawRegion(main_menu,(mainIndex != i) ? sw : 0, i * sh, sw,sh, 0, menuAxis[i][0], menuAxis[i][1], 0);
+		for(int j=0;j<3;j++){	
+			g.drawRegion(main_select_right, 0, 0, main_select_right.getWidth(), 
+					main_select_right.getHeight(), 0, 515, 229+j*90, 20);
+			g.drawRegion(main_select_left, 0, 0, main_select_left.getWidth(), 
+					main_select_left.getHeight(), 0, 446, 280-6+j*90, 20);
+	}
+	
+	for (int i = 0; i < menuAxis.length; ++i) {
+		if(mainIndex == i){
+			if(mainIndex % 2==0){
+				g.drawRegion(main_select_right_base, 0, 0, main_select_right_base.getWidth(), 
+						main_select_right_base.getHeight(), 0, menuAxis[i][0]-8, menuAxis[i][1]-14, 20);
+			}else{
+				g.drawRegion(main_select_left_base, 0, 0, main_select_left_base.getWidth(), 
+						main_select_left_base.getHeight(), 0, menuAxis[i][0]-21, menuAxis[i][1]-14, 20);
+			}
 		}
+		g.drawRegion(main_menu,(mainIndex != i) ? sw : 0, i * sh, sw,sh, 0, menuAxis[i][0], menuAxis[i][1], 0);
+	}
 	}
 	
 	public void execute(){
@@ -73,7 +93,7 @@ public class StateMain implements Common{
 				pt.setText("查询余额失败，原因："+e.getMessage());
 				pt.popup();
 			} 
-			StateShop ss =  new StateShop();
+			StateShop ss =  new StateShop(engine);
 			ss.processShop();
 			
 		} else if (mainIndex == 2){ //成就系统
@@ -90,6 +110,8 @@ public class StateMain implements Common{
 			
 		}else if(mainIndex==5){//退出游戏
 			exit = true;
+			//保存数据
+			engine.saveRecord();
 		} 
 	}
 

@@ -124,6 +124,13 @@ public class Resource implements Common {
 	public static short id_burn = NUMS++;    				
 	public static short id_gloveLeft = NUMS++;    				
 	public static short id_gloveRight = NUMS++;    				
+	public static short id_main_select_right = NUMS++;    				
+	public static short id_main_select_left = NUMS++;    				
+	public static short id_main_select_right_base = NUMS++;    				
+	public static short id_main_select_left_base = NUMS++;     				
+	public static short id_shop_bottom = NUMS++;     				
+	public static short id_achievement_bottom = NUMS++;     				
+	public static short id_rank_bottom = NUMS++;     				
 	
 	
 	public static String[] imagesrcs = {
@@ -236,6 +243,13 @@ public class Resource implements Common {
 		"/burn.png",             
 		"/gloveLeft.png",             
 		"/gloveRight.png",             
+		"/main_select_right.png",             
+		"/main_select_left.png",             
+		"/main_select_right_base.png",             
+		"/main_select_left_base.png",             
+		"/shop_bottom.jpg",             
+		"/achievement_bottom.jpg",             
+		"/ranking_bottom.jpg",             
 		
 	};
 	

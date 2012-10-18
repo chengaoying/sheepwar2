@@ -166,18 +166,15 @@ public class StateGame implements Common{
 		}else if(keyState.containsAndRemove(KeyCode.NUM1)&& own.status ==ROLE_ALIVE){    	//时光闹钟
 				pasueState = true;
 				pasueTimeS = System.currentTimeMillis()/1000;
-				own.scores +=1000;
 				int propId = engine.pm.propIds[0]-53;
 				updateProp(propId);
 		}else if(keyState.containsAndRemove(KeyCode.NUM2)&& own.status ==ROLE_ALIVE){ 		//捕狼网
 				weapon.createNet(own, Weapon.WEAPON_MOVE_LEFT);
-				own.scores +=1000;
 				int propId = engine.pm.propIds[1]-53;
 				updateProp(propId);
 		}else if(keyState.containsAndRemove(KeyCode.NUM3)&& own.status ==ROLE_ALIVE){		//盾牌
 				protectState = true;
 				weapon.createProtect(own);
-				own.scores +=1000;
 				proStartTime = System.currentTimeMillis()/1000;
 				int propId = engine.pm.propIds[2]-53;
 				updateProp(propId);
@@ -191,7 +188,6 @@ public class StateGame implements Common{
 		}else if(keyState.containsAndRemove(KeyCode.NUM5)&& own.status ==ROLE_ALIVE){		//驱散竖琴
 			    harpState = true;
 				weapon.createHarp(own);
-				own.scores +=1000;
 				harpStartTime = System.currentTimeMillis()/1000;
 				int propId = engine.pm.propIds[4]-53;
 				updateProp(propId);
@@ -199,7 +195,6 @@ public class StateGame implements Common{
 				if(!speedFlag){
 					own.speed = own.speed + CreateRole.para[4];
 					speedFlag = true;
-					own.scores +=1000;
 					addSpeedTime = System.currentTimeMillis()/1000;
 					int propId = engine.pm.propIds[5]-53;
 					updateProp(propId);
@@ -208,12 +203,10 @@ public class StateGame implements Common{
 				magnetStartTime = System.currentTimeMillis()/1000;
 				magnetState = true;
 				int propId = engine.pm.propIds[6]-53;
-				own.scores +=1000;
 				updateProp(propId);
 		}else if(keyState.containsAndRemove(KeyCode.NUM8) && own.status ==ROLE_ALIVE){		//木偶->可以增加一条生命
 				own.lifeNum ++;
 				lifeNum = own.lifeNum;
-				own.scores +=1000;					//使用道具增加1000分
 				int propId = engine.pm.propIds[7]-53;
 				updateProp(propId);
 		}else if(keyState.containsAndRemove(KeyCode.NUM9)){		//暂停							
@@ -224,7 +217,7 @@ public class StateGame implements Common{
 			if(index == 0){		//返回游戏
 				
 			}else if(index == 1){
-				StateShop ss =  new StateShop();
+				StateShop ss =  new StateShop(engine);
 				ss.processShop();
 			}else if(index == 2){
 				StateHelp sh = new StateHelp();
@@ -239,20 +232,18 @@ public class StateGame implements Common{
 				//同步道具
 				engine.pm.sysProps();
 				
-				//保存成就
+				//保存数据
 				engine.saveRecord();
 			}
 		}
 	}
 	
 	private void updateProp(int propId){
-		if(!engine.isDebugMode()){
-			/*engine.props[propId].setNums(engine.props[propId].getNums()-1);*/
-			own.useProps++;
-			useProps = own.useProps;
-			own.scores += 1000;  //使用道具加1000分
-			scores = own.scores;
-		}
+		engine.props[propId].setNums(engine.props[propId].getNums()-1);
+		own.useProps++;
+		useProps = own.useProps;
+		own.scores += 1000;  //使用道具加1000分
+		scores = own.scores;
 	}
 	
 	public void show(SGraphics g){
@@ -266,13 +257,7 @@ public class StateGame implements Common{
 		weapon.showBoom(g,own);			
 		weapon.showNet(g);
 		weapon.showProtect(g, own);
-		/*for(int i= batches.npcs.size() -1;i>=0;i--){
-			npc = (Role)batches.npcs.elementAt(i);
-		}*/
 		weapon.showGlare(g, own, batches);
-//		if(glareState){
-//			weapon.showGlareEffect(g, batches);
-//		}
 		weapon.showHarp(g, batches);
 		weapon.showMagnetEffect(g, batches);
 		if(batches.redWolf!=null){
@@ -290,8 +275,6 @@ public class StateGame implements Common{
 				exploder.drawExplode(g, this);
 			}
 		}
-		stateSingleScore.showSingleScore(g, batches,own);		//弹出射中气球（狼）的得分
-		stateSingleScore.showAttackBoom(g, weapon, own);		//弹出射中子弹的得分
 	}
 	
 	public void execute(){
@@ -724,7 +707,6 @@ public class StateGame implements Common{
 				Weapon boom = (Weapon) weapon.booms.elementAt(k);
 				if(Collision.checkSquareCollision(bomb.mapx, bomb.mapy, bomb.width, bomb.height,boom.mapx, boom.mapy, boom.width, boom.height)){
 					hitBoom(boom);
-					System.out.println("weapon的状态"+weapon.status);
 					print();
 					weapon.bombs.removeElement(bomb);
 				}
@@ -928,21 +910,23 @@ public class StateGame implements Common{
 		}
 		
 		/*道具数量*/
-		/*int propX=503, propY=220, spaceY=71, spaceX=67;
+		int propX=503, propY=220, spaceY=71, spaceX=67;
 		for(int j=0;j<4;j++){
 			for(int k=0;k<2;k++){
 				String str = String.valueOf(engine.props[getPropIndex(j, k)].getNums());
 				int color = g.getColor();
-				g.setColor(0x000000);
+				engine.setFont(19, true);
+				g.setColor(0xff0000);
 				g.drawString(str, propX+spaceX*k, propY+spaceY*j, 20);
 				g.setColor(color);
+				engine.setDefaultFont();
 			}
-		}*/
+		}
 		
 		g.drawImage(playing_stop, 500,459, 20);			//暂停游戏按钮
 	}
 	
-	/*private int getPropIndex(int x, int y){
+	private int getPropIndex(int x, int y){
 		if(x==0 && y==0)return 0;
 		if(x==1 && y==0)return 1;
 		if(x==2 && y==0)return 2;
@@ -952,7 +936,7 @@ public class StateGame implements Common{
 		if(x==2 && y==1)return 6;
 		if(x==3 && y==1)return 7;
 		return -1;
-	}*/
+	}
 	
 	private void moveRole(int towards) {
 		switch (towards) {

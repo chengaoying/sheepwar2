@@ -231,10 +231,10 @@ public class Weapon implements Common {
 				g.drawImage(glare, tempx, tempy, 20);
 			}
 			if (w.isUse == true) {
+				w.mapx -= w.speedX;
+				tempx = w.mapx;
+				tempy = w.mapy;
 				if(w.status == NOT_HIT_NPC){
-					w.mapx -= w.speedX;
-					tempx = w.mapx;
-					tempy = w.mapy;
 					w.frame = (w.frame + 1) % 8;
 					w.height = glareEffect.getHeight();
 					if (w.width+w.speedX >= glareEffect.getWidth() / 8) {
@@ -245,7 +245,12 @@ public class Weapon implements Common {
 					w.isUse = false;
 					g.drawRegion(glareEffect, w.frame * glareEffect.getWidth() / 8,
 							0, w.width, glareEffect.getHeight(), 0, tempx, tempy, 20);
+				}else{
+					/*w.frame = (w.frame + 1) % 8;*/
+					g.drawRegion(glareEffect, w.frame *glareEffect.getWidth() / 8,
+							0,glareEffect.getWidth()/8, glareEffect.getHeight(), 0, tempx, tempy, 20);
 				}
+
 			}
 		}
 	}
@@ -396,14 +401,13 @@ public class Weapon implements Common {
 	/*ÏÔÊ¾È­Ì×Éú³É*/
 	public void showGloveCreate(SGraphics g){
 		Image glove = Resource.loadImage(Resource.id_prop_fist);
-		g.drawImage(glove, 374-16, 163, 20);
+		g.drawImage(glove, 374-6, 163, 20);
 	}
 	
 	public void showGloves(SGraphics g,Role player) {			
 		g.setClip(0, 0, gameW, ScrH);
 		Image gloveEffectLeft = Resource.loadImage(Resource.id_gloveLeft);
 		Image gloveEffectRight = Resource.loadImage(Resource.id_gloveRight);
-		//Image gloveEffect = Resource.loadImage(Resource.id_prop_fist_effect);
 		Weapon w = null;
 		int gloveW = gloveEffectRight.getWidth()/4, gloveH = gloveEffectRight.getHeight();
 		for (int i = gloves.size() - 1; i >= 0; i--) {

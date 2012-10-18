@@ -81,7 +81,7 @@ public class PropManager implements Common{
 			PopupConfirm pc = UIResource.getInstance().buildDefaultPopupConfirm();
 			pc.setText("游戏币不足,是否充值");
 			if (pc.popup() == 0) {
-				StateRecharge recharge = new StateRecharge();
+				StateRecharge recharge = new StateRecharge(engine);
 				recharge.recharge();
 			}
 			return false;
