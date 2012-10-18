@@ -210,7 +210,7 @@ public class StateAttainment implements Common{
 	}
 
 	private void clear() {
-    	Resource.freeImage(Resource.id_game_bg);
+    	Resource.freeImage(Resource.id_achievement_bottom);
     	Resource.freeImage(Resource.id_shop_midding);
     	Resource.freeImage(Resource.id_shop_big);
     	Resource.freeImage(Resource.id_shop_go_pay);

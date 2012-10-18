@@ -205,7 +205,7 @@ public class StateRanking implements Common{
 	}
 
 	private void clear() {
-    	Resource.freeImage(Resource.id_game_bg);
+    	Resource.freeImage(Resource.id_rank_bottom);
     	Resource.freeImage(Resource.id_achievement_out1);
     	Resource.freeImage(Resource.id_shop_big);
     	Resource.freeImage(Resource.id_achievement_left_right);
