@@ -70,84 +70,9 @@ public class StateShop implements Common{
 		Image price_quantity = Resource.loadImage(Resource.id_price_quantity);
 		Image shop = Resource.loadImage(Resource.id_shop);//{217,18}
 		Image playing_prop=Resource.loadImage(Resource.id_playing_prop);
-		/*增加的元素*/
-		/*Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
-		Image pass_cloud1 = Resource.loadImage(Resource.id_pass_cloud1);
-		Image pass_cloud2 = Resource.loadImage(Resource.id_pass_cloud2);
-		Image propCloud =  Resource.loadImage(Resource.id_propOfCloud);			//云朵上的道具
-*/		g.setColor(0xffffff);
+		g.setColor(0xffffff);
 		g.drawImage(game_bg, 0, 0, 20);
-		/*增加的云层
-		上面第二层云
-		int cloud2W = pass_cloud2.getWidth(),cloud2H = pass_cloud2.getHeight();
-		int len = cloud2W-ScrW;
-		int cloud2Y = -6;
-		cloud2Index=(cloud2Index+1)%cloud2W;
-		if(cloud2Index<=len){
-			g.drawRegion(pass_cloud2, len-cloud2Index, 0, ScrW, cloud2H, 0, 0, cloud2Y, 20);
-		}else{
-			g.drawRegion(pass_cloud2, (cloud2W-cloud2Index), 0, ScrW-(cloud2W-cloud2Index), cloud2H, 0, 0, cloud2Y, 20);
-			g.drawRegion(pass_cloud2, 0, 0, (cloud2W-cloud2Index), cloud2H, 0, ScrW-(cloud2W-cloud2Index), cloud2Y, 20);
-		}
-		
-		下面第二层云
-		int down_cloud2Y = 484;
-		down_cloud2Index=(down_cloud2Index+1)%cloud2W;
-		if(down_cloud2Index<=len){
-			g.drawRegion(pass_cloud2, len-down_cloud2Index, 0, ScrW, cloud2H, 0, 0, down_cloud2Y, 20);
-		}else{
-			g.drawRegion(pass_cloud2, (cloud2W-down_cloud2Index), 0, ScrW-(cloud2W-down_cloud2Index), cloud2H, 0, 0, down_cloud2Y, 20);
-			g.drawRegion(pass_cloud2, 0, 0, (cloud2W-down_cloud2Index), cloud2H, 0, ScrW-(cloud2W-down_cloud2Index), down_cloud2Y, 20);
-		}
-
-		/*中间的云
-		int cloudW = pass_cloud.getWidth();
-		if(x1+cloudW<=0){
-			x1 = ScrW;
-		}else{
-			x1 -= 1;
-		}
-		if(x2+cloudW<=0){
-			x2 = ScrW;
-		}else{
-			x2 -= 1;
-		}
-		if(x3+cloudW<=0){
-			x3 = ScrW;
-		}else{
-			x3 -= 1;
-		}
-		g.drawImage(pass_cloud, x1, 152, 20);
-		g.drawRegion(propCloud, randCloud_1*propCloud.getWidth()/8,0 , propCloud.getWidth()/8, propCloud.getHeight(), 0,
-				x1+pass_cloud.getWidth()/4, 152-pass_cloud.getHeight()/4, 20);
-		g.drawImage(pass_cloud, x2, 180, 20);
-		g.drawRegion(propCloud, randCloud_2*propCloud.getWidth()/8,0 , propCloud.getWidth()/8, propCloud.getHeight(), 0,
-				x2+pass_cloud.getWidth()/4, 180-pass_cloud.getHeight()/4, 20);
-		g.drawImage(pass_cloud, x3, 265, 20);
-		g.drawRegion(propCloud,randCloud_3*propCloud.getWidth()/8,0 , propCloud.getWidth()/8, propCloud.getHeight(), 0,
-				x3+pass_cloud.getWidth()/4, 265-pass_cloud.getHeight()/4, 20);
-		
-	上面第一层云
-		int cloud1W = pass_cloud1.getWidth(),cloud1H = pass_cloud1.getHeight();
-		int cloud1Y = -23;
-		cloudIndex=(cloudIndex+1)%cloud1W;
-		if(cloudIndex<=cloud1W-ScrW){
-			g.drawRegion(pass_cloud1, cloudIndex, 0, ScrW, cloud1H, 0, 0, cloud1Y, 20);
-		}else{
-			g.drawRegion(pass_cloud1, cloudIndex, 0, cloud1W-cloudIndex, cloud1H, 0, 0, cloud1Y, 20);
-			g.drawRegion(pass_cloud1, 0, 0, cloudIndex, cloud1H, 0, cloud1W-cloudIndex, cloud1Y, 20);
-		}
-		
-		下面第一层云
-		int down_cloud1Y = 496;
-		down_cloudIndex=(down_cloudIndex+1)%cloud1W;
-		if(down_cloudIndex<=cloud1W-ScrW){
-			g.drawRegion(pass_cloud1, down_cloudIndex, 0, ScrW, cloud1H, 0, 0, down_cloud1Y, 20);
-		}else{
-			g.drawRegion(pass_cloud1, down_cloudIndex, 0, cloud1W-down_cloudIndex, cloud1H, 0, 0, down_cloud1Y, 20);
-			g.drawRegion(pass_cloud1, 0, 0, down_cloudIndex, cloud1H, 0, cloud1W-down_cloudIndex, down_cloud1Y, 20);
-		}
-*/		
+	
 		g.drawImage(shop, 161, 18, 20);
 		g.drawImage(shop_big, 29, 103, 20);
 		g.drawImage(shop_balance, 46, 457, 20);
@@ -165,16 +90,14 @@ public class StateShop implements Common{
 		    	 g.drawImage(shop_small_base, x+(spaceX+baseW)*j, y+(spaceY+baseH)*i, 20);
 				if(shopX==j && shopY==i){
 					engine.setFont(30,true);	
-					g.setColor(0xffff00);
+					g.setColor(0x000000);
 					g.drawImage(shop_small, x+(spaceX+smallW)*j, y+(spaceY+smallH)*i, 20);
 					g.drawImage(price_quantity, x+(spaceX+smallW)*j+65, y+(spaceY+smallH)*i+12, 20);
 					g.drawRegion(playing_prop, getPropIndex(i, j)*p_propW, 0, p_propW, p_propH, 0,x+(spaceX+smallW)*j+8, y+(spaceY+smallH)*i+9, 20);
-//					drawNum(g, engine.props[getPropIndex(i, j)].getPrice(), x+(spaceX+smallW)*j+119, y+(spaceY+smallH)*i+11);
 					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getPrice()),
-							x+(spaceX+smallW)*j+119, y+(spaceY+smallH)*i+11, 20);
-//					drawNum(g, engine.props[getPropIndex(i, j)].getNums(), x+(spaceX+smallW)*j+119, y+(spaceY+smallH)*i+36);
+							x+(spaceX+smallW)*j+124, y+(spaceY+smallH)*i+12, 20);
 					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getNums()), 
-							x+(spaceX+smallW)*j+119, y+(spaceY+smallH)*i+36, 20);
+							x+(spaceX+smallW)*j+124, y+(spaceY+smallH)*i+38, 20);
 					g.setColor(0xffffff);
 					engine.setFont(25, true);
 					TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX], 5, 444, 120, 162, 220);
@@ -186,16 +109,14 @@ public class StateShop implements Common{
 				}else{
 					engine.setFont(30,true);
 					int col = g.getColor();
-					g.setColor(0xffff00);
+					g.setColor(0x000000);
 					g.drawImage(shop_small, mapx+(spaceX+smallW)*j, mapy+(spaceY+smallH)*i, 20);
 					g.drawImage(price_quantity, mapx+(spaceX+smallW)*j+65, mapy+(spaceY+smallH)*i+12, 20);
 					g.drawRegion(playing_prop, getPropIndex(i, j)*p_propW, 0, p_propW, p_propH, 0,mapx+(spaceX+smallW)*j+8, mapy+(spaceY+smallH)*i+9, 20);
-//					drawNum(g, engine.props[getPropIndex(i, j)].getPrice(), mapx+(spaceX+smallW)*j+119, mapy+(spaceY+smallH)*i+11);
 					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getPrice()),
-							mapx+(spaceX+smallW)*j+119, mapy+(spaceY+smallH)*i+11, 20);
-//					drawNum(g, engine.props[getPropIndex(i, j)].getNums(), mapx+(spaceX+smallW)*j+119, mapy+(spaceY+smallH)*i+36);
+							mapx+(spaceX+smallW)*j+124, mapy+(spaceY+smallH)*i+12, 20);
 					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getNums()), 
-							mapx+(spaceX+smallW)*j+119, mapy+(spaceY+smallH)*i+36, 20);
+							mapx+(spaceX+smallW)*j+124, mapy+(spaceY+smallH)*i+38, 20);
 					engine.setDefaultFont();
 					g.setColor(col);
 				}
@@ -223,9 +144,9 @@ public class StateShop implements Common{
 		engine.setFont(30, true);
 		g.setColor(0x000000);
 		int colorBalance = g.getColor();
-		g.drawString(String.valueOf(engine.account.getBalance()/10)+engine.amountUnit,110,449+6, 20);//用户余额
-		g.setColor(0xff0000);
-		g.drawString(String.valueOf(engine.account.getBalance()/10)+engine.amountUnit,109,448+6, 20);
+		g.drawString(String.valueOf(engine.account.getBalance()/10)+engine.amountUnit,110,449+9, 20);//用户余额
+		g.setColor(0xffff00);
+		g.drawString(String.valueOf(engine.account.getBalance()/10)+engine.amountUnit,109,448+9, 20);
 		g.setColor(colorBalance);
 		engine.setDefaultFont();
 	}

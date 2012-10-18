@@ -59,7 +59,7 @@ public class StateHelp implements Common{
 		Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
 		Image pass_cloud1 = Resource.loadImage(Resource.id_pass_cloud1);
 		Image pass_cloud2 = Resource.loadImage(Resource.id_pass_cloud2);
-		engine.setFont(25,true);					//设置字体大小
+		engine.setFont(20,true);					//设置字体大小
 		g.drawImage(game_bg, 0, 0, 20);
 		/*增加的云层*/
 		/*上面第二层云*/
@@ -156,7 +156,7 @@ public class StateHelp implements Common{
 		}
 		g.drawImage(game_help, 194,18, 20);
 		g.drawImage(achievement_out1, 17,498, 20);
-		g.setColor(0x000000);
+		g.setColor(0xffffff);
 		TextView.showMultiLineText(g, Resource.gameInfo[helpX], 6,150, 135, 359, 333);	
 		engine.setDefaultFont();
 	}

@@ -7,6 +7,8 @@ import com.zte.iptv.j2me.stbapi.GameData;
 import com.zte.iptv.j2me.stbapi.STBAPI;
 
 import cn.ohyeah.stb.game.GameCanvasEngine;
+import cn.ohyeah.stb.res.UIResource;
+import cn.ohyeah.stb.ui.PopupText;
 import cn.ohyeah.stb.util.ConvertUtil;
 
 /**
@@ -211,6 +213,9 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 
 	private void init() {
 		
+		/*查用户余额*/
+		queryBalance();
+		
 		/*创建道具数组*/
 		pm.initProps(props);
 		
@@ -226,6 +231,18 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		state = STATUS_MAIN_MENU;  
 	}
 	
+	public void queryBalance() {
+		try {
+			account = STBAPI.GetBalance();
+			System.out.println("查询余额");
+		} catch (Exception e) {
+			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+			pt.setText("查询余额失败，原因："+e.getMessage());
+			pt.popup();
+		} 
+	}
+
+
 	private void loadGameRecord(){
 		try	{
 		    GameData  gamedata = STBAPI.LoadGameData(recordId);

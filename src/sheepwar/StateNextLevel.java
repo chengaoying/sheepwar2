@@ -46,7 +46,7 @@ public class StateNextLevel implements Common{
 	int x1 = 20, x2 = 550, x3 = 424;
 	int ballonY = 114, ballon2Y = 336, ballon3Y = 59, ballon4Y = 420, ballon5Y = 560;
 	private void showNextLevel(SGraphics g, Role own) {
-		Image pass_bg = Resource.loadImage(Resource.id_pass_bg);
+		Image pass_bg = Resource.loadImage(Resource.id_game_bg);
 		Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
 		Image pass_cloud1 = Resource.loadImage(Resource.id_pass_cloud1);
 		Image pass_cloud2 = Resource.loadImage(Resource.id_pass_cloud2);
@@ -194,7 +194,7 @@ public class StateNextLevel implements Common{
 
 	private void clear() {
 		Resource.freeImage(Resource.id_logo);
-		Resource.freeImage(Resource.id_pass_bg);
+		Resource.freeImage(Resource.id_game_bg);
 		Resource.freeImage(Resource.id_pass_cloud);
 		Resource.freeImage(Resource.id_pass_cloud1);
 		Resource.freeImage(Resource.id_pass_cloud2);

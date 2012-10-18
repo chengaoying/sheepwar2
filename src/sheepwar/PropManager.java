@@ -66,15 +66,25 @@ public class PropManager implements Common{
 				engine.account = STBAPI.OrderTool("consumecode"+price*10, "购买道具");
 			} catch (Exception e) {
 				pt.setText("购买"+propName+"失败, 原因: "+e.getMessage());
+				pt.popup();
 			} 
 			if (engine.account.getResult()==0) {
 				pt.setText("购买"+propName+"成功");
+				pt.popup();
 			}
 			else {
-				pt.setText("购买"+propName+"失败, 原因: "+getErrorMessage(engine.account.getResult()));
-				
+				if(engine.account.getResult()==2019){ //余额不足，提示进入充值
+					PopupConfirm pc = UIResource.getInstance().buildDefaultPopupConfirm();
+					pc.setText("游戏币不足,是否充值");
+					if (pc.popup() == 0) {
+						StateRecharge recharge = new StateRecharge(engine);
+						recharge.recharge();
+					}
+				}else{
+					pt.setText("购买"+propName+"失败, 原因: "+getErrorMessage(engine.account.getResult()));
+					pt.popup();
+				}
 			}
-			pt.popup();
 			return engine.account.getResult()==0?true:false;
 		}
 		else {
@@ -149,6 +159,7 @@ public class PropManager implements Common{
 				props[7].setNums(props[7].getNums()+1);
 			}
 		}
+		engine.queryBalance(); //购买失败后重新查用户余额
 	}
 	
 

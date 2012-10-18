@@ -164,51 +164,65 @@ public class StateGame implements Common{
 			}
 			
 		}else if(keyState.containsAndRemove(KeyCode.NUM1)&& own.status ==ROLE_ALIVE){    	//时光闹钟
+			int propId = engine.pm.propIds[0]-53;
+			if(engine.props[propId].getNums()>0){
 				pasueState = true;
 				pasueTimeS = System.currentTimeMillis()/1000;
-				int propId = engine.pm.propIds[0]-53;
 				updateProp(propId);
+			}
 		}else if(keyState.containsAndRemove(KeyCode.NUM2)&& own.status ==ROLE_ALIVE){ 		//捕狼网
+			int propId = engine.pm.propIds[1]-53;
+			if(engine.props[propId].getNums()>0){
 				weapon.createNet(own, Weapon.WEAPON_MOVE_LEFT);
-				int propId = engine.pm.propIds[1]-53;
 				updateProp(propId);
+			}
 		}else if(keyState.containsAndRemove(KeyCode.NUM3)&& own.status ==ROLE_ALIVE){		//盾牌
+			int propId = engine.pm.propIds[2]-53;
+			if(engine.props[propId].getNums()>0){
 				protectState = true;
 				weapon.createProtect(own);
 				proStartTime = System.currentTimeMillis()/1000;
-				int propId = engine.pm.propIds[2]-53;
 				updateProp(propId);
+			}
 		}else if(keyState.containsAndRemove(KeyCode.NUM4)&& own.status ==ROLE_ALIVE){		//激光枪
+			int propId = engine.pm.propIds[3]-53;
+			if(engine.props[propId].getNums()>0){
 				weapon.createGlare(own,Weapon.WEAPON_MOVE_LEFT);
 //				glareState = true;
-				int propId = engine.pm.propIds[3]-53;
-				own.scores +=1000;
 				updateProp(propId);
-
+			}
 		}else if(keyState.containsAndRemove(KeyCode.NUM5)&& own.status ==ROLE_ALIVE){		//驱散竖琴
-			    harpState = true;
+			int propId = engine.pm.propIds[4]-53;
+			if(engine.props[propId].getNums()>0){
+				harpState = true;
 				weapon.createHarp(own);
 				harpStartTime = System.currentTimeMillis()/1000;
-				int propId = engine.pm.propIds[4]-53;
 				updateProp(propId);
+			}
 		}else if(keyState.containsAndRemove(KeyCode.NUM6)&& own.status ==ROLE_ALIVE){		//速度提升液
 				if(!speedFlag){
-					own.speed = own.speed + CreateRole.para[4];
-					speedFlag = true;
-					addSpeedTime = System.currentTimeMillis()/1000;
 					int propId = engine.pm.propIds[5]-53;
-					updateProp(propId);
+					if(engine.props[propId].getNums()>0){
+						own.speed = own.speed + CreateRole.para[4];
+						speedFlag = true;
+						addSpeedTime = System.currentTimeMillis()/1000;
+						updateProp(propId);
+					}
 				}
 		}else if(keyState.containsAndRemove(KeyCode.NUM7)&& own.status ==ROLE_ALIVE){		//强力磁石
+			int propId = engine.pm.propIds[6]-53;
+			if(engine.props[propId].getNums()>0){
 				magnetStartTime = System.currentTimeMillis()/1000;
 				magnetState = true;
-				int propId = engine.pm.propIds[6]-53;
 				updateProp(propId);
+			}
 		}else if(keyState.containsAndRemove(KeyCode.NUM8) && own.status ==ROLE_ALIVE){		//木偶->可以增加一条生命
+			int propId = engine.pm.propIds[7]-53;
+			if(engine.props[propId].getNums()>0){
 				own.lifeNum ++;
 				lifeNum = own.lifeNum;
-				int propId = engine.pm.propIds[7]-53;
 				updateProp(propId);
+			}
 		}else if(keyState.containsAndRemove(KeyCode.NUM9)){		//暂停							
 			
 		}else if (keyState.containsAndRemove(KeyCode.NUM0 | KeyCode.BACK)){ 	//返回
@@ -243,7 +257,9 @@ public class StateGame implements Common{
 		own.useProps++;
 		useProps = own.useProps;
 		own.scores += 1000;  //使用道具加1000分
+		own.scores2 = own.scores;
 		scores = own.scores;
+		scores2 = own.scores2;
 	}
 	
 	public void show(SGraphics g){
@@ -275,8 +291,46 @@ public class StateGame implements Common{
 				exploder.drawExplode(g, this);
 			}
 		}
+		
+		//显示道具持续时间
+		showTime(g);
 	}
 	
+	private void showTime(SGraphics g) {
+		
+		engine.setFont(30, true);
+		int col = g.getColor();
+		g.setColor(0xff0000);
+		
+		/*时光闹钟持续时间*/
+		if(pasueState){
+			g.drawString(String.valueOf(pasueInterval-(pasueTimeE-pasueTimeS)), 200, 200, 20);
+		}
+		
+		/*加速效果时间*/
+		if(speedFlag){
+			g.drawString(String.valueOf(speedLiquidInterval-(addSpeedTime2 - addSpeedTime)), 200, 200, 20);
+		}
+		
+		/*防狼套装的时间控制*/
+		if(protectState){
+			g.drawString(String.valueOf(protectInterval-(proEndTime - proStartTime)), 200, 200, 20);
+		}
+		
+		/*驱散竖琴时间间隔控制*/
+		if(harpState){
+			g.drawString(String.valueOf(harpInterval-(harpEndTime - harpStartTime)), 200, 200, 20);
+		}
+		
+		/*强力磁石控制时间*/
+		if(magnetState){
+			g.drawString(String.valueOf((magnetEndTime - magnetStartTime)), 200, 200, 20);
+		}
+		
+		engine.setDefaultFont();
+		g.setColor(col);
+	}
+
 	public void execute(){
 		/*控制子弹发射间隔*/
 		endTime = System.currentTimeMillis()/1000; 
@@ -988,7 +1042,10 @@ public class StateGame implements Common{
 	
 	/*击中子弹要改变的数据 */
 	private void hitBoom(Weapon boom) {
-		scores += boom.scores;
+		own.scores += boom.scores;
+		own.scores2 += boom.scores;
+		scores = own.scores;
+		scores2 = own.scores2;
 		own.hitBooms ++;
 		hitNum = own.hitNum;
 		hitBuble = own.hitBuble;
@@ -1012,7 +1069,7 @@ public class StateGame implements Common{
 		hitRatio = own.hitRatio;
 		if(wolf.role != null){
 			own.scores += wolf.role.scores;
-			own.scores2 += wolf.role.scores2;
+			own.scores2 = own.scores;
 			scores = own.scores;
 			scores2 = own.scores2;
 		}
@@ -1021,6 +1078,7 @@ public class StateGame implements Common{
 	
 	public void printInfo(){
 		System.out.println("scores:"+scores);
+		System.out.println("scores2:"+scores2);
 		System.out.println("hitTotalNum:"+hitTotalNum);
 		System.out.println("hitBooms:"+hitBooms);
 		System.out.println("useProps:"+useProps);

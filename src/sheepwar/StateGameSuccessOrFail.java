@@ -47,7 +47,7 @@ public class StateGameSuccessOrFail implements Common{
 	int x1 = 20, x2 = 550, x3 = 424;
 	int ballonY = 114, ballon2Y = 336, ballon3Y = 59, ballon4Y = 420, ballon5Y = 560;
 	private void showGameSuccessOrFail(SGraphics g, boolean isSuccess, Role own) {
-		Image pass_bg = Resource.loadImage(Resource.id_pass_bg);
+		Image pass_bg = Resource.loadImage(Resource.id_game_bg);
 		Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
 		Image pass_cloud1 = Resource.loadImage(Resource.id_pass_cloud1);
 		Image pass_cloud2 = Resource.loadImage(Resource.id_pass_cloud2);
@@ -118,11 +118,17 @@ public class StateGameSuccessOrFail implements Common{
 		for(int i=0;i<3;i++){
 			g.drawImage(pass_star2, 125+(i*space), 130, 20);
 		}
+		
 		/*亮星星（根据积分确定星星个数）*/
-		g.drawImage(pass_star, 125, 130, 20);
+		if(isSuccess){
+			g.drawImage(pass_star, 125, 130, 20);
+		}
+		
 		/*积分*/
-		g.drawImage(pass_score, 242, 286, 20);
-		drawNum(g, own.scores, 242, 332);
+		g.drawImage(pass_score, 185, 286, 20);
+		drawNum(g, StateGame.scores, 200+pass_score.getWidth(), 286);
+		g.drawImage(pass_score, 185, 332, 20);
+		drawNum(g, StateGame.scores2, 200+pass_score.getWidth(), 332);
 		
 		/*彩虹*/
 		g.drawImage(pass_rainbow, 395, 258, 20);
@@ -205,7 +211,7 @@ public class StateGameSuccessOrFail implements Common{
 
 	private void clear() {
 		Resource.freeImage(Resource.id_logo);
-		Resource.freeImage(Resource.id_pass_bg);
+		Resource.freeImage(Resource.id_game_bg);
 		Resource.freeImage(Resource.id_pass_cloud);
 		Resource.freeImage(Resource.id_pass_cloud1);
 		Resource.freeImage(Resource.id_pass_cloud2);
