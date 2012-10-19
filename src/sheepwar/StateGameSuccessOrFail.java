@@ -63,6 +63,7 @@ public class StateGameSuccessOrFail implements Common{
 		Image green = Resource.loadImage(Resource.id_balloon_green);
 		Image game_result = Resource.loadImage(Resource.id_game_result);
 		Image game_return = Resource.loadImage(Resource.id_game_return);
+		Image return_bg = Resource.loadImage(Resource.id_achievement_left);
 		g.drawImage(pass_bg, 0, 0, 20);
 		
 		/*上面第二层云*/
@@ -125,9 +126,9 @@ public class StateGameSuccessOrFail implements Common{
 		}
 		
 		/*积分*/
-		g.drawImage(pass_score, 135, 286, 20);
-		drawNum(g, StateGame.scores, 170+pass_score.getWidth(), 288);
-		drawNum(g, StateGame.scores2, 170+pass_score.getWidth(), 330);
+		g.drawImage(pass_score, 155, 286, 20);
+		drawNum(g, StateGame.scores2, 180+pass_score.getWidth(), 288);
+		drawNum(g, StateGame.scores, 180+pass_score.getWidth(), 330);
 		
 		/*彩虹*/
 		g.drawImage(pass_rainbow, 395, 258, 20);
@@ -190,7 +191,11 @@ public class StateGameSuccessOrFail implements Common{
 		g.drawImage(logo, 6, 2, 20);
 		
 		/*return*/
-		g.drawRegion(game_return, game_return.getWidth()/2, 0, game_return.getWidth()/2, game_return.getHeight(), 0, 570, 460, 20);
+		int bgX = SheepWarGameEngine.ScrW/2-return_bg.getWidth()/2, bgY = 390;
+		int gameW = game_return.getWidth(), gameH = game_return.getHeight()/2;
+		int gameX = SheepWarGameEngine.ScrW/2-gameW/2;
+		g.drawImage(return_bg, bgX, bgY, 20);
+		g.drawRegion(game_return, 0, gameH, gameW, gameH, 0, gameX, 398, 20);
 	}
 	
 	private void drawNum(SGraphics g, int num, int x, int y){

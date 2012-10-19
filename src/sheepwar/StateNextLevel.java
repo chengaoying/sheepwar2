@@ -13,11 +13,34 @@ public class StateNextLevel implements Common{
 	private int cloudIndex, cloud2Index;
 	private int down_cloudIndex, down_cloud2Index;
 	
+	private int starNum;
+	private int[][] starJudge ={					
+			{6400,12800,19200},
+			{7200,14400,21600},
+			{8000,16000,24000},
+			{8800,17600,26400},
+			{9600,19200,28800},
+			{10400,20800,31200},
+			{11200,22400,33600},
+			{12000,24000,36000},
+			{12800,25600,38400},
+			{13600,27200,40800},
+			{14400,28800,43200},
+			{15200,30400,45600},
+			{16000,32000,48000},
+			{16800,33600,50400},
+			{17600,35200,52800},
+	};
+	
 	public void processNextLevel(Role own){
 		running = true;
 		try {
 			KeyState keyState = engine.getKeyState();
 			SGraphics g = engine.getSGraphics();
+			
+			/*星星等级*/
+			judeStar(own);
+			
 			while (running) {
 				handleNextLevel(keyState);
 				if (running) {
@@ -43,6 +66,22 @@ public class StateNextLevel implements Common{
 		
 	}
 	
+	private void judeStar(Role own){
+		/*根据当前关数与星级标准进行判断画几颗星星*/
+		for(int i= 1;i<starJudge[StateGame.level-1].length;i++){	//关数
+			if(own.scores2 >= starJudge[i][2]){
+				starNum = 3;
+			}else if(own.scores2 <starJudge[i][2] && (own.scores2 >= starJudge[i][1])){
+				starNum = 2;
+			}else if(own.scores2 <starJudge[i][1] && own.scores2 >= starJudge[i][0]){
+				starNum = 1;
+			}else{
+				starNum = 0;
+			}
+		}
+
+	}
+	
 	int x1 = 20, x2 = 550, x3 = 424;
 	int ballonY = 114, ballon2Y = 336, ballon3Y = 59, ballon4Y = 420, ballon5Y = 560;
 	private void showNextLevel(SGraphics g, Role own) {
@@ -60,6 +99,8 @@ public class StateNextLevel implements Common{
 		Image multi = Resource.loadImage(Resource.id_balloon_multicolour);
 		Image red = Resource.loadImage(Resource.id_balloon_red);
 		Image green = Resource.loadImage(Resource.id_balloon_green);
+		Image game_return = Resource.loadImage(Resource.id_game_return);
+		Image return_bg = Resource.loadImage(Resource.id_achievement_left);
 		g.drawImage(pass_bg, 0, 0, 20);
 		
 		/*上面第二层云*/
@@ -111,12 +152,16 @@ public class StateNextLevel implements Common{
 			g.drawImage(pass_star2, 125+(i*space), 130, 20);
 		}
 		/*亮星星（根据积分确定星星个数）*/
-			g.drawImage(pass_star, 125, 130, 20);
+		if(starNum > 0){
+			for(int i=0;i<starNum;i++){
+				g.drawImage(pass_star, 125+(i*space), 130, 20);			
+			}
+		}
 		
 		/*积分*/
-		g.drawImage(pass_score, 135, 286, 20);
-		drawNum(g, StateGame.scores, 170+pass_score.getWidth(), 288);
-		drawNum(g, StateGame.scores2, 170+pass_score.getWidth(), 330);
+		g.drawImage(pass_score, 155, 286, 20);
+		drawNum(g, StateGame.scores2, 180+pass_score.getWidth(), 288);
+		drawNum(g, StateGame.scores, 180+pass_score.getWidth(), 330);
 		
 		/*彩虹*/
 		g.drawImage(pass_rainbow, 395, 258, 20);
@@ -177,6 +222,11 @@ public class StateNextLevel implements Common{
 		
 		/*logo*/
 		g.drawImage(logo, 6, 2, 20);
+		int bgX = SheepWarGameEngine.ScrW/2-return_bg.getWidth()/2, bgY = 390;
+		int gameW = game_return.getWidth(), gameH = game_return.getHeight()/2;
+		int gameX = SheepWarGameEngine.ScrW/2-gameW/2;
+		g.drawImage(return_bg, bgX, bgY, 20);
+		g.drawRegion(game_return, 0, 0, gameW, gameH, 0, gameX, 398, 20);
 	}
 	
 	private void drawNum(SGraphics g, int num, int x, int y){
@@ -196,6 +246,7 @@ public class StateNextLevel implements Common{
 
 	private void clear() {
 		Resource.freeImage(Resource.id_logo);
+		Resource.freeImage(Resource.id_game_return);
 		Resource.freeImage(Resource.id_game_bg);
 		Resource.freeImage(Resource.id_pass_cloud);
 		Resource.freeImage(Resource.id_pass_cloud1);

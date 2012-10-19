@@ -11,6 +11,7 @@ import cn.ohyeah.stb.util.RandomValue;
 public class StateGame implements Common{
 	
 	public static Exploder[] exploders = new Exploder[12];
+	public static ShowScore[] ss = new ShowScore[12];
 //	public SGraphics g ;
 	
 	/*从下往上判断四个梯子上是否有狼，从右到左*/
@@ -32,11 +33,11 @@ public class StateGame implements Common{
 	public CreateRole createRole;
 	public Batches batches;
 	public Weapon weapon;
-	public static Role own; 		
-	public StateSingleScore stateSingleScore;
+	public static Role own; 
+	public ShowScore singSocre;
 	
 	public static Role npc;
-	private int eIndex;
+	private int eIndex, sIndex;
 
 	/*游戏关卡*/
 	public static short level = 1; 
@@ -282,7 +283,7 @@ public class StateGame implements Common{
 		own.useProps++;
 		useProps = own.useProps;
 		own.scores += 1000;  //使用道具加1000分
-		own.scores2 = own.scores;
+		own.scores2 += 1000;
 		scores = own.scores;
 		scores2 = own.scores2;
 	}
@@ -317,6 +318,14 @@ public class StateGame implements Common{
 			}
 		}
 		
+		ShowScore s = null;
+		for(int i=0;i<ss.length;i++){
+			if(ss[i] != null){
+				s = ss[i];
+				s.showScore(engine, g, s.score);
+			}
+		}
+		
 		//显示道具持续时间
 		showTime(g);
 	}
@@ -341,16 +350,6 @@ public class StateGame implements Common{
 		/*防狼套装的时间控制*/
 		if(protectState){
 			g.drawString(String.valueOf(protectInterval-(proEndTime - proStartTime)), mapx, mapy, 20);
-		}else
-		
-		/*驱散竖琴时间间隔控制*/
-		if(harpState){
-			g.drawString(String.valueOf(harpInterval-(harpEndTime - harpStartTime)), mapx, mapy, 20);
-		}else
-		
-		/*强力磁石控制时间*/
-		if(magnetState){
-			g.drawString(String.valueOf((magnetEndTime - magnetStartTime)), mapx, mapy, 20);
 		}
 		
 		engine.setDefaultFont();
@@ -446,6 +445,20 @@ public class StateGame implements Common{
 		/*判断游戏成功或失败*/
 		gameSuccessOrFail();
 		gameOver();
+		
+		/*玩家死亡逃脱的狼全部移除*/
+		removeSuccessWolf();
+	}
+
+	private void removeSuccessWolf() {
+		if(own!=null && own.status == ROLE_DEATH){
+			for(int j=batches.npcs.size()-1;j>=0;j--){
+				Role npc = (Role) batches.npcs.elementAt(j);
+				if(npc.status == ROLE_SUCCESS){
+					batches.npcs.removeElement(npc);
+				}
+			}
+		}
 	}
 
 	private void checkFourPosition() {
@@ -517,9 +530,9 @@ public class StateGame implements Common{
 		if(isNextLevel==true && gameBufferTimeE-gameBufferTimeS>1){
 			isNextLevel = false;
 			isReward = false;
-			initDataNextLevel();	//清空数据
 			StateNextLevel stateLevel = new StateNextLevel();
 			stateLevel.processNextLevel(own);
+			initDataNextLevel();	//清空数据
 		}
 	}
 	
@@ -547,10 +560,10 @@ public class StateGame implements Common{
 		//System.out.println("gameBufferTimeE-gameBufferTimeS="+(gameBufferTimeE-gameBufferTimeS));
 		if(isGameOver && gameBufferTimeE-gameBufferTimeS>1){
 			isGameOver=false;
-			initDataGameOver();  //清空数据
 			StateGameSuccessOrFail sgs = new StateGameSuccessOrFail();
 			sgs.processGameSuccessOrFail(isSuccess, own);
 			engine.state = STATUS_MAIN_MENU;
+			initDataGameOver();  //清空数据
 			clear();
 		}
 	}
@@ -604,9 +617,9 @@ public class StateGame implements Common{
 				for(int j=batches.npcs.size()-1;j>=0;j--){
 					Role npc = (Role) batches.npcs.elementAt(j);
 					if(npc.status == ROLE_ALIVE ){
-						//System.out.println("碰撞时激光的宽度："+glare.width);
+						//System.out.println("激光的宽度："+glare.width);
 						if(Collision.checkSquareCollision(npc.mapx, npc.mapy, npc.width, npc.height, 
-								glare.mapx, glare.mapy, glare.width, glare.height)&& npc.status2 == ROLE_IN_AIR /*&& npc.status == ROLE_IN_AIRglareState == true*/){
+								glare.mapx, glare.mapy, glare.width, glare.height)&& npc.status2 == ROLE_IN_AIR ){
 							Exploder exploder = new Exploder(npc.mapx,npc.mapy);
 							exploders[eIndex] = exploder;
 							if(eIndex < exploders.length-1){
@@ -616,10 +629,7 @@ public class StateGame implements Common{
 							}
 							batches.npcs.removeElementAt(j);
 							hitWolf(npc);
-							glare.status = HIT_NPC;
 							print();
-						}else{
-							glare.status = NOT_HIT_NPC;
 						}
 					}
 				}
@@ -629,6 +639,7 @@ public class StateGame implements Common{
 					Weapon boom = (Weapon) weapon.booms.elementAt(k);
 					if(Collision.checkSquareCollision(boom.mapx, boom.mapy, boom.width, boom.height,glare.mapx, glare.mapy, glare.width, glare.height)){
 						hitBoom(boom);
+						weapon.booms.removeElement(boom);
 						print();
 					}
 				}
@@ -638,6 +649,7 @@ public class StateGame implements Common{
 					Weapon fruit = (Weapon) weapon.fruits.elementAt(k);
 					if(Collision.checkSquareCollision(fruit.mapx, fruit.mapy, fruit.width, fruit.height,glare.mapx, glare.mapy, glare.width, glare.height)){
 						hitFruit(fruit);
+						weapon.fruits.removeElement(fruit);
 						print();
 					}
 				}
@@ -1048,7 +1060,7 @@ public class StateGame implements Common{
 				String str = String.valueOf(engine.props[getPropIndex(j, k)].getNums());
 				int color = g.getColor();
 				engine.setFont(19, true);
-				g.setColor(0xffff00);
+				g.setColor(0x000000);
 				g.drawString(str, propX+spaceX*k, propY+spaceY*j, 20);
 				g.setColor(color);
 				engine.setDefaultFont();
@@ -1115,6 +1127,14 @@ public class StateGame implements Common{
 		hitFruits = own.hitFruits;
 		hitRatio = own.hitRatio;
 		fruit.status = FRUIT_HIT;
+		ShowScore s = new ShowScore(fruit.mapx,fruit.mapy);
+		s.score = fruit.scores;
+		ss[sIndex] = s;
+		if(sIndex < ss.length-1){
+			sIndex ++;
+		}else{
+			sIndex=0;
+		}
 		printInfo();
 	}
 	
@@ -1130,11 +1150,19 @@ public class StateGame implements Common{
 		hitRatio = own.hitRatio;
 		hitBooms = own.hitBooms;
 		boom.status = BOOM_HIT;
+		ShowScore s = new ShowScore(boom.mapx,boom.mapy);
+		s.score = boom.scores;
+		ss[sIndex] = s;
+		if(sIndex < ss.length-1){
+			sIndex ++;
+		}else{
+			sIndex=0;
+		}
 		printInfo();
 	}
 	
 	/*击中狼所要该变的数据*/
-	private void hitWolf(Role wolf){
+	public void hitWolf(Role wolf){
 		wolf.status = ROLE_DEATH;	
 		wolf.speed += 10;
 		own.hitNum++;
@@ -1147,9 +1175,17 @@ public class StateGame implements Common{
 		hitRatio = own.hitRatio;
 		if(wolf.role != null){
 			own.scores += wolf.role.scores;
-			own.scores2 = own.scores;
+			own.scores2 += wolf.role.scores;
 			scores = own.scores;
 			scores2 = own.scores2;
+		}
+		ShowScore s = new ShowScore(wolf.mapx,wolf.mapy);
+		s.score = wolf.scores;
+		ss[sIndex] = s;
+		if(sIndex < ss.length-1){
+			sIndex ++;
+		}else{
+			sIndex=0;
 		}
 		printInfo();
 	}
@@ -1166,6 +1202,7 @@ public class StateGame implements Common{
 	
 	/*过关要清楚的据*/
 	private void initDataNextLevel(){
+		scores2 = own.scores2 = 0;
 		batch = 0;
 		HASWOLF_ONE = false;
 		HASWOLF_TWO = false;

@@ -22,7 +22,7 @@ public class Batches implements Common{
 	public Vector npcs = new Vector();   
 	public Role redWolf;
 	private int[] coors = {60,110,160,210}; 					 //狼下落点的横坐标
-	private int[] coorY = {246,196,246,296,346,396,296,396};  	 //狼发射子弹的Y坐标
+	private int[] coorY = {245,195,245,295,345,395,295,395};  	 //狼发射子弹的Y坐标
 	private long startTime,endTime;
 
 	/* 气球属性 */
@@ -61,7 +61,7 @@ public class Batches implements Common{
 			wolf.scores = bublePara[2];
 			wolf.colorId = BatchesInfo[level-1][batch][1];
 			if(wolf.position2 == WOLF_POSITION_TOP){
-				wolf.mapy = 26;
+				wolf.mapy = 25;
 			}else{
 				wolf.mapy = 460;
 			}

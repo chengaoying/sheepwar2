@@ -219,39 +219,24 @@ public class Weapon implements Common {
 	public void showGlare(SGraphics g,Role player,Batches batches) {
 		Image glare = Resource.loadImage(Resource.id_prop_4);
 		Image glareEffect = Resource.loadImage(Resource.id_prop_4_effect);
-//		Image burnEffect = Resource.loadImage(Resource.id_burn);
 		Weapon w = null;
-		int tempx = 0,tempy = 0;
-		for(int i = glares.size() - 1;i >= 0;i --){
-			w = (Weapon)glares.elementAt(i);
-			if( w.isUse == false){
-				tempy = player.mapy + 50 - 20;
-				tempx = player.mapx - 34 + 5;
-				w.isUse = true;
-				g.drawImage(glare, tempx, tempy, 20);
+		int tempx = 0,tempy = 0, glareW = glareEffect.getWidth() / 8, glareH = glareEffect.getHeight();
+		for (int i = glares.size() - 1; i >= 0; i--) {
+			w = (Weapon) glares.elementAt(i);
+			tempy = player.mapy + 50 - 20;
+			tempx = player.mapx - 34 + 5;
+			g.drawImage(glare, tempx, tempy, 20);
+			w.mapx -= w.speedX;
+			tempx = w.mapx;
+			tempy = w.mapy;
+			w.frame = (w.frame + 1) % 8;
+			w.height = glareEffect.getHeight();
+			if (w.width + w.speedX >= glareW) {
+				w.width = glareW;
+			} else {
+				w.width += w.speedX;
 			}
-			if (w.isUse == true) {
-				w.mapx -= w.speedX;
-				tempx = w.mapx;
-				tempy = w.mapy;
-				if(w.status == NOT_HIT_NPC){
-					w.frame = (w.frame + 1) % 8;
-					w.height = glareEffect.getHeight();
-					if (w.width+w.speedX >= glareEffect.getWidth() / 8) {
-						w.width = glareEffect.getWidth() / 8;
-					} else {
-						w.width += w.speedX;
-					}
-					w.isUse = false;
-					g.drawRegion(glareEffect, w.frame * glareEffect.getWidth() / 8,
-							0, w.width, glareEffect.getHeight(), 0, tempx, tempy, 20);
-				}else{
-					/*w.frame = (w.frame + 1) % 8;*/
-					g.drawRegion(glareEffect, w.frame *glareEffect.getWidth() / 8,
-							0,glareEffect.getWidth()/8, glareEffect.getHeight(), 0, tempx, tempy, 20);
-				}
-
-			}
+			g.drawRegion(glareEffect, w.frame * glareW, 0, w.width, glareH, 0, tempx, tempy, 20);
 		}
 	}
 	
@@ -299,7 +284,7 @@ public class Weapon implements Common {
 						batches.npcs.removeElement(npc);
 					}
 					g.drawRegion(harpEffect, w.frame*harpEffect.getWidth()/5, 0, harpEffect.getWidth()/5, harpEffect.getHeight(), 
-							0, 444, 156, 20);
+							0, 425, 55, 20);
 				}
 			}
 		}
@@ -321,7 +306,7 @@ public class Weapon implements Common {
 				npc.frame = (npc.frame+1)%2;
 				g.drawRegion(magnetEffect, npc.frame*magnetEffect.getWidth()/2, 0, magnetEffect.getWidth()/2, magnetEffect.getHeight(), 
 						0, npc.mapx, npc.mapy, 20);
-				npc.status = ROLE_DEATH;
+				stateGame.hitWolf(npc);
 				batches.npcs.removeElement(npc);
 			}
 		}
