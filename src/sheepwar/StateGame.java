@@ -43,10 +43,13 @@ public class StateGame implements Common{
 	/*奖励关卡*/
 	public short rewardLevel = 1;
 	
-	public boolean isRewardLevel/*, isReward*/;
+	public boolean isRewardLevel, isReward;
 	
 	/*当前关卡狼出现的批次*/
 	public short batch;
+	
+	/*奖励关卡被攻击时失败标记 true为被攻击，false没被攻击*/
+	public boolean rewardLevelFail;
 	
 	/*关卡信息*/
 	public static int[][] LEVEL_INFO = {
@@ -137,6 +140,11 @@ public class StateGame implements Common{
 	public static int attainment;	//成就数
 	
 	public static int scores3;		//成就中的积分
+	public static int level2;		//成就中的关卡
+	public static int useProps2;	//成就中使用的道具数
+	public static int hitFruits2;	//成就中击中的水果数
+	public static int hitTotalNum2;	//成就中击中狼的总数
+	public static int hitBooms2;	//成就中击中子弹数
 	
 	private int tempx=ScrW, tempy=20, tempx2=ScrW, tempy2=30, sWidth, sTempy;
 	
@@ -165,63 +173,79 @@ public class StateGame implements Common{
 			
 		}else if(keyState.containsAndRemove(KeyCode.NUM1)&& own.status ==ROLE_ALIVE){    	//时光闹钟
 			int propId = engine.pm.propIds[0]-53;
-			if(engine.props[propId].getNums()>0){
+			if(engine.props[propId].getNums()>0 || engine.isDebugMode()){
 				pasueState = true;
 				pasueTimeS = System.currentTimeMillis()/1000;
-				updateProp(propId);
+				if(!engine.isDebugMode()){
+					updateProp(propId);
+				}
 			}
-		}else if(keyState.containsAndRemove(KeyCode.NUM2)&& own.status ==ROLE_ALIVE){ 		//捕狼网
+		}else if(keyState.containsAndRemove(KeyCode.NUM3)&& own.status ==ROLE_ALIVE){ 		//捕狼网
 			int propId = engine.pm.propIds[1]-53;
-			if(engine.props[propId].getNums()>0){
+			if(engine.props[propId].getNums()>0 || engine.isDebugMode()){
 				weapon.createNet(own, Weapon.WEAPON_MOVE_LEFT);
-				updateProp(propId);
+				if(!engine.isDebugMode()){
+					updateProp(propId);
+				}
 			}
-		}else if(keyState.containsAndRemove(KeyCode.NUM3)&& own.status ==ROLE_ALIVE){		//盾牌
+		}else if(keyState.containsAndRemove(KeyCode.NUM5)&& own.status ==ROLE_ALIVE){		//盾牌
 			int propId = engine.pm.propIds[2]-53;
-			if(engine.props[propId].getNums()>0){
+			if(engine.props[propId].getNums()>0 || engine.isDebugMode()){
 				protectState = true;
 				weapon.createProtect(own);
 				proStartTime = System.currentTimeMillis()/1000;
-				updateProp(propId);
+				if(!engine.isDebugMode()){
+					updateProp(propId);
+				}
 			}
-		}else if(keyState.containsAndRemove(KeyCode.NUM4)&& own.status ==ROLE_ALIVE){		//激光枪
+		}else if(keyState.containsAndRemove(KeyCode.NUM7)&& own.status ==ROLE_ALIVE){		//激光枪
 			int propId = engine.pm.propIds[3]-53;
-			if(engine.props[propId].getNums()>0){
+			if(engine.props[propId].getNums()>0 || engine.isDebugMode()){
 				weapon.createGlare(own,Weapon.WEAPON_MOVE_LEFT);
 //				glareState = true;
-				updateProp(propId);
+				if(!engine.isDebugMode()){
+					updateProp(propId);
+				}
 			}
-		}else if(keyState.containsAndRemove(KeyCode.NUM5)&& own.status ==ROLE_ALIVE){		//驱散竖琴
+		}else if(keyState.containsAndRemove(KeyCode.NUM2)&& own.status ==ROLE_ALIVE){		//驱散竖琴
 			int propId = engine.pm.propIds[4]-53;
-			if(engine.props[propId].getNums()>0){
+			if(engine.props[propId].getNums()>0 || engine.isDebugMode()){
 				harpState = true;
 				weapon.createHarp(own);
 				harpStartTime = System.currentTimeMillis()/1000;
-				updateProp(propId);
+				if(!engine.isDebugMode()){
+					updateProp(propId);
+				}
 			}
-		}else if(keyState.containsAndRemove(KeyCode.NUM6)&& own.status ==ROLE_ALIVE){		//速度提升液
+		}else if(keyState.containsAndRemove(KeyCode.NUM4)&& own.status ==ROLE_ALIVE){		//速度提升液
 				if(!speedFlag){
 					int propId = engine.pm.propIds[5]-53;
-					if(engine.props[propId].getNums()>0){
+					if(engine.props[propId].getNums()>0 || engine.isDebugMode()){
 						own.speed = own.speed + CreateRole.para[4];
 						speedFlag = true;
 						addSpeedTime = System.currentTimeMillis()/1000;
-						updateProp(propId);
+						if(!engine.isDebugMode()){
+							updateProp(propId);
+						}
 					}
 				}
-		}else if(keyState.containsAndRemove(KeyCode.NUM7)&& own.status ==ROLE_ALIVE){		//强力磁石
+		}else if(keyState.containsAndRemove(KeyCode.NUM6)&& own.status ==ROLE_ALIVE){		//强力磁石
 			int propId = engine.pm.propIds[6]-53;
-			if(engine.props[propId].getNums()>0){
+			if(engine.props[propId].getNums()>0 || engine.isDebugMode()){
 				magnetStartTime = System.currentTimeMillis()/1000;
 				magnetState = true;
-				updateProp(propId);
+				if(!engine.isDebugMode()){
+					updateProp(propId);
+				}
 			}
 		}else if(keyState.containsAndRemove(KeyCode.NUM8) && own.status ==ROLE_ALIVE){		//木偶->可以增加一条生命
 			int propId = engine.pm.propIds[7]-53;
-			if(engine.props[propId].getNums()>0){
+			if(engine.props[propId].getNums()>0 || engine.isDebugMode()){
 				own.lifeNum ++;
 				lifeNum = own.lifeNum;
-				updateProp(propId);
+				if(!engine.isDebugMode()){
+					updateProp(propId);
+				}
 			}
 		}else if(keyState.containsAndRemove(KeyCode.NUM9)){		//暂停							
 			
@@ -231,15 +255,13 @@ public class StateGame implements Common{
 			if(index == 0){		//返回游戏
 				
 			}else if(index == 1){
+				engine.queryBalance();
 				StateShop ss =  new StateShop(engine);
 				ss.processShop();
 			}else if(index == 2){
 				StateHelp sh = new StateHelp();
 				sh.processHelp();
 			}else if(index == 3){
-				engine.state = STATUS_MAIN_MENU;
-				clear();
-				initDataGameOver();
 				System.out.println("退出游戏");
 				printInfo();
 				
@@ -248,6 +270,9 @@ public class StateGame implements Common{
 				
 				//保存数据
 				engine.saveRecord();
+				initDataGameOver();
+				engine.state = STATUS_MAIN_MENU;
+				clear();
 			}
 		}
 	}
@@ -279,9 +304,9 @@ public class StateGame implements Common{
 		if(batches.redWolf!=null){
 			batches.showRedWolf(g,weapon);				
 		}
-		if(isShowGlove){
-			weapon.showGloveCreate(g);
-		}
+		//if(isShowGlove){
+			weapon.showGloveCreate(g, own);
+		//}
 		weapon.showGloves(g, own);
 		
 		Exploder exploder = null;
@@ -302,29 +327,30 @@ public class StateGame implements Common{
 		int col = g.getColor();
 		g.setColor(0xff0000);
 		
+		int mapx = 250, mapy = 15;
 		/*时光闹钟持续时间*/
 		if(pasueState){
-			g.drawString(String.valueOf(pasueInterval-(pasueTimeE-pasueTimeS)), 200, 200, 20);
-		}
+			g.drawString(String.valueOf(pasueInterval-(pasueTimeE-pasueTimeS)), mapx, mapy, 20);
+		}else
 		
 		/*加速效果时间*/
 		if(speedFlag){
-			g.drawString(String.valueOf(speedLiquidInterval-(addSpeedTime2 - addSpeedTime)), 200, 200, 20);
-		}
+			g.drawString(String.valueOf(speedLiquidInterval-(addSpeedTime2 - addSpeedTime)), mapx, mapy, 20);
+		}else
 		
 		/*防狼套装的时间控制*/
 		if(protectState){
-			g.drawString(String.valueOf(protectInterval-(proEndTime - proStartTime)), 200, 200, 20);
-		}
+			g.drawString(String.valueOf(protectInterval-(proEndTime - proStartTime)), mapx, mapy, 20);
+		}else
 		
 		/*驱散竖琴时间间隔控制*/
 		if(harpState){
-			g.drawString(String.valueOf(harpInterval-(harpEndTime - harpStartTime)), 200, 200, 20);
-		}
+			g.drawString(String.valueOf(harpInterval-(harpEndTime - harpStartTime)), mapx, mapy, 20);
+		}else
 		
 		/*强力磁石控制时间*/
 		if(magnetState){
-			g.drawString(String.valueOf((magnetEndTime - magnetStartTime)), 200, 200, 20);
+			g.drawString(String.valueOf((magnetEndTime - magnetStartTime)), mapx, mapy, 20);
 		}
 		
 		engine.setDefaultFont();
@@ -425,9 +451,13 @@ public class StateGame implements Common{
 	private void checkFourPosition() {
 		if(IS_FOUR_WOLF){
 			IS_FOUR_WOLF = false;
-			own.status = ROLE_DEATH;
-			own.lifeNum --;
-			lifeNum = own.lifeNum;
+			if(isRewardLevel){
+				rewardLevelFail = true;
+			}else{
+				own.status = ROLE_DEATH;
+				own.lifeNum --;
+				lifeNum = own.lifeNum;
+			}
 			System.out.println("生命数减一");
 			for(int j = batches.npcs.size() - 1;j>=0;j--){
 				Role npc = (Role)batches.npcs.elementAt(j);
@@ -464,10 +494,12 @@ public class StateGame implements Common{
 			}else{	//奖励关卡过关判断
 				if((rewardLevel%2==1 && batch >= (RewardLevelBatchesInfo[rewardLevel-1].length - 1))
 						||(rewardLevel%2==0 && batches.redWolf.bombNum>=16) 
-						|| (engine.isDebugMode() && (batch>1 || (rewardLevel%2==0 && batches.redWolf.bombNum>1)))){
+						|| (engine.isDebugMode() && (batch>1 || (rewardLevel%2==0 && batches.redWolf.bombNum>1)))
+						|| rewardLevelFail){
 					System.out.println("奖励关卡结束");
 					gameBufferTimeS = System.currentTimeMillis()/1000;
 					isNextLevel = true;
+					isReward = true;
 					batch = 0;
 					hitNum = own.hitNum = 0;
 					isRewardLevel = false;
@@ -484,6 +516,7 @@ public class StateGame implements Common{
 		/*进入过关界面*/
 		if(isNextLevel==true && gameBufferTimeE-gameBufferTimeS>1){
 			isNextLevel = false;
+			isReward = false;
 			initDataNextLevel();	//清空数据
 			StateNextLevel stateLevel = new StateNextLevel();
 			stateLevel.processNextLevel(own);
@@ -538,6 +571,24 @@ public class StateGame implements Common{
 				}
 			}
 			
+			/*射水果*/
+			for(int k=weapon.fruits.size()-1;k>=0;k--){
+				Weapon fruit = (Weapon) weapon.fruits.elementAt(k);
+				if(Collision.checkSquareCollision(boxing.mapx, boxing.mapy, boxing.width, boxing.height, fruit.mapx, fruit.mapy, fruit.width, fruit.height)){
+					hitFruit(fruit);
+					print();
+				}
+			}
+			
+			/*击中狼发射的子弹*/
+			for(int k=weapon.booms.size()-1;k>=0;k--){
+				Weapon boom = (Weapon) weapon.booms.elementAt(k);
+				if(Collision.checkSquareCollision(boxing.mapx, boxing.mapy, boxing.width, boxing.height,boom.mapx, boom.mapy, boom.width, boom.height)){
+					hitBoom(boom);
+					print();
+				}
+			}
+			
 			/*拳套出界时移除*/
 			if((boxing.mapx+boxing.width <=0) || boxing.mapy >= 466){
 				weapon.gloves.removeElement(boxing);
@@ -573,8 +624,17 @@ public class StateGame implements Common{
 					}
 				}
 				
-			/*射水果*/
-			for(int k=weapon.fruits.size()-1;k>=0;k--){
+				/*击中狼发射的子弹*/
+				for(int k=weapon.booms.size()-1;k>=0;k--){
+					Weapon boom = (Weapon) weapon.booms.elementAt(k);
+					if(Collision.checkSquareCollision(boom.mapx, boom.mapy, boom.width, boom.height,glare.mapx, glare.mapy, glare.width, glare.height)){
+						hitBoom(boom);
+						print();
+					}
+				}
+				
+				/*射水果*/
+				for(int k=weapon.fruits.size()-1;k>=0;k--){
 					Weapon fruit = (Weapon) weapon.fruits.elementAt(k);
 					if(Collision.checkSquareCollision(fruit.mapx, fruit.mapy, fruit.width, fruit.height,glare.mapx, glare.mapy, glare.width, glare.height)){
 						hitFruit(fruit);
@@ -609,10 +669,15 @@ public class StateGame implements Common{
 				if(Collision.checkSquareCollision(boom.mapx, boom.mapy, boom.width, boom.height, own.mapx,
 						own.mapy, own.width, own.height)){
 					if(!protectState){			//玩家是否有防狼套装
-						own.status = ROLE_DEATH;
-						own.lifeNum --;
-						lifeNum = own.lifeNum;
-						System.out.println("生命数减一");
+						if(isRewardLevel){
+							rewardLevelFail = true;
+							System.out.println("奖励关卡游戏失败");
+						}else{
+							own.status = ROLE_DEATH;
+							own.lifeNum --;
+							lifeNum = own.lifeNum;
+							System.out.println("生命数减一");
+						}
 					}
 					weapon.booms.removeElement(boom);
 				}
@@ -789,7 +854,7 @@ public class StateGame implements Common{
 		Image playing_lift = Resource.loadImage(Resource.id_playing_lift);
 		Image playing_shenzi1 = Resource.loadImage(Resource.id_playing_shenzi1);
 		Image playing_prop_memu = Resource.loadImage(Resource.id_playing_prop_memu);
-		Image playing_stop = Resource.loadImage(Resource.id_playing_stop);
+		//Image playing_stop = Resource.loadImage(Resource.id_playing_stop);
 		Image ladder = Resource.loadImage(Resource.id_ladder);
 		Image playing_level = Resource.loadImage(Resource.id_playing_level);
 		Image playing_point = Resource.loadImage(Resource.id_playing_point);
@@ -802,9 +867,10 @@ public class StateGame implements Common{
 		Image passShadowCloud = Resource.loadImage(Resource.id_cloud1);
 		Image pass_cloud1 = Resource.loadImage(Resource.id_pass_cloud1);
 		Image pumpkin = Resource.loadImage(Resource.id_pumpkin);
+		Image control = Resource.loadImage(Resource.id_control);
 		
 		g.drawImage(game_bg, 0, 0, 20);
-		if((isRewardLevel && !isNextLevel)/* || isReward*/){		//画出奖励关卡界面
+		if((isRewardLevel && !isNextLevel) || isReward){		//画出奖励关卡界面
 			g.drawImage(pass_cloud, 50, 80, 20);
 			g.drawImage(pass_cloud, 216, 80, 20);
 			g.drawImage(pass_cloud, 404, 140, 20);		//轮子下面的云朵
@@ -876,14 +942,22 @@ public class StateGame implements Common{
 				g.drawRegion(pass_cloud1, 0, 0, down_cloudIndex, cloud1H, 0, cloud1W-down_cloudIndex, down_cloud1Y, 20);
 			}
 			g.drawImage(playing_menu, 491, 0, 20);
-			g.drawImage(playing_level, 491+32, 25, 20);								//游戏中 左侧的关卡图片		
-			drawNum(g, rewardLevel, 491+32+playing_level.getWidth()+10, 25);
+			g.drawImage(playing_level, 491+32, 18, 20);								//游戏中 左侧的关卡图片		
+			drawNum(g, rewardLevel, 491+32+playing_level.getWidth()+10, 18);
 			drawNum(g, own.lifeNum, 491+66+multiply.getWidth()+10, 147);			//奖励关卡羊的生命数,应该改为一条命
+			g.drawImage(multiply, 491+66, 147, 20);
+			
 			int num = REWARD_LEVEL_INFO[rewardLevel-1][1]-own.hitNum;
 			if(num<0){
 				num = 0;
 			}
-			drawNum(g, num, 45+multiply.getWidth()+10, 12);
+			if(!isNextLevel){
+				g.drawImage(multiply, 45, 12, 20);	
+				drawNum(g, num, 45+multiply.getWidth()+10, 12);
+			}
+			if((rewardLevel%2==1 && !isNextLevel) || (rewardLevel%2==0)&& isNextLevel){														//偶数关卡出现南瓜(出现四只狼推南瓜则南瓜砸下，玩家失败)\
+				g.drawRegion(pumpkin, 0, 0, pumpkin.getWidth(), pumpkin.getHeight(), 0, 256, 25, 20);
+			}
 			
 		}else {
 			if(tempx+playing_cloudbig.getWidth()>0){
@@ -911,17 +985,26 @@ public class StateGame implements Common{
 			}
 			
 			g.drawImage(playing_menu, 491, 0, 20);
-			g.drawImage(playing_level, 491+32, 25, 20);						//游戏中 左侧的关卡图片		
-			drawNum(g, level, 491+32+playing_level.getWidth()+10, 25);
+			g.drawImage(playing_level, 491+32, 18, 20);						//游戏中 左侧的关卡图片		
+			drawNum(g, level, 491+32+playing_level.getWidth()+10, 18);
 			drawNum(g, own.lifeNum, 491+66+multiply.getWidth()+10, 147);			//羊的生命数
+			g.drawImage(multiply, 491+66, 147, 20);
 			
-			if(level % 2 == 0){														//偶数关卡出现南瓜(出现四只狼推南瓜则南瓜砸下，玩家失败)\
+			if((level%2==0 && !isNextLevel) || (level!=1 && level%2==1 && isNextLevel)){														//偶数关卡出现南瓜(出现四只狼推南瓜则南瓜砸下，玩家失败)\
 				g.drawRegion(pumpkin, 0, 0, pumpkin.getWidth(), pumpkin.getHeight(), 0, 256, 15, 20);
 				//TODO 如果狼到达上面的总数为四只则南瓜掉落
 			/*	if (npc.status == ROLE_SUCCESS) {
 					g.drawRegion(pumpkin, 0, 0, pumpkin.getWidth(), pumpkin.getHeight(), 0, 256, 15, 20);	
 				}
 				*/
+			}
+			int num =  LEVEL_INFO[level-1][1]-own.hitNum;
+			if(num<0){
+				num = 0;
+			}
+			if(!isNextLevel){
+				g.drawImage(multiply, 45, 12, 20);	
+				drawNum(g, num, 45+multiply.getWidth()+10, 12);
 			}
 		}
 		
@@ -934,50 +1017,45 @@ public class StateGame implements Common{
 		g.drawRegion(playing_lift, 0, 0, playing_lift.getWidth(), playing_lift.getHeight(), 0, 342, sTempy, 20);
 		
 		g.drawImage(playing_lunzi, 374,132, 20);
-		g.drawRegion(playing_point, 0, 0, 46, playing_point.getHeight()/2, 0, 491+35, 66, 20);
+		g.drawRegion(playing_point, 0, 0, 46, playing_point.getHeight()/2, 0, 491+35, 59, 20);
 		if(own.scores>100000){
-			drawNum(g, own.scores, 491+15, 98);
+			drawNum(g, own.scores, 491+15, 89);
 		}else{
-			drawNum(g, own.scores, 491+35, 98);
+			drawNum(g, own.scores, 491+35, 89);
 		}
 		g.drawImage(sheep_head, 491+26, 142, 20);						//游戏中 右侧 的羊的头像		
 		g.drawImage(wolf_head, 12, 10, 20);								//游戏中 左侧 的狼的头像		
-		g.drawImage(multiply, 491+66, 147, 20);	
-		g.drawImage(multiply, 45, 12, 20);	
-		int num =  LEVEL_INFO[level-1][1]-own.hitNum;
-		if(num<0){
-			num = 0;
-		}
-		drawNum(g, num, 45+multiply.getWidth()+10, 12);
 
-		int propLeftMenuX = 497+1,propRightMenuX= 564+1,propMenuY = 185-7,distanceMenuY = 4;
-		int numLeftX = 547,numRight = 612;
+		int LeftMenuX = 497+1,RightMenuX= 564+1,propMenuY = 185-7,distanceMenuY = 4;
 		int menuH = playing_prop_memu.getHeight();
+		int controlW = control.getWidth()/8, controlH = control.getHeight();
 		for(int i=0;i<4;i++){                                                                
-			g.drawImage(playing_prop_memu, propLeftMenuX,propMenuY+i*(distanceMenuY+menuH), 20);
-			drawProp(g, i, propLeftMenuX+5,propMenuY+4+i*(distanceMenuY+menuH));                                              
-			drawNum(g, i+1, numLeftX, propMenuY+menuH-29+i*(distanceMenuY+menuH));//提示技能按键：1-4{540,223}
+			g.drawImage(playing_prop_memu, LeftMenuX,propMenuY+6+(i)*(distanceMenuY+menuH), 20);
+			drawProp(g, i, LeftMenuX+5,propMenuY+10+i*(distanceMenuY+menuH));           
+			g.drawRegion(control, (i+i)*controlW, 0, controlW, controlH, 0, LeftMenuX+5, propMenuY+menuH-13+i*(distanceMenuY+menuH), 20);
 			
-			g.drawImage(playing_prop_memu, propRightMenuX,propMenuY+i*(distanceMenuY+menuH), 20);
-			drawProp(g, i+4, propRightMenuX+5,propMenuY+4+i*(distanceMenuY+menuH));  //第二列对应原图片中的后四个
-			drawNum(g, i+4+1, numRight, propMenuY+menuH-29+i*(distanceMenuY+menuH));//提示技能键5-8{}
+			g.drawImage(playing_prop_memu, RightMenuX,propMenuY+6+i*(distanceMenuY+menuH), 20);
+			drawProp(g, i+4, RightMenuX+5,propMenuY+10+i*(distanceMenuY+menuH));  //第二列对应原图片中的后四个
+			g.drawRegion(control, (i+i+1)*controlW, 0, controlW, controlH, 0, RightMenuX+5, propMenuY+menuH-13+i*(distanceMenuY+menuH), 20);
+
 		}
 		
+		
 		/*道具数量*/
-		int propX=503, propY=220, spaceY=71, spaceX=67;
+		int propX=550, propY=184, spaceY=71, spaceX=67;
 		for(int j=0;j<4;j++){
 			for(int k=0;k<2;k++){
 				String str = String.valueOf(engine.props[getPropIndex(j, k)].getNums());
 				int color = g.getColor();
 				engine.setFont(19, true);
-				g.setColor(0xff0000);
+				g.setColor(0xffff00);
 				g.drawString(str, propX+spaceX*k, propY+spaceY*j, 20);
 				g.setColor(color);
 				engine.setDefaultFont();
 			}
 		}
 		
-		g.drawImage(playing_stop, 500,459, 20);			//暂停游戏按钮
+		//g.drawImage(playing_stop, 500,459, 20);			//暂停游戏按钮
 	}
 	
 	private int getPropIndex(int x, int y){

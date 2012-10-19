@@ -22,8 +22,11 @@ public class PropManager implements Common{
 	
 	/*查询玩家道具*/
 	public void updateProps(){
-		initProps(props);
+		//initProps(props);
 		String[] pps = engine.p;
+		if(pps==null){
+			return;
+		}
 		for(int i=0;i<pps.length;i++){
 			props[i].setNums(Integer.parseInt(pps[i]));
 		}
@@ -81,7 +84,7 @@ public class PropManager implements Common{
 						recharge.recharge();
 					}
 				}else{
-					pt.setText("购买"+propName+"失败, 原因: "+getErrorMessage(engine.account.getResult()));
+					pt.setText("购买"+propName+"失败, 原因: "+engine.getErrorMessage(engine.account.getResult()));
 					pt.popup();
 				}
 			}
@@ -98,15 +101,7 @@ public class PropManager implements Common{
 		}
 	}
 	
-	private String getErrorMessage(int errorCode){
-		switch (errorCode){
-		case 2009:
-			return "道具代码不存在";
-		case 2019:
-			return "游戏账户余额不足";
-		default: return "未知错误";
-		}
-	}
+	
 	
 	/*购买道具*/
 	public void purchaseProp(int shopX, int shopY) {

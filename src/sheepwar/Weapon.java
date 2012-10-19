@@ -399,9 +399,19 @@ public class Weapon implements Common {
 	}
 	
 	/*显示拳套生成*/
-	public void showGloveCreate(SGraphics g){
+	public void showGloveCreate(SGraphics g, Role own){
 		Image glove = Resource.loadImage(Resource.id_prop_fist);
-		g.drawImage(glove, 374-6, 163, 20);
+		Image gloveEffectLeft = Resource.loadImage(Resource.id_gloveLeft);
+		//Image gloveEffectRight = Resource.loadImage(Resource.id_gloveRight);
+		int gloveW = gloveEffectLeft.getWidth()/4, gloveH = gloveEffectLeft.getHeight();
+		if(stateGame.isShowGlove){
+			g.drawImage(glove, 374-6, 163, 20);
+		}
+		if(stateGame.isUseGlove && stateGame.isShowGlove == false){
+			//g.drawRegion(gloveEffectRight, 0*gloveW, 0,	gloveW, gloveH, 0, own.mapx - 13, own.mapy + 24, 20);
+			g.drawRegion(gloveEffectLeft, 0, 0, gloveW, gloveH, 0, own.mapx - 12, own.mapy + 30, 20);
+		}
+		
 	}
 	
 	public void showGloves(SGraphics g,Role player) {			
@@ -412,21 +422,19 @@ public class Weapon implements Common {
 		int gloveW = gloveEffectRight.getWidth()/4, gloveH = gloveEffectRight.getHeight();
 		for (int i = gloves.size() - 1; i >= 0; i--) {
 			w = (Weapon) gloves.elementAt(i);		
-			if(stateGame.isUseGlove){
-				g.drawRegion(gloveEffectRight, 0*gloveW, 0,	gloveW, gloveH, 0, player.mapx - 20, player.mapy + 4, 20);
-				g.drawRegion(gloveEffectLeft, 0*gloveW, 0, gloveW, gloveH, 0, player.mapx - 20, player.mapy + 30, 20);
+			w.frame = (w.frame + 1)%4;
+			if(w.frame==0){
+				w.frame=1;
 			}
 			if(w.position==0){
 				if(w.mapx >= 300){//拐点   
 					w.mapx -= w.speedX;
 					w.mapy -= w.speedY;
-					w.frame = (w.frame + 1)%4;
 					g.drawRegion(gloveEffectRight, w.frame*gloveW, 0,
 							gloveW, gloveH, 0, w.mapx, w.mapy, 20);
 				}else{
 					w.mapx -= w.speedX;
 					w.mapy += w.speedY;
-					w.frame = (w.frame + 1)%4;
 					g.drawRegion(gloveEffectRight, w.frame*gloveW, 0,
 							gloveW, gloveH, 0, w.mapx, w.mapy, 20);
 				}
@@ -434,12 +442,10 @@ public class Weapon implements Common {
 				if (w.mapx >= 300) {
 					w.mapx -= w.speedX;
 					w.mapy += w.speedY;
-					w.frame = (w.frame + 1) % 4;
 					g.drawRegion(gloveEffectLeft,w.frame * gloveW, 0,gloveW, gloveH, 0, w.mapx, w.mapy,20);
 				} else {
 					w.mapx -= w.speedX;
 					w.mapy -= w.speedY;
-					w.frame = (w.frame + 1) % 4;
 					g.drawRegion(gloveEffectLeft,w.frame * gloveW, 0,gloveW, gloveH, 0, w.mapx, w.mapy,20);
 				}
 			}

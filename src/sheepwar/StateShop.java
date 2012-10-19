@@ -98,11 +98,11 @@ public class StateShop implements Common{
 							x+(spaceX+smallW)*j+124, y+(spaceY+smallH)*i+12, 20);
 					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getNums()), 
 							x+(spaceX+smallW)*j+124, y+(spaceY+smallH)*i+38, 20);
-					g.setColor(0xffffff);
+					g.setColor(0x000000);
 					engine.setFont(25, true);
 					TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX], 5, 444, 120, 162, 220);
 					int textColor = g.getColor();
-					g.setColor(0x000000);
+					g.setColor(0xffffff);
 					TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX], 5, 443, 119, 162, 220);
 					engine.setDefaultFont();
 					g.setColor(textColor);

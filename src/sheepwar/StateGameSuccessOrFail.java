@@ -125,10 +125,9 @@ public class StateGameSuccessOrFail implements Common{
 		}
 		
 		/*»ý·Ö*/
-		g.drawImage(pass_score, 185, 286, 20);
-		drawNum(g, StateGame.scores, 200+pass_score.getWidth(), 286);
-		g.drawImage(pass_score, 185, 332, 20);
-		drawNum(g, StateGame.scores2, 200+pass_score.getWidth(), 332);
+		g.drawImage(pass_score, 135, 286, 20);
+		drawNum(g, StateGame.scores, 170+pass_score.getWidth(), 288);
+		drawNum(g, StateGame.scores2, 170+pass_score.getWidth(), 330);
 		
 		/*²Êºç*/
 		g.drawImage(pass_rainbow, 395, 258, 20);

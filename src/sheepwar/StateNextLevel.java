@@ -111,10 +111,12 @@ public class StateNextLevel implements Common{
 			g.drawImage(pass_star2, 125+(i*space), 130, 20);
 		}
 		/*亮星星（根据积分确定星星个数）*/
-		g.drawImage(pass_star, 125, 130, 20);
+			g.drawImage(pass_star, 125, 130, 20);
+		
 		/*积分*/
-		g.drawImage(pass_score, 242, 286, 20);
-		drawNum(g, own.scores, 242, 332);
+		g.drawImage(pass_score, 135, 286, 20);
+		drawNum(g, StateGame.scores, 170+pass_score.getWidth(), 288);
+		drawNum(g, StateGame.scores2, 170+pass_score.getWidth(), 330);
 		
 		/*彩虹*/
 		g.drawImage(pass_rainbow, 395, 258, 20);

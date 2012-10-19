@@ -130,6 +130,7 @@ public class Resource implements Common {
 	public static short id_shop_bottom = NUMS++;     				
 	public static short id_achievement_bottom = NUMS++;     				
 	public static short id_rank_bottom = NUMS++;     				
+	public static short id_control = NUMS++;     				
 	
 	
 	public static String[] imagesrcs = {
@@ -248,6 +249,7 @@ public class Resource implements Common {
 		"/shop_bottom.jpg",             
 		"/achievement_bottom.jpg",             
 		"/ranking_bottom.jpg",             
+		"/control.png",             
 		
 	};
 	

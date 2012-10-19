@@ -223,7 +223,8 @@ abstract public class GameCanvasEngine extends GameCanvas implements Runnable, I
 	
 	private void loading() {
 		//STBAPI.Init(midlet);
-		
+		g.setClip(0, 0, screenWidth, screenHeight);
+		g.setColor(0x000000);
 		String str = "”Œœ∑º”‘ÿ÷–...";
 		int x = screenWidth/2-25;
 		int y = screenHeight/2;
