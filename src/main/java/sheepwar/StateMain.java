@@ -8,7 +8,7 @@ import cn.ohyeah.stb.ui.PopupText;
 
 public class StateMain implements Common{
 	
-	public boolean exit;
+	public static boolean exit;
 	private StateGame stateGame;
 	private SheepWarGameEngine engine;
 	public StateMain(SheepWarGameEngine engine){

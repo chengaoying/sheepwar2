@@ -120,7 +120,7 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 	
 	
 	private void exit(){
-		if(stateMain.exit){
+		if(StateMain.exit){
 			exit = true;
 		}
 	}

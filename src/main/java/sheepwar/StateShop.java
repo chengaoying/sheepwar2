@@ -3,11 +3,12 @@ package sheepwar;
 import javax.microedition.lcdui.Image;
 
 import cn.ohyeah.stb.game.SGraphics;
-import cn.ohyeah.stb.game.StateRecharge;
+import cn.ohyeah.stb.game.ServiceWrapper;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.res.UIResource;
 import cn.ohyeah.stb.ui.PopupConfirm;
+import cn.ohyeah.stb.ui.PopupText;
 import cn.ohyeah.stb.ui.TextView;
 
 public class StateShop implements Common{
@@ -215,8 +216,24 @@ public class StateShop implements Common{
 				engine.state = STATUS_GAME_RECHARGE;
 				engine.isRecharge = false;
 				running = false;*/
-				StateRecharge sr = new StateRecharge(engine);
-				sr.recharge();
+				//StateRecharge sr = new StateRecharge(engine);
+				//sr.recharge();
+				PopupConfirm pc = UIResource.getInstance().buildDefaultPopupConfirm();
+				pc.setText("是否跳转充值界面，为您充值？");
+				int index = pc.popup();
+				if(index==0){
+					ServiceWrapper sw = engine.getServiceWrapper();
+					sw.gotoRechargePage();
+					if(sw.isServiceSuccessful()){
+						StateMain.exit = true;
+						engine.stateGame.exitGame();
+						running = false;
+					}else{
+						PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+						pt.setText(sw.getServiceMessage());
+						pt.popup();
+					}
+				}
 			}else if(shopX==2 && shopY==1){
 				running = false;
 				shopX = 0;shopY = 0;

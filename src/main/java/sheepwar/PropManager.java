@@ -2,9 +2,7 @@ package sheepwar;
 
 import cn.ohyeah.itvgame.model.OwnProp;
 import cn.ohyeah.stb.game.ServiceWrapper;
-import cn.ohyeah.stb.game.StateRecharge;
 import cn.ohyeah.stb.res.UIResource;
-import cn.ohyeah.stb.ui.PopupConfirm;
 import cn.ohyeah.stb.ui.PopupText;
 
 
@@ -65,9 +63,9 @@ public class PropManager implements Common{
 	
 	private boolean buyProp(int propId, int propCount, int price, String propName){
 	
-		if (engine.getEngineService().getBalance() >= price) {
 			ServiceWrapper sw = engine.getServiceWrapper();
-			sw.purchaseProp(propId, price, "¹ºÂò"+propName);
+			//sw.purchaseProp(propId, price, "¹ºÂò"+propName);
+			sw.expend(price, propId, "¹ºÂò"+propName);
 			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
 			if (sw.isServiceSuccessful()) {
 				pt.setText("¹ºÂò"+propName+"³É¹¦");
@@ -78,15 +76,6 @@ public class PropManager implements Common{
 			}
 			pt.popup();
 			return sw.isServiceSuccessful();
-		}else {
-				PopupConfirm pc = UIResource.getInstance().buildDefaultPopupConfirm();
-				pc.setText("ÓÎÏ·±Ò²»×ã,ÊÇ·ñ³äÖµ");
-				if (pc.popup() == 0) {
-					StateRecharge recharge = new StateRecharge(engine);
-					recharge.recharge();
-				}
-				return false;
-		}
 	}
 	
 	

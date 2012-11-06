@@ -365,8 +365,35 @@ public class StateGame implements Common{
 		}
 	}
 	
+	public void exitGame(){
+		System.out.println("退出游戏");
+		printInfo();
+		
+		//同步道具
+		engine.pm.sysProps();
+		
+		//退出游戏保存逃脱的狼
+		setWolfStatus();
+		
+		//保存由于排行的积分
+		engine.saveAttainment();
+		
+		//保存游戏记录
+		engine.saveRecord();
+		
+		/*更新玩家成就*/
+		engine.updateAttainmen();
+		
+		initDataGameOver();
+		engine.state = STATUS_MAIN_MENU;
+		clear();
+	}
+	
 	private void setWolfStatus() {
 		int count=0;
+		if(batches==null){
+			return;
+		}
 		for(int j=batches.npcs.size()-1;j>=0;j--){
 			Role wolf = (Role) batches.npcs.elementAt(j);
 			if(wolf.status == ROLE_SUCCESS){
@@ -1966,6 +1993,9 @@ public class StateGame implements Common{
 		HASWOLF_THREE = false;
 		HASWOLF_FOUR = false;
 		own = null;
+		if(weapon==null||batches==null){
+			return;
+		}
 		weapon.clearObjects(); // 清空对象
 		batches.clearObject(); // 清空对象
 	}
