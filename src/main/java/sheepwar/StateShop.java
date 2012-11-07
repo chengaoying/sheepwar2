@@ -3,7 +3,7 @@ package sheepwar;
 import javax.microedition.lcdui.Image;
 
 import cn.ohyeah.stb.game.SGraphics;
-import cn.ohyeah.stb.game.StateRecharge;
+import cn.ohyeah.stb.game.StateRechargeWinsideTW;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.res.UIResource;
@@ -215,7 +215,7 @@ public class StateShop implements Common{
 				engine.state = STATUS_GAME_RECHARGE;
 				engine.isRecharge = false;
 				running = false;*/
-				StateRecharge sr = new StateRecharge(engine);
+				StateRechargeWinsideTW sr = new StateRechargeWinsideTW(engine);
 				sr.recharge();
 			}else if(shopX==2 && shopY==1){
 				running = false;
@@ -239,19 +239,19 @@ public class StateShop implements Common{
 	}*/
 	
 	private void clear() {
-		Resource.freeImage(Resource.id_shop);
+		Resource.freeImage(Resource.id_shop_bottom);
 		Resource.freeImage(Resource.id_shop_balance);
 		Resource.freeImage(Resource.id_shop_big);
-		Resource.freeImage(Resource.id_shop_figure);
-		Resource.freeImage(Resource.id_shop_balance);
 		Resource.freeImage(Resource.id_shop_go_pay);
+		Resource.freeImage(Resource.id_achievement_left);
 		Resource.freeImage(Resource.id_shop_midding);
+		Resource.freeImage(Resource.id_shop_out_base);
 		Resource.freeImage(Resource.id_shop_out);
-		Resource.freeImage(Resource.id_price_quantity);
-		Resource.freeImage(Resource.id_playing_prop);    
-		Resource.freeImage(Resource.id_pass_cloud);       
-		Resource.freeImage(Resource.id_pass_cloud1);       
-		Resource.freeImage(Resource.id_pass_cloud1);   
+		Resource.freeImage(Resource.id_shop_small_base);
+		Resource.freeImage(Resource.id_shop_small);    
+		Resource.freeImage(Resource.id_price_quantity);       
+		Resource.freeImage(Resource.id_shop);       
+		Resource.freeImage(Resource.id_playing_prop);   
 		Resource.freeImage(Resource.id_shop_selected);   
 		Resource.freeImage(Resource.id_return_selected);   
 	}
