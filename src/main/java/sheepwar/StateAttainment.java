@@ -230,10 +230,8 @@ public class StateAttainment implements Common{
     	Resource.freeImage(Resource.id_achievement_word);
     	Resource.freeImage(Resource.id_slash);
     	Resource.freeImage(Resource.id_shop_out_base);
-    	Resource.freeImage(Resource.id_shop_figure);
     	Resource.freeImage(Resource.id_pass_cloud);       
-		Resource.freeImage(Resource.id_pass_cloud1);       
-		Resource.freeImage(Resource.id_pass_cloud1);   
+		
     }
 
 	private void handleAttainment(KeyState keyState) {

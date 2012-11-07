@@ -211,8 +211,6 @@ public class StateRanking implements Common{
     	Resource.freeImage(Resource.id_rank_bottom);
     	Resource.freeImage(Resource.id_achievement_out1);
     	Resource.freeImage(Resource.id_shop_big);
-    	Resource.freeImage(Resource.id_achievement_left_right);
-    	Resource.freeImage(Resource.id_achievement_left_right1);
     	Resource.freeImage(Resource.id_current_ranking);
     	Resource.freeImage(Resource.id_ranking_option);
     	Resource.freeImage(Resource.id_ranking_option1);
@@ -220,9 +218,6 @@ public class StateRanking implements Common{
     	Resource.freeImage(Resource.id_ranking);
     	Resource.freeImage(Resource.id_ranking_show);
     	Resource.freeImage(Resource.id_slash);
-    	Resource.freeImage(Resource.id_shop_figure);
     	Resource.freeImage(Resource.id_pass_cloud);       
-		Resource.freeImage(Resource.id_pass_cloud1);       
-		Resource.freeImage(Resource.id_pass_cloud1);     
 	}
 }

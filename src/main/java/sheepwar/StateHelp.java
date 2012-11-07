@@ -197,11 +197,10 @@ public class StateHelp implements Common{
     	Resource.freeImage(Resource.id_game_help);
     	Resource.freeImage(Resource.id_achievement_left_right);
     	Resource.freeImage(Resource.id_achievement_left_right1);
-    	Resource.freeImage(Resource.id_shop_figure);
     	Resource.freeImage(Resource.id_slash);
     	Resource.freeImage(Resource.id_pass_cloud);       
 		Resource.freeImage(Resource.id_pass_cloud1);       
-		Resource.freeImage(Resource.id_pass_cloud1);
-	
+		Resource.freeImage(Resource.id_pass_cloud2);
+		
 	}
 }
