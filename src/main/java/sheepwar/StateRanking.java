@@ -113,27 +113,27 @@ public class StateRanking implements Common{
 		g.drawImage(pass_cloud, x3, 265, 20);
 		
 		int  rankLeftX = 39,rankLeftY = 112,rankLeftYSpace = 16;			//rankLeftX 左侧x坐标，rankLeftYSpace 上下间距
-		int rankShadowX = 4,rankShadowY = 4;								//排行阴影效果坐标差
+		//int rankShadowX = 4,rankShadowY = 4;								//排行阴影效果坐标差
 		
 		int option1W = ranking_option1.getWidth(), option1H = ranking_option1.getHeight();
 		int optionW = ranking_option.getWidth(), optionH = ranking_option.getHeight();
 		int workH = ranking_word.getHeight() / 2, workW = ranking_word.getWidth()/2;
-		for(int i=0;i<2;i++){//排行左侧条目
+		//for(int i=0;i<2;i++){//排行左侧条目
 			g.drawRegion(ranking_option1, 0, 0, option1W, option1H, 0,
-					rankLeftX, rankLeftY+(option1H+rankLeftYSpace)*i, 20);
-			if(rankY ==i){     		
+					rankLeftX, rankLeftY+(option1H+rankLeftYSpace)*0, 20);
+			//if(rankY ==i){     		
 				g.drawRegion(ranking_option, 0, 0, optionW, optionH, 0,
-						rankLeftX, rankLeftY+(optionH+rankLeftYSpace)*i, 20);
-				g.drawRegion(ranking_word,0,i*workH, workW,	workH, 0, rankLeftX+8,
-						rankLeftY+7+(ranking_option.getHeight()+rankLeftYSpace)*i, 20);
-			}else{
+						rankLeftX, rankLeftY+(optionH+rankLeftYSpace)*0, 20);
+				g.drawRegion(ranking_word,0,0*workH, workW,	workH, 0, rankLeftX+8,
+						rankLeftY+7+(ranking_option.getHeight()+rankLeftYSpace)*0, 20);
+			/*}else{
 				g.drawRegion(ranking_option, 0, 0, optionW, optionH, 0,
 						rankLeftX-rankShadowX, rankLeftY-rankShadowY+(optionH+rankLeftYSpace)*i, 20);
 				g.drawRegion(ranking_word,workW,i*workH, workW,	workH, 0, rankLeftX-rankShadowX+8,
 						rankLeftY-rankShadowY+7+(optionH+rankLeftYSpace)*i, 20);
-			}
+			}*/
 
-		}
+		//}
 		
 		/*排行数据*/
 		g.drawImage(shop_big, 233,101, 20);
