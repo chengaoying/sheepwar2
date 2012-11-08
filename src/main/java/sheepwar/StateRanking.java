@@ -12,7 +12,7 @@ public class StateRanking implements Common{
 	
 	private SheepWarGameEngine engine = SheepWarGameEngine.instance;
 	private boolean running;
-	private int rankingIndex, rankX, rankY;
+	private int rankingIndex, /*rankX,*/ rankY;
 	private  GameRanking[]  ranklist_month;
 	private  GameRanking[]  ranklist_week;
 	private GameRanking[] rankList;
@@ -196,14 +196,14 @@ public class StateRanking implements Common{
 			}
 		}else if(keyState.contains(KeyCode.UP)){
 			keyState.remove(KeyCode.UP);
-			if(rankX == 0 && rankY > 0){
+			/*if(rankX == 0 && rankY > 0){
 				rankY = rankY - 1;
-			}
+			}*/
 		}else if(keyState.contains(KeyCode.DOWN)){
 			keyState.remove(KeyCode.DOWN);
-			if(rankX == 0 && rankY <2){
+			/*if(rankX == 0 && rankY <2){
 				rankY = (rankY + 1)%2;
-			}
+			}*/
 		}
 	}
 
