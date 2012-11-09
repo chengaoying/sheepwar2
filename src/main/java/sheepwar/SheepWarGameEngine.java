@@ -70,6 +70,7 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 	
 	protected void loop() {
 		
+		
 		/*处理键值*/
 		switch (state) {   	
 		case STATUS_INIT:
@@ -113,7 +114,7 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 			stateGame.execute();
 			break;
 		}
-		
+
 		/*退出游戏*/
 		exit();
 	}
@@ -236,6 +237,7 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		
 		/*初始化玩家成就信息*/
 		initAttainmen();
+		
 		state = STATUS_MAIN_MENU;  
 	}
 	
