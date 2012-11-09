@@ -29,8 +29,12 @@ public class PropManager implements Common{
 		if(pps==null){
 			return;
 		}
-		for(int i=0;i<pps.length;i++){
-			props[i].setNums(pps[i].getCount());
+		for(int j=0;j<props.length;j++){
+			for(int i=0;i<pps.length;i++){
+				if(props[j].getPropId()==pps[i].getPropId()){
+					props[j].setNums(pps[i].getCount());
+				}
+			}
 		}
 		
 		for(int i=0;i<props.length;i++){
