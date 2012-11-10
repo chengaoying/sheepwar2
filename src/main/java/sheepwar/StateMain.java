@@ -16,8 +16,9 @@ public class StateMain implements Common{
 		this.stateGame = engine.stateGame;
 	}
 	
-	public int menuAxis[][] = { { 527, 204 }, { 467, 247 }, { 527, 294 },
-			{ 467, 337 }, { 527, 384 }, { 467, 427 }, { 527, 473 },};
+	public int menuAxis[][] = { { 484, 97 }, { 484, 97+52 }, { 484, 97+104 },
+			{ 484, 97+156 }, { 484, 97+208 }, { 484, 97+260 }, { 484, 97+312 },
+	};
 	
 	private int mainIndex;
 	
@@ -39,25 +40,21 @@ public class StateMain implements Common{
 	public void show(SGraphics g) {
 		Image main_bg = Resource.loadImage(Resource.id_main_bg);
 		Image main_menu = Resource.loadImage(Resource.id_main_menu);
-		Image main_select_right_base = Resource.loadImage(Resource.id_main_select_right_base);
-		Image main_select_left_base = Resource.loadImage(Resource.id_main_select_left_base);
+		Image main_select_base = Resource.loadImage(Resource.id_main_select_base);
+		Image main_select = Resource.loadImage(Resource.id_main_select);
 		g.drawImage(main_bg, 0, 0, 0);
-		int sw = main_menu.getWidth() / 2, sh = main_menu.getHeight() / 7;
+		int sw = main_menu.getWidth(), sh = main_menu.getHeight() / 7;
 
 		for (int i = 0; i < menuAxis.length; ++i) {
-			if (i % 2 == 0 && mainIndex != i) {
-				g.drawRegion(main_select_right_base, 0, 0,
-						main_select_right_base.getWidth(),
-						main_select_right_base.getHeight(), 0,
-						menuAxis[i][0] - 11, menuAxis[i][1] - 14, 20);
-			} else if (i % 2 == 1 && mainIndex != i){
-				g.drawRegion(main_select_left_base, 0, 0,
-						main_select_left_base.getWidth(),
-						main_select_left_base.getHeight(), 0,
-						menuAxis[i][0] - 19, menuAxis[i][1] - 14, 20);
+			if(mainIndex != i){
+				g.drawRegion(main_select, 0, 0, main_select.getWidth(), 
+						main_select.getHeight(), 0, menuAxis[i][0] - 11, menuAxis[i][1] - 14, 20);
+			}else{	
+				g.drawRegion(main_select_base, 0, 0, main_select_base.getWidth(), 
+						main_select_base.getHeight(), 0, menuAxis[i][0] - 11, menuAxis[i][1] - 14, 20);
 			}
-			g.drawRegion(main_menu, (mainIndex != i) ? sw : 0, i * sh, sw, sh,
-					0, menuAxis[i][0], menuAxis[i][1], 0);
+			g.drawRegion(main_menu, /*(mainIndex != i) ? sw : */0, i * sh, sw, sh,
+					0, menuAxis[i][0], menuAxis[i][1]+12, 20);
 		}
 	}
 	
@@ -174,9 +171,7 @@ public class StateMain implements Common{
 	private void clear() {
 		Resource.freeImage(Resource.id_main_bg);
 		Resource.freeImage(Resource.id_main_menu);
-		//Resource.freeImage(Resource.id_main_select_right);
-		//Resource.freeImage(Resource.id_main_select_left);
-		Resource.freeImage(Resource.id_main_select_right_base);
-		Resource.freeImage(Resource.id_main_select_left_base);
+		Resource.freeImage(Resource.id_main_select);
+		Resource.freeImage(Resource.id_main_select_base);
 	}
 }

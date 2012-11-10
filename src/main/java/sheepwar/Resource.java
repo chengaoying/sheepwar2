@@ -137,7 +137,10 @@ public class Resource implements Common {
 	public static short id_prop = NUMS++;     				
 	public static short id_game_stop = NUMS++;     				
 	public static short id_teach_level = NUMS++;     				
-	public static short id_arrowhead = NUMS++;     				
+	public static short id_arrowhead = NUMS++;   
+	public static short id_main_select_base = NUMS++;     				
+	public static short id_main_select = NUMS++;     				
+	public static short id_achievement_left1 = NUMS++;    
 	
 	
 	public static String[] imagesrcs = {
@@ -153,7 +156,7 @@ public class Resource implements Common {
 		"/playing_stop.png",
 		"/game_bg.jpg",
 		"/playing_prop_memu.png",
-		"/prop1.png",						//修改过的道具图片
+		"/prop1.jpg",						//修改过的道具图片
 		"/playing_lunzi.png",
 		"/playing_shenzi.png",
 		"/playing_lift.png",    
@@ -201,7 +204,7 @@ public class Resource implements Common {
 		"/current_ranking.png",       //排行图片资源
 		"/ranking_option.png",
 		"/ranking_option1.png",
-		"/ranking_stripe.jpg",       
+		"/ranking_stripe.png",       
 		"/ranking.png",
 		"/show.png",								//替换了ranking_show.jpg
 		"/ranking_word.png",
@@ -263,7 +266,10 @@ public class Resource implements Common {
 		"/prop.png",             
 		"/stop.png",             
 		"/teach_level.png",             
-		"/arrowhead.png",             
+		"/arrowhead.png",    
+		"/main_select_base.png",             
+		"/main_select.png",             
+		"/achievement_left1.png",  
 	};
 	
 	private static final Image[] images = new Image[NUMS];
@@ -299,10 +305,10 @@ public class Resource implements Common {
 	
 	/*商城商品介绍*/    	//二维数组创建注意
 	public static String propIntroduce [][]= {
-		{"时光闹钟:时间静止10秒。#r价格：20","驱狼竖琴:使用后清除所有梯子上或者正在推南瓜的灰太狼。#r价格：30"},//shopY
-		{"捕狼网:发射出的子弹碰到灰太狼就会张开一张网，大网内的灰太狼都会掉落。只击落碰到的灰太狼。#r价格：20","连发:使用后连续发射四颗飞镖，单关有效。#r价格：30"},
-		{"防狼套装:开启后得到5秒的无敌效果，抵御各种攻击。#r价格：30","强力磁石:击落所有空中的灰太狼。#r价格：50"},
-		{"驱狼光波:发出一道十万伏特的电流，电晕碰到的灰太狼，持续5秒。#r价格：30","替身玩偶:增加一条命。#r价格：50"},
+		{"时光闹钟:#r时间静止10秒#r价格：20游戏币","驱狼竖琴:#r使用后清除所有梯子上或者正在推南瓜的灰太狼#r价格：30游戏币"},//shopY
+		{"捕狼网:#r发射出的子弹碰到灰太狼就会张开一张网，#r大网内的灰太狼都会掉落#r只击落碰到的灰太狼#r价格：20游戏币","连发:#r使用后连续发射四颗飞镖，单关有效#r价格：30游戏币"},
+		{"防狼套装:#r开启后得到30秒的无敌效#r果，抵御各种攻击#r价格：30游戏币","强力磁石:#r击落所有空中的灰太狼#r价格：50游戏币"},
+		{"驱狼光波:#r发出一道十万伏特的电流，电晕碰到的灰太狼，持续5秒#r价格：30游戏币","替身玩偶:#r增加一条命#r价格：50游戏币"},
 	};
 
 }

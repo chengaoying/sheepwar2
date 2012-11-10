@@ -1375,12 +1375,9 @@ public class StateGame implements Common{
 		Image playing_shenzi = Resource.loadImage(Resource.id_playing_shenzi);
 		Image playing_lift = Resource.loadImage(Resource.id_playing_lift);
 		Image playing_shenzi1 = Resource.loadImage(Resource.id_playing_shenzi1);
-		Image playing_prop_memu = Resource.loadImage(Resource.id_playing_prop_memu);
-		//Image playing_stop = Resource.loadImage(Resource.id_playing_stop);
 		Image ladder = Resource.loadImage(Resource.id_ladder);
 		Image playing_level = Resource.loadImage(Resource.id_playing_level);
 		Image playing_level2 = Resource.loadImage(Resource.id_playing_level2);
-		Image playing_point = Resource.loadImage(Resource.id_playing_point);
 		Image sheep_head = Resource.loadImage(Resource.id_sheep_head);
 		Image wolf_head = Resource.loadImage(Resource.id_wolf_head);
 		Image multiply = Resource.loadImage(Resource.id_multiply);
@@ -1472,9 +1469,9 @@ public class StateGame implements Common{
 			g.drawImage(playing_menu, 491, 0, 20);
 			g.drawImage(playing_level2, 491+12, 18, 20);								//游戏中 左侧的关卡图片
 			if(isNextLevel){
-				drawNum(g, rewardLevel-1, 491+32+playing_level.getWidth()+30, 18);
+				drawNum(g, rewardLevel-1, 491+32+playing_level.getWidth()+30, 20);
 			}else{
-				drawNum(g, rewardLevel, 491+32+playing_level.getWidth()+30, 18);
+				drawNum(g, rewardLevel, 491+32+playing_level.getWidth()+30, 20);
 			}
 			drawNum(g, own.lifeNum, 491+66+multiply.getWidth()+10, 147);			//奖励关卡羊的生命数,应该改为一条命
 			g.drawImage(multiply, 491+66, 147, 20);
@@ -1543,9 +1540,9 @@ public class StateGame implements Common{
 			}else{
 				g.drawImage(playing_level, 491+32, 18, 20);						//游戏中 左侧的关卡图片	
 				if(isNextLevel){
-					drawNum(g, level-1, 491+32+playing_level.getWidth()+10, 18);
+					drawNum(g, level-1, 491+32+playing_level.getWidth()+10, 20);
 				}else{
-					drawNum(g, level, 491+32+playing_level.getWidth()+10, 18);
+					drawNum(g, level, 491+32+playing_level.getWidth()+10, 20);
 				}
 			}
 			drawNum(g, own.lifeNum, 491+66+multiply.getWidth()+10, 147);			//羊的生命数
@@ -1632,34 +1629,31 @@ public class StateGame implements Common{
 		g.drawRegion(playing_lift, 0, 0, playing_lift.getWidth(), playing_lift.getHeight(), 0, 342, sTempy, 20);
 		
 		g.drawImage(playing_lunzi, 374,132, 20);
-		g.drawRegion(playing_point, 0, 0, 46, playing_point.getHeight()/2, 0, 504+35, 59, 20);
+		//g.drawRegion(playing_point, 0, 0, 46, playing_point.getHeight()/2, 0, 504+35, 59, 20);
 		if(own.scores>99999){
 			drawNum(g, own.scores, 499+22, 89);
 		}else if(own.scores<1000){
-			drawNum(g, own.scores, 499+42, 89);
+			drawNum(g, own.scores, 499+46, 89);
 		}else{
 			drawNum(g, own.scores, 499+35, 89);
 		}
 		g.drawImage(sheep_head, 491+26, 142, 20);						//游戏中 右侧 的羊的头像		
 
-		int LeftMenuX = 497+1,RightMenuX= 564+1,propMenuY = 185-7,distanceMenuY = 4;
-		int menuH = playing_prop_memu.getHeight();
+		int LeftMenuX = 497+2,RightMenuX= 564+5,propMenuY = 185,distanceMenuY = 6;
 		int controlW = control.getWidth()/8, controlH = control.getHeight();
 		for(int i=0;i<4;i++){                                                                
-			g.drawImage(playing_prop_memu, LeftMenuX,propMenuY+6+(i)*(distanceMenuY+menuH), 20);
-			drawProp(g, i, LeftMenuX+5,propMenuY+10+i*(distanceMenuY+menuH));           
-			g.drawRegion(control, (i+i)*controlW, 0, controlW, controlH, 0, LeftMenuX+5, propMenuY+menuH-13+i*(distanceMenuY+menuH), 20);
+			drawProp(g, i, LeftMenuX+5,propMenuY+10+i*(distanceMenuY+65));           
+			g.drawRegion(control, (i+i)*controlW, 0, controlW, controlH, 0, LeftMenuX+5, propMenuY+65-10+i*(distanceMenuY+65), 20);
 			
-			g.drawImage(playing_prop_memu, RightMenuX,propMenuY+6+i*(distanceMenuY+menuH), 20);
-			drawProp(g, i+4, RightMenuX+5,propMenuY+10+i*(distanceMenuY+menuH));  //第二列对应原图片中的后四个
-			g.drawRegion(control, (i+i+1)*controlW, 0, controlW, controlH, 0, RightMenuX+5, propMenuY+menuH-13+i*(distanceMenuY+menuH), 20);
+			drawProp(g, i+4, RightMenuX+5,propMenuY+10+i*(distanceMenuY+65));  //第二列对应原图片中的后四个
+			g.drawRegion(control, (i+i+1)*controlW, 0, controlW, controlH, 0, RightMenuX+5, propMenuY+65-10+i*(distanceMenuY+65), 20);
 
 		}
 		
+		int sW = stop.getWidth()/2, sH = stop.getHeight();
+		int aW = arrowhead.getWidth()/2, aH = arrowhead.getHeight();
+		g.drawRegion(stop, 0, 0, sW, sH, 0, 498+29, 467+9, 20);
 		if(SheepWarGameEngine.isFirstGame){
-			int sW = stop.getWidth()/2, sH = stop.getHeight();
-			int aW = arrowhead.getWidth()/2, aH = arrowhead.getHeight();
-			g.drawRegion(stop, sW, 0, sW, sH, 0, 498, 467, 20);
 			if(arrowFlag<3){
 				arrowFlag++;
 				arrowIndex=0;
@@ -1677,7 +1671,7 @@ public class StateGame implements Common{
 		
 		
 		/*道具数量*/
-		int propX=548, propY=186, spaceY=71, spaceX=67;
+		int propX=551, propY=193, spaceY=71, spaceX=70;
 		for(int j=0;j<4;j++){
 			for(int k=0;k<2;k++){
 				String str = String.valueOf(engine.props[getPropIndex(j, k)].getNums());
@@ -1728,7 +1722,7 @@ public class StateGame implements Common{
 		}
 	}
 	
-	private void drawNum(SGraphics g, int num, int x, int y) {
+	public void drawNum(SGraphics g, int num, int x, int y) {
 		Image imgNumeber = Resource.loadImage(Resource.id_shop_figure);
 		String number = String.valueOf(num);
 		int numW = imgNumeber.getWidth()/10, numH = imgNumeber.getHeight();
