@@ -88,12 +88,12 @@ public class StateShop implements Common{
 						g.drawRegion(price_quantity, 0, 0, priAndQuW, priAndQuH, 0,  x+(spaceX+smallW)*j+80, y+(spaceY+smallH)*i+12, 20);
 						g.drawRegion(playing_prop, getPropIndex(i, j)*p_propW, 0, p_propW, p_propH, 0,x+(spaceX+smallW)*j+16, y+(spaceY+smallH)*i+6, 20);
 						g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getPrice()),
-								x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+17, 20);
+								x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+14, 20);
 						g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getNums()), 
-								x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+43, 20);
+								x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+40, 20);
 						g.setColor(0x000000);
 						engine.setFont(25, true);
-						TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX], 5, 444, 130, 162, 220);
+						TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX]+engine.getEngineService().getExpendAmountUnit(), 5, 444, 130, 162, 220);
 						engine.setDefaultFont();
 					}else{
 						engine.setFont(30,true);
@@ -103,9 +103,9 @@ public class StateShop implements Common{
 						g.drawRegion(price_quantity, priAndQuW, 0, priAndQuW, priAndQuH, 0, x+(spaceX+smallW)*j+80, y+(spaceY+smallH)*i+12,20);
 						g.drawRegion(playing_prop, getPropIndex(i, j)*p_propW, 0, p_propW, p_propH, 0,x+(spaceX+smallW)*j+16, y+(spaceY+smallH)*i+6, 20);
 						g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getPrice()),
-								x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+17, 20);
+								x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+14, 20);
 						g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getNums()), 
-								x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+43, 20);
+								x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+40, 20);
 						engine.setDefaultFont();
 						g.setColor(col);
 					}
