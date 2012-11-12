@@ -52,7 +52,7 @@ public class StateRanking implements Common{
 		try
 		{
 			ServiceWrapper sw = engine.getServiceWrapper();
-			ranklist_month = sw.queryRankingList(0, 10);
+			ranklist_month = sw.queryRankingList(0, 5);
 			
 		    if (ranklist_month==null || ranklist_month.length<0)
 		        return;
