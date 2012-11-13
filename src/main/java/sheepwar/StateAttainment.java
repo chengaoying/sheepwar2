@@ -101,17 +101,16 @@ public class StateAttainment implements Common{
 		int leftX = 60,leftY = 130,leftSpace = 10, mapx, mapy;   
 		
 		int leftW = achievement_left.getWidth(), leftH = achievement_left.getHeight();
-		int achW = achievement_word.getWidth()/2, achH = achievement_word.getHeight() / 6;
+		int achW = achievement_word.getWidth(), achH = achievement_word.getHeight() / 6;
 		for(int i=0;i<6;i++){   
-			mapx = leftX+8;
+			mapx = leftX+13;
 			mapy = leftY+7+(leftH+leftSpace)*i;
 			if(!isRight && archY==i){
 				g.drawRegion(achievement_left1, 0, 0, leftW, leftH, 0, leftX, leftY+(leftH+leftSpace)*i, 20);
-				g.drawRegion(achievement_word,0, i*achH, achW, achH, 0, mapx,	mapy, 20);
 			}else{
 				g.drawRegion(achievement_left, 0, 0, leftW, leftH, 0, leftX, leftY+(leftH+leftSpace)*i, 20);
-				g.drawRegion(achievement_word,achW, i*achH, achW, achH, 0, mapx,	mapy, 20);
 			}
+			g.drawRegion(achievement_word,0, i*achH, achW, achH, 0, mapx,	mapy, 20);
 		}
 
 		

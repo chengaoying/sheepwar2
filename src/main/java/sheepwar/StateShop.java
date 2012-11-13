@@ -92,7 +92,7 @@ public class StateShop implements Common{
 						g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getNums()), 
 								x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+40, 20);
 						g.setColor(0x000000);
-						engine.setFont(25, true);
+						engine.setFont(20, true);
 						TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX]+engine.getEngineService().getExpendAmountUnit(), 5, 444, 130, 162, 220);
 						engine.setDefaultFont();
 					}else{
