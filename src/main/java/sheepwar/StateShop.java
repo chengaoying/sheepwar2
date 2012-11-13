@@ -202,7 +202,7 @@ public class StateShop implements Common{
 				//StateRecharge sr = new StateRecharge(engine);
 				//sr.recharge();
 				PopupConfirm pc = UIResource.getInstance().buildDefaultPopupConfirm();
-				pc.setText("是否跳转充值界面，为您充值？");
+				pc.setText("点击确定会退出游戏进入充值页面，未存档数据将会消失");
 				int index = pc.popup();
 				if(index==0){
 					ServiceWrapper sw = engine.getServiceWrapper();
