@@ -1631,9 +1631,11 @@ public class StateGame implements Common{
 		g.drawImage(playing_lunzi, 374,132, 20);
 		//g.drawRegion(playing_point, 0, 0, 46, playing_point.getHeight()/2, 0, 504+35, 59, 20);
 		if(own.scores>99999){
-			drawNum(g, own.scores, 499+22, 89);
+			drawNum(g, own.scores, 499+12, 89);
 		}else if(own.scores<1000){
 			drawNum(g, own.scores, 499+46, 89);
+		}else if(own.scores>9999 && own.scores<100000){
+			drawNum(g, own.scores, 499+22, 89);
 		}else{
 			drawNum(g, own.scores, 499+35, 89);
 		}
