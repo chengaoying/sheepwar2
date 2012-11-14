@@ -20,6 +20,9 @@ import cn.ohyeah.stb.util.DateUtil;
  * @author Administrator
  */
 public class SheepWarGameEngine extends GameCanvasEngine implements Common {
+	
+	public static boolean BATE_VERSION = true;	//广东公测版本
+	
 	public static boolean isSupportFavor = false;
 	public static int ScrW = 0;
 	public static int ScrH = 0;

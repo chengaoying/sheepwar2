@@ -139,6 +139,7 @@ public class Resource implements Common {
 	public static short id_main_select_base = NUMS++;     				
 	public static short id_main_select = NUMS++;   
 	public static short id_achievement_left1 = NUMS++;    
+	public static short id_bate = NUMS++;    
 	
 	
 	public static String[] imagesrcs = {
@@ -266,6 +267,7 @@ public class Resource implements Common {
 		"/main_select_base.png",             
 		"/main_select.png",
 		"/achievement_left1.png",    
+		"/bate.png",    
 	};
 	
 	private static final Image[] images = new Image[NUMS];

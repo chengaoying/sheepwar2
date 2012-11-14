@@ -55,6 +55,10 @@ public class StateMain implements Common{
 			g.drawRegion(main_menu, /*(mainIndex != i) ? sw : */0, i * sh, sw, sh,
 					0, menuAxis[i][0], menuAxis[i][1]+12, 20);
 		}
+		if(SheepWarGameEngine.BATE_VERSION){
+			Image bate = Resource.loadImage(Resource.id_bate);
+			g.drawImage(bate, 335, 136, 20);
+		}
 	}
 	
 	public void execute(){
