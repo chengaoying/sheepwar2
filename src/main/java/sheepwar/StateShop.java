@@ -194,6 +194,7 @@ public class StateShop implements Common{
 				engine.state = STATUS_GAME_RECHARGE;
 				engine.isRecharge = false;
 				running = false;*/
+				clear();
 				StateRechargeWinsideTW sr = new StateRechargeWinsideTW(engine);
 				sr.recharge();
 			}else if(shopX==2 && shopY==1){
