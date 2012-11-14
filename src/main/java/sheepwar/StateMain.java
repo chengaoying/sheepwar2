@@ -78,6 +78,7 @@ public class StateMain implements Common{
 			stateGame.initDataGameOver();
 			StateGame.own = stateGame.createRole.createSheep();
 			engine.state = STATUS_GAME_PLAYING;
+			clear();
 		} else if(mainIndex == 1){
 			engine.readRecord();
 			if(SheepWarGameEngine.result){
@@ -89,6 +90,7 @@ public class StateMain implements Common{
 				setWolfInLadder(); 		//恢复原有梯子上的狼
 				engine.state = STATUS_GAME_PLAYING;
 				SheepWarGameEngine.isFirstGame = false;
+				clear();
 			}else{
 				PopupText pt = UIResource.getInstance().buildDefaultPopupText();
 				pt.setText("没有游戏记录，请重新开始游戏!");
@@ -96,16 +98,20 @@ public class StateMain implements Common{
 				mainIndex=0;
 			}
 		} else if (mainIndex == 2) {// 道具商城
+			clear();
 			StateShop ss =  new StateShop(engine);
 			ss.processShop();
 		} else if (mainIndex == 3){ //成就系统
+			clear();
 			engine.updateAttainmen();
 			StateAttainment sa = new StateAttainment();
 			sa.processAttainment();
 		} else if (mainIndex == 4) {// 排行榜
+			clear();
 			StateRanking sr = new StateRanking();
 			sr.processRanking();
 		} else if (mainIndex == 5) {// 游戏帮助
+			clear();
 			StateHelp sh = new StateHelp();
 			sh.processHelp();
 		}else if(mainIndex==6){//退出游戏
