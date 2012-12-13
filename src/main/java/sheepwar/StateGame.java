@@ -1651,7 +1651,7 @@ public class StateGame implements Common{
 		
 		
 		/*道具数量*/
-		int propX=551, propY=193, spaceY=71, spaceX=70;
+		int propX=512, propY=193, spaceY=71, spaceX=70;
 		for(int j=0;j<4;j++){
 			for(int k=0;k<2;k++){
 				String str = String.valueOf(engine.props[getPropIndex(j, k)].getNums());
