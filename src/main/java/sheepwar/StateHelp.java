@@ -20,7 +20,7 @@ public class StateHelp implements Common{
 			KeyState keyState = engine.getKeyState();
 			SGraphics g = engine.getSGraphics();
 			while (running) {
-				handleHelp(keyState);
+				handleHelp(keyState, g);
 				if (running) {
 					long t1 = System.currentTimeMillis();
 					showHelp(g);
@@ -45,7 +45,6 @@ public class StateHelp implements Common{
 	}
 
 	int x1 = 20, x2 = 550, x3 = 424;
-	boolean isUp, isDown;
 	private void showHelp(SGraphics g) {
 		Image help_bg = Resource.loadImage(Resource.id_achievement_bottom);
 		Image shop_big = Resource.loadImage(Resource.id_shop_big);       //{137,108}
@@ -106,15 +105,9 @@ public class StateHelp implements Common{
 		engine.setFont(10,true);
 		TextView.showMultiLineText(g, Resource.gameInfo[helpX], 5,177, 150, 315, 248);	
 		engine.setDefaultFont();
-		if(isUp){
-			g.drawString("page up", 100, 20, 20);
-		}
-		if(isDown){
-			g.drawString("page down", 100, 20, 20);
-		}
 	}
 	
-	private void handleHelp(KeyState keyState) {
+	private void handleHelp(KeyState keyState,SGraphics g) {
 		if (keyState.containsAndRemove(KeyCode.NUM0 | KeyCode.BACK)) {
 			running = false;
 		}else if (keyState.containsAndRemove(KeyCode.LEFT)) {
@@ -132,8 +125,7 @@ public class StateHelp implements Common{
 				helpX = 2;
 			}
 		}else if (keyState.containsAndRemove(KeyCode.PAGE_UP)) {
-			isUp = true;
-			isDown = false;
+			g.drawString(String.valueOf(keyState.getCurrentKeyCode()), 150, 20, 20);
 			pageIndex = 0;
 			if (helpX > 0) {
 				helpX --;
@@ -141,8 +133,6 @@ public class StateHelp implements Common{
 				helpX = 0;
 			}
 		}else if (keyState.containsAndRemove(KeyCode.PAGE_DOWN)) {
-			isUp = false;
-			isDown = true;
 			pageIndex = 1;
 			if (helpX < 2) {
 				helpX ++;

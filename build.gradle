@@ -17,7 +17,7 @@ repositories {
 
 
 dependencies {
-    refProvide 'ohyeah:itvgame-common:1.3.8.3'
+    refProvide 'ohyeah:itvgame-common:1.3.8.4'
 }
 
 apply from: "${System.getenv().IGBT_HOME}/build.gradle"
