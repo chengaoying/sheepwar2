@@ -45,6 +45,7 @@ public class StateHelp implements Common{
 	}
 
 	int x1 = 20, x2 = 550, x3 = 424;
+	boolean isUp, isDown;
 	private void showHelp(SGraphics g) {
 		Image help_bg = Resource.loadImage(Resource.id_achievement_bottom);
 		Image shop_big = Resource.loadImage(Resource.id_shop_big);       //{137,108}
@@ -105,6 +106,12 @@ public class StateHelp implements Common{
 		engine.setFont(10,true);
 		TextView.showMultiLineText(g, Resource.gameInfo[helpX], 5,177, 150, 315, 248);	
 		engine.setDefaultFont();
+		if(isUp){
+			g.drawString("page up", 100, 20, 20);
+		}
+		if(isDown){
+			g.drawString("page down", 100, 20, 20);
+		}
 	}
 	
 	private void handleHelp(KeyState keyState) {
@@ -118,6 +125,24 @@ public class StateHelp implements Common{
 				helpX = 0;
 			}
 		}else if (keyState.containsAndRemove(KeyCode.RIGHT)) {
+			pageIndex = 1;
+			if (helpX < 2) {
+				helpX ++;
+			} else {
+				helpX = 2;
+			}
+		}else if (keyState.containsAndRemove(KeyCode.PAGE_UP)) {
+			isUp = true;
+			isDown = false;
+			pageIndex = 0;
+			if (helpX > 0) {
+				helpX --;
+			} else {
+				helpX = 0;
+			}
+		}else if (keyState.containsAndRemove(KeyCode.PAGE_DOWN)) {
+			isUp = false;
+			isDown = true;
 			pageIndex = 1;
 			if (helpX < 2) {
 				helpX ++;
