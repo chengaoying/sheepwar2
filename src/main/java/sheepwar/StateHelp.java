@@ -125,7 +125,6 @@ public class StateHelp implements Common{
 				helpX = 2;
 			}
 		}else if (keyState.containsAndRemove(KeyCode.PAGE_UP)) {
-			g.drawString(String.valueOf(keyState.getCurrentKeyCode()), 150, 20, 20);
 			pageIndex = 0;
 			if (helpX > 0) {
 				helpX --;

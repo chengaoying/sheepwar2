@@ -197,12 +197,14 @@ public class StateAttainment implements Common{
         		 if(archY>0){
     		   		 archY--;
     		   	 }
+        		 bX = 0;
         	}
         }else if(keyState.containsAndRemove(KeyCode.DOWN)){
 			if (!isRight) {
 				if(archY<5){
 					archY++;
 				}
+				bX = 0;
 			} 
        }else if(keyState.containsAndRemove(KeyCode.LEFT)){
         	if(isRight){
@@ -219,6 +221,12 @@ public class StateAttainment implements Common{
 				isRight = true;
 				bX = 0;
 			}
+        }else if(keyState.containsAndRemove(KeyCode.PAGE_UP)){
+        	bX = 0;
+        	
+        }else if(keyState.containsAndRemove(KeyCode.PAGE_DOWN)){
+        	bX = 1;
+        	
         }else if(keyState.containsAndRemove(KeyCode.OK)){
         	engine.stateGame.printInfo();  //打印成就信息
         }
