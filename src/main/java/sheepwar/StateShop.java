@@ -53,16 +53,17 @@ public class StateShop implements Common{
 		Image game_bg = Resource.loadImage(Resource.id_shop_bottom);
 		Image shop_balance = Resource.loadImage(Resource.id_shop_balance);//{46,454}
 		Image shop_big = Resource.loadImage(Resource.id_shop_big);//{29,103}
-		Image shop_go_pay = Resource.loadImage(Resource.id_shop_go_pay);//{457,381}				//9/29被修改为单纯的文字图片
-		Image shop_go_pay_base = Resource.loadImage(Resource.id_achievement_left);				//单纯的 按钮图片
-		Image shop_go_pay_base1 = Resource.loadImage(Resource.id_achievement_left1);				//单纯的 按钮图片
-		
+		Image shop_go_pay = Resource.loadImage(Resource.id_shop_go_pay);//{457,381}				
+		Image shop_go_pay_base = Resource.loadImage(Resource.id_achievement_left);				
+		Image shop_go_pay_base1 = Resource.loadImage(Resource.id_achievement_left1);				
 		Image shop_midding = Resource.loadImage(Resource.id_shop_midding);//{434,103}
-		Image shop_out = Resource.loadImage(Resource.id_shop_out);//{457,429}					//9/29被修改为单纯的文字图片“返回”
+		Image shop_cloth = Resource.loadImage(Resource.id_shop_cloth);//{434,103}
+		Image shop_out = Resource.loadImage(Resource.id_shop_out);//{457,429}					
 		Image shop_small = Resource.loadImage(Resource.id_shop_small);
 		Image price_quantity = Resource.loadImage(Resource.id_price_quantity);
 		Image shop = Resource.loadImage(Resource.id_shop);//{217,18}
 		Image playing_prop=Resource.loadImage(Resource.id_playing_prop);
+		Image shop_stroke=Resource.loadImage(Resource.id_stroke);					
 		Image shop_selected=Resource.loadImage(Resource.id_shop_selected);
 		g.setColor(0xffffff);
 		g.drawImage(game_bg, 0, 0, 20);
@@ -71,65 +72,69 @@ public class StateShop implements Common{
 		g.drawImage(shop_big, 29-12, 103, 20);
 		g.drawImage(shop_balance, 46, 457, 20);
 		g.drawImage(shop_midding, 434-12, 103, 20);
+		g.drawImage(shop_cloth, 434+10, 103+26, 20);
 		
-		int x =42, y = 130, spaceX = 15, spaceY = 5;
+		int x =52, y = 130, spaceX = 15, spaceY = 5;
 		int smallW = shop_small.getWidth(), smallH = shop_small.getHeight();
 		int p_propW = playing_prop.getWidth()/8, p_propH = playing_prop.getHeight();
-		int priAndQuW = price_quantity.getWidth()/2,priAndQuH = price_quantity.getHeight();
+		int  strokeW = shop_stroke.getWidth(),strokeH = shop_stroke.getHeight();
+		int priAndQuW = price_quantity.getWidth(),priAndQuH = price_quantity.getHeight();
 		for(int i=0;i<4;i++){
 		     for(int j=0;j<2;j++){
-				if(shopX==j && shopY==i){
-					engine.setFont(30,true);	
-					g.setColor(0xffffff);
-					g.drawImage(shop_selected, x+(spaceX+smallW)*j, y+(spaceY+smallH)*i, 20);
-					g.drawRegion(price_quantity, 0, 0, priAndQuW, priAndQuH, 0,  x+(spaceX+smallW)*j+80, y+(spaceY+smallH)*i+12, 20);
-					g.drawRegion(playing_prop, getPropIndex(i, j)*p_propW, 0, p_propW, p_propH, 0,x+(spaceX+smallW)*j+16, y+(spaceY+smallH)*i+6, 20);
-					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getPrice()),
-							x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+14, 20);
-					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getNums()), 
-							x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+40, 20);
-					g.setColor(0x000000);
-					engine.setFont(20, true);
-					TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX]+engine.getEngineService().getExpendAmountUnit(), 5, 444, 130, 162, 220);
-					engine.setDefaultFont();
-				}else{
-					engine.setFont(30,true);
-					int col = g.getColor();
-					g.setColor(0x000000);
-					g.drawImage(shop_small, x+(spaceX+smallW)*j, y+(spaceY+smallH)*i, 20);
-					g.drawRegion(price_quantity, priAndQuW, 0, priAndQuW, priAndQuH, 0, x+(spaceX+smallW)*j+80, y+(spaceY+smallH)*i+12,20);
-					g.drawRegion(playing_prop, getPropIndex(i, j)*p_propW, 0, p_propW, p_propH, 0,x+(spaceX+smallW)*j+16, y+(spaceY+smallH)*i+6, 20);
-					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getPrice()),
-							x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+14, 20);
-					g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getNums()), 
-							x+(spaceX+smallW)*j+134, y+(spaceY+smallH)*i+40, 20);
-					engine.setDefaultFont();
-					g.setColor(col);
-				}
+		    	 if(shopX==j && shopY==i){
+						engine.setFont(30,true);	
+						g.setColor(0xffffff);
+						g.drawImage(shop_selected, x+(spaceX+smallW)*j, y+(spaceY+smallH)*i, 20);
+						g.drawRegion(price_quantity, 0, 0, priAndQuW, priAndQuH, 0,  x+(spaceX+smallW)*j+80, y+(spaceY+smallH)*i+12, 20);
+						g.drawRegion(playing_prop, getPropIndex(i, j)*p_propW, 0, p_propW, p_propH, 0,x+(spaceX+smallW)*j+16, y+(spaceY+smallH)*i+6, 20);//
+						g.drawRegion(shop_stroke, /*getPropIndex(i, j)*p_propW*/0, 0,strokeW, strokeH, 0,x+(spaceX+smallW)*j+16, y+(spaceY+smallH)*i+6, 20);
+						g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getPrice()),
+								x+(spaceX+smallW)*j+136, y+(spaceY+smallH)*i+16, 20);
+						g.drawString(String.valueOf(engine.props[getPropIndex(i, j)].getNums()), 
+								x+(spaceX+smallW)*j+136, y+(spaceY+smallH)*i+42, 20);
+						g.setColor(0x000000);
+						engine.setFont(25, true);
+						TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX]+engine.getEngineService().getExpendAmountUnit(), 2, 452, 142, 140, 195);
+						engine.setDefaultFont();
+					}else{
+						engine.setFont(30,true);
+						int col = g.getColor();
+						g.setColor(0x000000);
+						g.drawImage(shop_small, x+(spaceX+smallW)*j, y+(spaceY+smallH)*i, 20);
+						g.drawRegion(price_quantity,0/* priAndQuW*/, 0, priAndQuW,priAndQuH, 0, x+(spaceX+smallW)*j+80, y+(spaceY+smallH)*i+12,20);
+						g.drawRegion(playing_prop, getPropIndex(i, j)*p_propW, 0,p_propW, p_propH, 0,x+(spaceX+smallW)*j+16, y+(spaceY+smallH)*i+6, 20);
+						g.drawString(String.valueOf(engine.props[getPropIndex(i,j)].getPrice()),
+								x+(spaceX+smallW)*j+136, y+(spaceY+smallH)*i+16,20);
+						g.drawString(String.valueOf(engine.props[getPropIndex(i,j)].getNums()), 
+								x+(spaceX+smallW)*j+136, y+(spaceY+smallH)*i+42,20);
+						engine.setDefaultFont();
+						g.setColor(col);
+					}
+		    	 g.drawRegion(shop_stroke, /*getPropIndex(i, j)*p_propW*/0, 0, strokeW, strokeH, 0,x+(spaceX+smallW)*j+16, y+(spaceY+smallH)*i+6, 20);
 			}
 		}
-		if(shopX==2){          //充值和返回被选择的阴影效果
+		if(shopX==2){          // changed on 11-7 by Lee : removed the slash effect
 			 if(shopY==0){      //控制方向由左到右的入口方向
 				 g.drawImage(shop_go_pay_base1, 457-8, 381-5, 20);
 			   	 g.drawImage(shop_go_pay, 457-8+16, 381-5+5, 20);
 			 	 g.drawImage(shop_go_pay_base, 457-8, 429-5, 20);
 			   	 g.drawImage(shop_out, 457+16, 429+7, 20);
 			  }else{
-				 g.drawImage(shop_go_pay_base, 457-8, 381-5, 20);
-				 g.drawImage(shop_go_pay, 457-8+16, 381-5+5, 20);
-				 g.drawImage(shop_go_pay_base1, 457-8, 429-5, 20);
-				 g.drawImage(shop_out, 457+16, 429+7, 20);
+			   	 g.drawImage(shop_go_pay_base, 457-8, 381-5, 20);
+			   	 g.drawImage(shop_go_pay, 457-8+16, 381-5+5, 20);
+			 	 g.drawImage(shop_go_pay_base1, 457-8, 429-5, 20);
+			   	 g.drawImage(shop_out, 457+16, 429+7, 20);
 			 }
 		}else{
-	    	g.drawImage(shop_go_pay_base, 457 -8, 381-5, 20);
-	    	g.drawImage(shop_go_pay, 457-8+16, 381-5+5, 20);
-	   		g.drawImage(shop_go_pay_base, 457-8, 429-5, 20);
-	   		g.drawImage(shop_out, 457-8+16, 429-5+7, 20);
+	   	 g.drawImage(shop_go_pay_base, 457-8, 381-5, 20);
+	   	 g.drawImage(shop_go_pay, 457-8+16, 381-5+5, 20);
+	   	 g.drawImage(shop_go_pay_base, 457-8, 429-5, 20);
+	   	 g.drawImage(shop_out, 457+16, 429+7, 20);
 		}
 		 
 		engine.setFont(30, true);
 		g.setColor(0x000000);
-		g.drawString(String.valueOf(engine.getEngineService().getBalance())+engine.getEngineService().getExpendAmountUnit(),110,449+7, 20);//用户余额
+		g.drawString(String.valueOf(engine.getEngineService().getBalance())+engine.getEngineService().getExpendAmountUnit(),110,459, 20);//用户余额
 		engine.setDefaultFont();
 	}
 	

@@ -46,16 +46,17 @@ public class StateHelp implements Common{
 	}
 
 	int x1 = 20, x2 = 550, x3 = 424;
+
 	private void showHelp(SGraphics g) {
 		Image help_bg = Resource.loadImage(Resource.id_achievement_bottom);
 		Image shop_big = Resource.loadImage(Resource.id_shop_big);       //{137,108}
+		Image help_cloth = Resource.loadImage(Resource.id_help_cloth);       //{137,108}
 		Image game_help = Resource.loadImage(Resource.id_game_help);     //{214,18}
 		Image achievement_out1 = Resource.loadImage(Resource.id_achievement_out1);   //{17,498}
 		Image achievement_left_right = Resource.loadImage(Resource.id_achievement_left_right);   //{}
-		Image achievement_left_right1 = Resource.loadImage(Resource.id_achievement_left_right1);   //{380,452}
+		Image achievement_left_right1 = Resource.loadImage(Resource.id_achievement_left_right1);   //
 		Image slash = Resource.loadImage(Resource.id_slash);
 		Image pass_cloud = Resource.loadImage(Resource.id_pass_cloud);
-		engine.setFont(20,true);					//设置字体大小
 		g.drawImage(help_bg, 0, 0, 20);
 
 		/*中间的云*/
@@ -80,8 +81,10 @@ public class StateHelp implements Common{
 		g.drawImage(pass_cloud, x3, 265, 20);
 		
 		g.drawImage(shop_big, 137, 108, 20);
+		g.drawImage(help_cloth, 157, 108+26, 20);
 		
-		int helpLeftRightX = 380,helpLeftRightY = 452,sapceLeftRight = 52;				//帮助界面中的按钮横纵坐标,sapceLeftRight左右间距
+		int helpLeftRightX = 380,helpLeftRightY = 452,sapceLeftRight = 52;				
+
 		int achLeftW = achievement_left_right.getWidth()/2;
 		engine.stateGame.drawNum(g, helpX+1, helpLeftRightX+achLeftW+1, helpLeftRightY+6);
 		g.drawImage(slash, helpLeftRightX+achLeftW+15, helpLeftRightY+4, 20);
@@ -94,15 +97,15 @@ public class StateHelp implements Common{
 					helpLeftRightY/*-helpShadowY*/, 20);
 		}else if(pageIndex == 1){
 			g.drawRegion(achievement_left_right, 0, 0, achLeftW, 		//翻页左按钮
-					achievement_left_right.getHeight(), 0, helpLeftRightX/*-helpShadowX*/, helpLeftRightY/*-helpShadowY*/, 20);
+					achievement_left_right.getHeight(), 0, helpLeftRightX/*-helpShadowX*/,helpLeftRightY/*-helpShadowY*/, 20);
 			g.drawRegion(achievement_left_right1, 1*achLeftW, 0, achLeftW,
-					achievement_left_right.getHeight(), 0, helpLeftRightX+sapceLeftRight+achLeftW,
-					helpLeftRightY, 20);
+					achievement_left_right.getHeight(), 0, helpLeftRightX+sapceLeftRight+achLeftW,helpLeftRightY, 20);
 		}
-		g.drawImage(game_help, 235,18, 20);
+		g.drawImage(game_help, 220,18, 20);
 		g.drawImage(achievement_out1, 17,498, 20);
 		g.setColor(0x000000);
-		TextView.showMultiLineText(g, Resource.gameInfo[helpX], 6,160, 135, 359, 333);	
+		engine.setFont(10,true);
+		TextView.showMultiLineText(g, Resource.gameInfo[helpX], 5,177, 150, 315, 248);
 		if(Configurations.getInstance().isTelcomOperatorsTelcomgd()){
 			engine.setFont(20,true);
 			g.drawString("游戏版本 1.0.0", 177, 388, 20);
