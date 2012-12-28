@@ -2,6 +2,7 @@ package sheepwar;
 
 import javax.microedition.lcdui.Image;
 
+import cn.ohyeah.stb.game.Configurations;
 import cn.ohyeah.stb.game.SGraphics;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
@@ -103,7 +104,11 @@ public class StateHelp implements Common{
 		g.drawImage(achievement_out1, 17,498, 20);
 		g.setColor(0x000000);
 		engine.setFont(10,true);
-		TextView.showMultiLineText(g, Resource.gameInfo[helpX], 5,177, 150, 315, 248);	
+		TextView.showMultiLineText(g, Resource.gameInfo[helpX], 5,177, 150, 315, 248);
+		if(Configurations.getInstance().isTelcomOperatorsTelcomgd()){
+			engine.setFont(20,true);
+			g.drawString("”Œœ∑∞Ê±æ 1.0", 300, 300, 20);
+		}
 		engine.setDefaultFont();
 	}
 	

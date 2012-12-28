@@ -4,6 +4,7 @@ import javax.microedition.lcdui.Image;
 
 import cn.ohyeah.stb.game.Recharge;
 import cn.ohyeah.stb.game.SGraphics;
+import cn.ohyeah.stb.game.StateRecharge;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.res.UIResource;
@@ -199,8 +200,8 @@ public class StateShop implements Common{
 				engine.isRecharge = false;
 				running = false;*/
 				clear();
-				//StateRecharge sr = new StateRecharge(engine);
-				Recharge sr = new Recharge(engine);
+				StateRecharge sr = new StateRecharge(engine);
+				//Recharge sr = new Recharge(engine);
 				sr.recharge();
 			}else if(shopX==2 && shopY==1){
 				running = false;
