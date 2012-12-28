@@ -107,7 +107,7 @@ public class StateHelp implements Common{
 		TextView.showMultiLineText(g, Resource.gameInfo[helpX], 5,177, 150, 315, 248);
 		if(Configurations.getInstance().isTelcomOperatorsTelcomgd()){
 			engine.setFont(20,true);
-			g.drawString("游戏版本 1.0", 300, 300, 20);
+			g.drawString("游戏版本 1.0.0", 177, 388, 20);
 		}
 		engine.setDefaultFont();
 	}
