@@ -78,7 +78,7 @@ public class StateShop implements Common{
 		int smallW = shop_small.getWidth(), smallH = shop_small.getHeight();
 		int p_propW = playing_prop.getWidth()/8, p_propH = playing_prop.getHeight();
 		int  strokeW = shop_stroke.getWidth(),strokeH = shop_stroke.getHeight();
-		int priAndQuW = price_quantity.getWidth(),priAndQuH = price_quantity.getHeight();
+		int priAndQuW = price_quantity.getWidth()/2,priAndQuH = price_quantity.getHeight();
 		for(int i=0;i<4;i++){
 		     for(int j=0;j<2;j++){
 		    	 if(shopX==j && shopY==i){

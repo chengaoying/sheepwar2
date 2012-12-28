@@ -139,8 +139,13 @@ public class Resource implements Common {
 	public static short id_main_select_base = NUMS++;     				
 	public static short id_main_select = NUMS++;   
 	public static short id_achievement_left1 = NUMS++;    
-	public static short id_bate = NUMS++;    
-	
+	public static short id_main_menu1 = NUMS++;     				
+	public static short id_achievement_word1 = NUMS++;     				
+	public static short id_ranking_word1 = NUMS++;     				
+	public static short id_help_cloth = NUMS++;     				
+	public static short id_shop_cloth = NUMS++;     				
+	public static short id_stroke = NUMS++; 
+	public static short id_bate = NUMS++; 
 	
 	public static String[] imagesrcs = {
 		"/main_bg.jpg",
@@ -267,7 +272,13 @@ public class Resource implements Common {
 		"/main_select_base.png",             
 		"/main_select.png",
 		"/achievement_left1.png",    
-		"/bate.png",    
+		"/main_menu1.png",             
+		"/achievement_word1.png",             
+		"/ranking_word1.png",             
+		"/help_cloth.png",             
+		"/shop_cloth.png",             
+		"/stroke.png",         
+		"/bate.png",         
 	};
 	
 	private static final Image[] images = new Image[NUMS];
@@ -293,10 +304,9 @@ public class Resource implements Common {
 	 * 游戏帮助文字介绍
 	 */
 	public static String gameInfo[] = {   
-		"【操作说明】#r上下方向键：控制玩家的移动#r确定键：发射飞镖或无敌拳套#r数字键1至8：使用道具#r数字键0：退出游戏#r" +
-		"数字键9:游戏帮助",
+		"【操作说明】#r上下方向键：控制玩家的移动#r确定键：发射飞镖或无敌拳套#r数字键1至8：使用道具#r数字键0：退出游戏#r",
 		
-		"【道具说明】#r时光闹钟：时间静止10秒#r捕狼网：发射一张大网网住灰太狼#r防狼套装：使用后抵抗各种的攻击#r替身玩偶：增加一条命#r驱狼竖琴：可以清除成功降落的灰太狼#r连发:装备后一次可以发射4个飞镖#r强力磁石：击落所有空中的灰太狼#r驱狼光波：发射一道光波击落灰太狼",
+		"【道具说明】#r时光闹钟：时间静止10秒#r捕狼网：发射一张大网网住灰太狼#r防狼套装：使用后抵抗各种的攻击#r替身玩偶：增加一条命#r驱狼竖琴：清除成功逃脱的狼#r连发:装备后一次可以发射四个飞镖#r强力磁石：击落所有空中的灰太狼#r驱狼光波：发射一道光波",
 		
 		"【游戏简介】#r喜羊羊大战灰太狼是一款闯关类游戏，总共有15关。玩家控制喜羊羊击落一定数量的灰太狼即可过关。此外玩家还可以在道具商城内购买各种道具来获得更有趣的体验。除了闯关外，游戏中还推出了成就系统和排行榜，增加了玩家在游戏的过程中动力和目标。",
 		"",
@@ -304,10 +314,10 @@ public class Resource implements Common {
 	
 	/*商城商品介绍*/    	//二维数组创建注意
 	public static String propIntroduce [][]= {
-		{"时光闹钟:#r时间静止10秒#r价格：20","驱狼竖琴:#r使用后清除所有梯子上或者正在推南瓜的灰太狼#r价格：30"},//shopY
-		{"捕狼网:#r发射出的飞镖碰到灰太狼就会张开一张网，#r大网内的灰太狼都会掉落#r只击落碰到的灰太狼#r价格：20","连发:#r使用后连续发射四颗飞镖，单关有效#r价格：30"},
-		{"防狼套装:#r开启后得到30秒的无敌效#r果，抵御各种攻击#r价格：30","强力磁石:#r击落所有空中的灰太狼#r价格：50"},
-		{"驱狼光波:#r发出一道十万伏特的电流，电晕碰到的灰太狼，持续5秒#r价格：30","替身玩偶:#r增加一条命#r价格：50"},
+		{"时光闹钟:#r时间静止10秒#r价格:20","驱狼竖琴:#r清除成功逃脱的狼#r价格:30"},//shopY
+		{"捕狼网:#r发射一张大网网住灰太狼#r价格:20","连发:#r使用后连续发射四颗飞镖,单关有效#r价格:30"},
+		{"防狼套装:#r使用后抵抗各种的攻击,持续30秒#r价格:30","强力磁石:#r击落所有空中的灰太狼#r价格:50"},
+		{"驱狼光波:#r发射一道光波,持续5秒#r价格:30","替身玩偶:#r增加一条命#r价格:50"},
 	};
 
 
