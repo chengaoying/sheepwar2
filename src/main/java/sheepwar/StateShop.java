@@ -200,8 +200,8 @@ public class StateShop implements Common{
 				engine.isRecharge = false;
 				running = false;*/
 				clear();
-				StateRecharge sr = new StateRecharge(engine);
-				//Recharge sr = new Recharge(engine);
+				//StateRecharge sr = new StateRecharge(engine);
+				Recharge sr = new Recharge(engine);
 				sr.recharge();
 			}else if(shopX==2 && shopY==1){
 				running = false;
