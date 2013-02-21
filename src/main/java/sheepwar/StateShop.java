@@ -4,7 +4,6 @@ import javax.microedition.lcdui.Image;
 
 import cn.ohyeah.stb.game.Recharge;
 import cn.ohyeah.stb.game.SGraphics;
-import cn.ohyeah.stb.game.StateRecharge;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.res.UIResource;

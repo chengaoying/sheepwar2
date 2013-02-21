@@ -1,6 +1,9 @@
 package sheepwar;
 import javax.microedition.lcdui.Image;
+
+import cn.ohyeah.stb.game.Configurations;
 import cn.ohyeah.stb.game.SGraphics;
+import cn.ohyeah.stb.game.ServiceWrapper;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.res.UIResource;
@@ -19,21 +22,57 @@ public class StateMain implements Common{
 	public int menuAxis[][] = { { 484, 97 }, { 484, 97+52 }, { 484, 97+104 },
 					{ 484, 97+156 }, { 484, 97+208 }, { 484, 97+260 }, { 484, 97+312 },	};
 	
-	private int mainIndex;
+	private int groupIndex, mainIndex;
 	
 	public void handleKey(KeyState keyState){
-		if (keyState.containsAndRemove(KeyCode.NUM0 | KeyCode.BACK)) {
-			//exit = true;
-			//clear();
+		if (!Configurations.getInstance().isFavorWayNonsupport()) {
+			if (keyState.containsAndRemove(KeyCode.LEFT)) {
+				if (groupIndex == 0) {
+					groupIndex = 1;
+				}
+			}
+			
+			if (keyState.containsAndRemove(KeyCode.RIGHT)) {
+				if (groupIndex == 1) {
+					groupIndex = 0;
+				}
+			}
 		}
-		if (keyState.containsAndRemove(KeyCode.UP)) {
-			mainIndex = (mainIndex + 7 - 1) % 7;
-		} else if (keyState.containsAndRemove(KeyCode.DOWN)) {
-			mainIndex = (mainIndex + 1) % 7;
-		} else if (keyState.containsAndRemove(KeyCode.OK)) {
-			processSubMenu();
-			clear();
+		if(groupIndex == 0){
+			if (keyState.containsAndRemove(KeyCode.UP)) {
+				mainIndex = (mainIndex + 7 - 1) % 7;
+			} else if (keyState.containsAndRemove(KeyCode.DOWN)) {
+				mainIndex = (mainIndex + 1) % 7;
+			}
 		}
+		
+		if (keyState.containsAndRemove(KeyCode.OK)) {
+			if(groupIndex == 0){
+				processSubMenu();
+				clear();
+			}else{
+				addfavorite();
+			}
+		}
+	}
+	
+	private void addfavorite() {
+		PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+		try {
+			ServiceWrapper sw = engine.getServiceWrapper();
+			sw.addFavoritegd();
+			if (sw.isServiceSuccessful()) {
+				pt.setText("添加收藏夹成功");
+			}
+			else {
+				pt.setText("添加收藏夹失败, 原因: "+sw.getServiceMessage());
+			}
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			pt.setText("添加收藏夹失败，请稍后重试");
+		}
+		pt.popup();
 	}
 
 	public void show(SGraphics g) {
@@ -58,6 +97,16 @@ public class StateMain implements Common{
 						0, menuAxis[i][0]+shadowX, menuAxis[i][1]+12+shadowY, 20);
 				g.drawRegion(main_menu, /*(mainIndex != i) ? sw : */0, i * sh, sw, sh,
 						0, menuAxis[i][0], menuAxis[i][1]+15, 20);
+			}
+		}
+		
+		if (!Configurations.getInstance().isFavorWayNonsupport()) {
+			Image favoriteImg = Resource.loadImage(Resource.id_favorite);
+			int w = favoriteImg.getWidth()/2, h = favoriteImg.getHeight();
+			if(groupIndex == 0){
+				g.drawRegion(favoriteImg, 0, 0, w, h, 0, 0, 405, 20);
+			}else{
+				g.drawRegion(favoriteImg, w, 0, w, h, 0, 0, 405, 20);
 			}
 		}
 	}
@@ -185,5 +234,6 @@ public class StateMain implements Common{
 		Resource.freeImage(Resource.id_main_menu1);
 		Resource.freeImage(Resource.id_main_select);
 		Resource.freeImage(Resource.id_main_select_base);
+		Resource.freeImage(Resource.id_favorite);
 	}
 }

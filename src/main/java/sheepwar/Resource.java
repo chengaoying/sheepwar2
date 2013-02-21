@@ -145,6 +145,7 @@ public class Resource implements Common {
 	public static short id_help_cloth = NUMS++;     				
 	public static short id_shop_cloth = NUMS++;     				
 	public static short id_stroke = NUMS++; 
+	public static short id_favorite = NUMS++;
 	
 	public static String[] imagesrcs = {
 		"/main_bg.jpg",
@@ -277,6 +278,7 @@ public class Resource implements Common {
 		"/help_cloth.png",             
 		"/shop_cloth.png",             
 		"/stroke.png",         
+		"/favorite.png",         
 	};
 	
 	private static final Image[] images = new Image[NUMS];
