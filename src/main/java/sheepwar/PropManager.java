@@ -2,9 +2,7 @@ package sheepwar;
 
 import cn.ohyeah.itvgame.model.OwnProp;
 import cn.ohyeah.stb.game.ServiceWrapper;
-import cn.ohyeah.stb.game.StateRecharge;
 import cn.ohyeah.stb.res.UIResource;
-import cn.ohyeah.stb.ui.PopupConfirm;
 import cn.ohyeah.stb.ui.PopupText;
 
 
@@ -72,8 +70,22 @@ public class PropManager implements Common{
 	}
 	
 	private boolean buyProp(int propId, int propCount, int price, String propName){
+		
+		ServiceWrapper sw = engine.getServiceWrapper();
+		//sw.purchaseProp(propId, propCount, "¹ºÂò"+propName);
+		sw.expend(price, propId, "¹ºÂò"+propName);
+		PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+		if (sw.isServiceSuccessful()) {
+			pt.setText("¹ºÂò"+propName+"³É¹¦");
+		}
+		else {
+			pt.setText("¹ºÂò"+propName+"Ê§°Ü, Ô­Òò: "+sw.getServiceMessage());
+			
+		}
+		pt.popup();
+		return sw.isServiceSuccessful();
 	
-		if (/*engine.getEngineService().getBalance()*/1000 >= price) {
+		/*if (engine.getEngineService().getBalance()1000 >= price) {
 			ServiceWrapper sw = engine.getServiceWrapper();
 			sw.purchaseProp(propId, 1, "¹ºÂò"+propName);
 			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
@@ -94,7 +106,7 @@ public class PropManager implements Common{
 					recharge.recharge();
 				}
 				return false;
-		}
+		}*/
 	}
 	
 	

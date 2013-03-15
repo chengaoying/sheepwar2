@@ -8,6 +8,7 @@ import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.res.UIResource;
 import cn.ohyeah.stb.ui.PopupConfirm;
+import cn.ohyeah.stb.ui.PopupText;
 import cn.ohyeah.stb.ui.TextView;
 
 public class StateShop implements Common{
@@ -198,16 +199,19 @@ public class StateShop implements Common{
 				engine.state = STATUS_GAME_RECHARGE;
 				engine.isRecharge = false;
 				running = false;*/
-				clear();
+				//clear();
 				//StateRecharge sr = new StateRecharge(engine);
-				Recharge sr = new Recharge(engine);
-				sr.recharge();
+				//Recharge sr = new Recharge(engine);
+				//sr.recharge();
+				PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+				pt.setText("游戏内不支持充值，请到大厅充值!");
+				pt.popup();
 			}else if(shopX==2 && shopY==1){
 				running = false;
 				shopX = 0;shopY = 0;
 			}else{
 				PopupConfirm pc = UIResource.getInstance().buildDefaultPopupConfirm();
-				pc.setText("确定要购买吗?");
+				pc.setText("确定要购买吗?(1金币=1元人民币)");
 				if(pc.popup()==0){
 					engine.pm.purchaseProp(shopX, shopY);
 				}
