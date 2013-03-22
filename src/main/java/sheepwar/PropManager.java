@@ -12,7 +12,7 @@ public class PropManager implements Common{
 	public Prop[] props;   			//玩家道具列表
 	
 	public int[] propIds = {53,54,55,56,57,58,59,60};		//道具id 
-	public int[] propPrice = {20,20,30,30,30,30,50,50};		//道具价格
+	public int[] propPrice = {2,2,3,3,3,3,5,5};				//道具价格
 	
 	public PropManager(SheepWarGameEngine engine){
 		this.engine = engine;

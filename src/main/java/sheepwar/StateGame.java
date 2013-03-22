@@ -451,7 +451,7 @@ public class StateGame implements Common{
 				bStartTime = System.currentTimeMillis()/1000;
 			}
 			if(b){
-				pt.setText("按上下键#W移动喜羊羊，按确认键#W发射飞镖，击中灰太狼身上的气球阻止灰太狼降落");
+				pt.setText("按上下键#W移动喜羊羊，按确认键#W发射飞镖");
 				pt.popup();
 				b = false;
 				b2 = false;
@@ -468,7 +468,7 @@ public class StateGame implements Common{
 				dStartTime = System.currentTimeMillis()/1000;
 			}
 			if(d){
-				pt.setText("梯子上的灰太狼会威胁到喜羊羊的安全。按数字键2#W使用道具驱狼竖琴清除已降落的灰太狼。");
+				pt.setText("按数字键2#W使用道具驱狼竖琴清除已降落的灰太狼。");
 				pt.popup();
 				d = false;
 				d2 = false;
@@ -477,7 +477,7 @@ public class StateGame implements Common{
 				eStartTime = System.currentTimeMillis()/1000;
 			}
 			if(e){
-				pt.setText("恭喜你，你已经可以独自面对接下来的挑战了。按数字键#W使用它们。记住，道具在商城购买。");
+				pt.setText("按数字键#W使用道具，道具可在商城购买。");
 				pt.popup();
 				e = false;
 				e2 = false;
