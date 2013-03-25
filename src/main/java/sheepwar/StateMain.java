@@ -60,12 +60,12 @@ public class StateMain implements Common{
 		PopupText pt = UIResource.getInstance().buildDefaultPopupText();
 		try {
 			ServiceWrapper sw = engine.getServiceWrapper();
-			sw.addFavoritegd();
+			sw.addFavor();
 			if (sw.isServiceSuccessful()) {
 				pt.setText("添加收藏夹成功");
 			}
 			else {
-				pt.setText("添加收藏夹失败, 原因: "+sw.getServiceMessage());
+				pt.setText("添加收藏夹失败, 原因: "+sw.getMessage());
 			}
 		}
 		catch (Exception e) {
