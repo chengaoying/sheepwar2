@@ -140,8 +140,7 @@ public class StateMain implements Common{
 			engine.state = STATUS_GAME_PLAYING;
 			clear();
 		} else if(mainIndex == 1){
-			engine.readRecord();
-			if(SheepWarGameEngine.result){
+			if(engine.readRecord()){
 				stateGame.weapon = new Weapon(stateGame);
 				stateGame.createRole = new CreateRole();
 				stateGame.batches = new Batches();
@@ -177,9 +176,13 @@ public class StateMain implements Common{
 		}else if(mainIndex==6){//退出游戏
 			clear();
 			exit = true;
+			/*同步道具*/
+			engine.pm.sysProps();
 			
 			//保存数据
 			engine.saveAttainment();
+			ServiceWrapper sw = engine.getServiceWrapper();
+			sw.userQuit();
 		} 
 	}
 	

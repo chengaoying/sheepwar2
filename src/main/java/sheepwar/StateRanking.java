@@ -16,6 +16,7 @@ public class StateRanking implements Common{
 	private  GameRanking[]  ranklist_month;
 	private  GameRanking[]  ranklist_week;
 	private GameRanking[] rankList;
+	private int myRank = -1;
 	
 	public void processRanking(){
 		running = true;
@@ -52,7 +53,12 @@ public class StateRanking implements Common{
 		try
 		{
 			ServiceWrapper sw = engine.getServiceWrapper();
-			ranklist_month = sw.queryRankingList(0, 5);
+			String datas = sw.loadRanking(3);
+			if(!sw.isServiceSuccessful() || datas==null || datas==""){
+				return;
+			}
+			ranklist_month = sw.loadRanking(datas, 0, 5);
+			myRank = sw.getMyRanking(datas);
 			
 		    if (ranklist_month==null || ranklist_month.length<0)
 		        return;
@@ -151,10 +157,10 @@ public class StateRanking implements Common{
 				g.drawString(id, offX, offY, 20);
 				g.drawString(String.valueOf(scores), 505, offY, 20);
 				offY += 56;
-				if(id.equals(engine.getEngineService().getUserId())){
-					ownRank = String.valueOf(info.getRanking());
-				}
 			}
+		}
+		if(myRank != -1){
+			ownRank = String.valueOf(myRank);
 		}
 		g.drawString(ownRank, 260+current_ranking.getWidth(), 448, 20);
 		engine.setDefaultFont();

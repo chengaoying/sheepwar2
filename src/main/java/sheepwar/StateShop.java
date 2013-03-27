@@ -2,12 +2,12 @@ package sheepwar;
 
 import javax.microedition.lcdui.Image;
 
+import cn.ohyeah.stb.game.Recharge;
 import cn.ohyeah.stb.game.SGraphics;
 import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.res.UIResource;
 import cn.ohyeah.stb.ui.PopupConfirm;
-import cn.ohyeah.stb.ui.PopupText;
 import cn.ohyeah.stb.ui.TextView;
 
 public class StateShop implements Common{
@@ -96,7 +96,7 @@ public class StateShop implements Common{
 								x+(spaceX+smallW)*j+136, y+(spaceY+smallH)*i+42, 20);
 						g.setColor(0x000000);
 						engine.setFont(25, true);
-						TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX]+engine.getEngineService().getExpendAmountUnit(), 2, 452, 142, 140, 195);
+						TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX]+engine.props[getPropIndex(i, j)].getPrice()+engine.getEngineService().getExpendAmountUnit(), 2, 452, 142, 140, 195);
 						engine.setDefaultFont();
 					}else{
 						engine.setFont(30,true);
@@ -200,17 +200,19 @@ public class StateShop implements Common{
 				running = false;*/
 				//clear();
 				//StateRecharge sr = new StateRecharge(engine);
-				//Recharge sr = new Recharge(engine);
-				//sr.recharge();
-				PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+				Recharge sr = new Recharge(engine);
+				sr.recharge();
+				/*PopupText pt = UIResource.getInstance().buildDefaultPopupText();
 				pt.setText("游戏内不支持充值，请到大厅充值!");
-				pt.popup();
+				pt.popup();*/
 			}else if(shopX==2 && shopY==1){
 				running = false;
 				shopX = 0;shopY = 0;
+				/*同步道具*/
+				engine.pm.sysProps();
 			}else{
 				PopupConfirm pc = UIResource.getInstance().buildDefaultPopupConfirm();
-				pc.setText("确定要购买吗?(1金币=1元人民币)");
+				pc.setText("确定要购买吗?");
 				if(pc.popup()==0){
 					engine.pm.purchaseProp(shopX, shopY);
 				}

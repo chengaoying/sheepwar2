@@ -1,13 +1,9 @@
 package sheepwar;
 
-import java.util.Date;
-
 import javax.microedition.midlet.MIDlet;
 import cn.ohyeah.stb.game.GameCanvasEngine;
 import cn.ohyeah.stb.game.ServiceWrapper;
 import cn.ohyeah.stb.util.ConvertUtil;
-import cn.ohyeah.stb.util.DateUtil;
-
 /**
  * 游戏引擎
  * @author Administrator
@@ -39,7 +35,7 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 	public String[] gameRecordInfo;
 	public String[] gameAttainmentInfo;
 	
-	public static boolean result;   	//是否有游戏记录
+	//public static boolean result;   	//是否有游戏记录
 	public static boolean isFirstGame = true;   //是否第一次玩游戏
 	
 	/**
@@ -134,7 +130,7 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 	public void loadAttainmenInfo(){
 		ServiceWrapper sw = getServiceWrapper();
 		String data = sw.loadGobalData();
-		if(!sw.isServiceSuccessful() || data==null || data.equals("0")){
+		if(data==null){
 			return ;
 		}
 		
@@ -252,21 +248,30 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 	}
 
 	private void init() {
-		
-		/*创建道具数组*/
-		pm.initProps(props);
-		
-		/*初始化道具信息*/
-		pm.updateProps();
-		
-		/*读取游戏记录*/
-		readRecord();
-		
-		loadAttainmenInfo();
-		
-		/*初始化玩家成就信息*/
+
+		try {
+			/* 初始化道具信息 */
+			pm.queryProps();
+		} catch (Exception e) {
+			errorMessage += "\n初始化道具出错" + e.getMessage();
+		}
+
+		try {
+			/* 读取游戏记录 */
+			readRecord();
+		} catch (Exception e) {
+			errorMessage += "\n读取游戏记录出错" + e.getMessage();
+		}
+
+		try {
+			loadAttainmenInfo();
+		} catch (Exception e) {
+			errorMessage += "\n读取全局数据出错" + e.getMessage();
+		}
+
+		/* 初始化玩家成就信息 */
 		initAttainmen();
-		state = STATUS_MAIN_MENU;  
+		state = STATUS_MAIN_MENU;
 	}
 	
 	/*保存游戏成就(用于排行的积分)*/
@@ -364,19 +369,23 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 	
 	/*读取游戏记录*/
 	public boolean readRecord(){
-		ServiceWrapper sw = getServiceWrapper();
-		String data = sw.loadRecord(recordId);
-		if(!sw.isServiceSuccessful() || data==null || data.equals("0")){
-			return result = false;
+		try{
+			ServiceWrapper sw = getServiceWrapper();
+			String data = sw.loadRecord(recordId);
+			if(data==null){
+				return false;
+			}
+			String[] ds = ConvertUtil.split(data, "/");
+		    gameRecordInfo = new String[ds.length];
+		    for(int i=0;i<ds.length;i++){
+		    	gameRecordInfo[i] = ConvertUtil.split(ds[i], ":")[1];
+		    }
+		    initRecordInfo(gameRecordInfo);
+		    printRecordInfo();
+		    return true;
+		}catch(Exception e){
+			return false;
 		}
-		String[] ds = ConvertUtil.split(data, "/");
-	    gameRecordInfo = new String[ds.length];
-	    for(int i=0;i<ds.length;i++){
-	    	gameRecordInfo[i] = ConvertUtil.split(ds[i], ":")[1];
-	    }
-	    initRecordInfo(gameRecordInfo);
-	    printRecordInfo();
-	    return result = true;
 	}
 	
  	private void printRecordInfo() {
