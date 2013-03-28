@@ -128,16 +128,16 @@ public class StateShop implements Common{
 			   	 g.drawImage(shop_out, 457+16, 429+7, 20);
 			 }
 		}else{
-	   	 g.drawImage(shop_go_pay_base, 457-8, 381-5, 20);
-	   	 g.drawImage(shop_go_pay, 457-8+16, 381-5+5, 20);
-	   	 g.drawImage(shop_go_pay_base, 457-8, 429-5, 20);
-	   	 g.drawImage(shop_out, 457+16, 429+7, 20);
+		   	 g.drawImage(shop_go_pay_base, 457-8, 381-5, 20);
+		   	 g.drawImage(shop_go_pay, 457-8+16, 381-5+5, 20);
+		   	 g.drawImage(shop_go_pay_base, 457-8, 429-5, 20);
+		   	 g.drawImage(shop_out, 457+16, 429+7, 20);
 		}
 		 
-		engine.setFont(30, true);
+		/*engine.setFont(30, true);
 		g.setColor(0x000000);
 		g.drawString(String.valueOf(engine.getEngineService().getBalance())+engine.getEngineService().getExpendAmountUnit(),110,459, 20);//”√ªß”‡∂Ó
-		engine.setDefaultFont();
+		engine.setDefaultFont();*/
 	}
 	
 	private int getPropIndex(int x, int y){
