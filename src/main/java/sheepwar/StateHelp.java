@@ -103,11 +103,11 @@ public class StateHelp implements Common{
 		g.drawImage(game_help, 220,18, 20);
 		g.drawImage(achievement_out1, 17,498, 20);
 		g.setColor(0x000000);
-		engine.setFont(20,true);
+		engine.setFont(15,true);
 		TextView.showMultiLineText(g, Resource.gameInfo[helpX], 5,177, 150, 315, 248);
 		if(Configurations.getInstance().isTelcomOperatorsTelcomgd()){
-			engine.setFont(20,true);
-			g.drawString("游戏版本 1.0.0", 177, 388, 20);
+			engine.setFont(25,true);
+			g.drawString("游戏版本 "+SheepWarGameEngine.version_num, 177, 388, 20);
 		}
 		engine.setDefaultFont();
 	}

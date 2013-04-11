@@ -10,6 +10,7 @@ import cn.ohyeah.stb.util.ConvertUtil;
  */
 public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 	public static boolean isSupportFavor = false;
+	public static String version_num = "1.0.1";   //°æ±¾ºÅ
 	public static int ScrW = 0;
 	public static int ScrH = 0;
 	
