@@ -326,7 +326,7 @@ public class StateGame implements Common{
 					printInfo();
 					
 					//同步道具
-					engine.pm.sysProps();
+					//engine.pm.sysProps();
 					
 					//退出游戏保存逃脱的狼
 					setWolfStatus();

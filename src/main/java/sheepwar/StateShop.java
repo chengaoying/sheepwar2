@@ -136,7 +136,11 @@ public class StateShop implements Common{
 		 
 		engine.setFont(30, true);
 		g.setColor(0x000000);
-		g.drawString(String.valueOf(engine.getEngineService().getBalance())+engine.getEngineService().getExpendAmountUnit(),110,459, 20);//用户余额
+		int money = engine.getEngineService().getBalance();
+		if(money<0){
+			money=0;
+		}
+		g.drawString(String.valueOf(money)+engine.getEngineService().getExpendAmountUnit(),110,459, 20);//用户余额
 		engine.setDefaultFont();
 	}
 	
@@ -159,7 +163,7 @@ public class StateShop implements Common{
 			shopY = 0;
 			
 			/*同步道具*/
-			engine.pm.sysProps();
+			//engine.pm.sysProps();
 		}else if (keyState.contains(KeyCode.UP)) {
 			keyState.remove(KeyCode.UP);
 			if(shopY>0){
@@ -209,7 +213,7 @@ public class StateShop implements Common{
 				running = false;
 				shopX = 0;shopY = 0;
 				/*同步道具*/
-				engine.pm.sysProps();
+				//engine.pm.sysProps();
 			}else{
 				PopupConfirm pc = UIResource.getInstance().buildDefaultPopupConfirm();
 				pc.setText("确定要购买吗?");

@@ -9,8 +9,8 @@ import cn.ohyeah.stb.util.ConvertUtil;
  * @author Administrator
  */
 public class SheepWarGameEngine extends GameCanvasEngine implements Common {
-	public static boolean isSupportFavor = false;
-	public static String version_num = "1.0.1";   //版本号
+	//public static boolean isSupportFavor = true;
+	public static String version_num = "1.0.2";   //版本号
 	public static int ScrW = 0;
 	public static int ScrH = 0;
 	
@@ -31,12 +31,14 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 	//public String amountUnit;
 	
 	private int recordId = 3;
+	private int recordId2 = 4;
+	private int result;
 	private String recordData;
+	private String recordData2;
 	private String attainmentData;
 	public String[] gameRecordInfo;
 	public String[] gameAttainmentInfo;
 	
-	//public static boolean result;   	//是否有游戏记录
 	public static boolean isFirstGame = true;   //是否第一次玩游戏
 	
 	/**
@@ -262,6 +264,7 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 			readRecord();
 		} catch (Exception e) {
 			errorMessage += "\n读取游戏记录出错" + e.getMessage();
+			e.printStackTrace();
 		}
 
 		try {
@@ -288,38 +291,39 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 	
 	private void setRecordData(){
 		recordData = "scores:"+StateGame.scores
-					+"/sorces:"+StateGame.scores2
-					+"/hitTotalNum:"+StateGame.hitTotalNum
-					+"/hitBooms:"+StateGame.hitBooms
-					+"/useProps:"+StateGame.useProps
-					+"/lifeNum:"+StateGame.lifeNum
-					+"/hitFruits:"+StateGame.hitFruits
-					+"/level:"+StateGame.level
-					+"/hitNum:"+StateGame.hitNum
-					+"/hitRatio:"+StateGame.hitRatio
+					+",scores2:"+StateGame.scores2
+					+",hitTotalNum:"+StateGame.hitTotalNum
+					+",hitBooms:"+StateGame.hitBooms
+					+",useProps:"+StateGame.useProps
+					+",lifeNum:"+StateGame.lifeNum
+					+",hitFruits:"+StateGame.hitFruits
+					+",level:"+StateGame.level
+					+",hitNum:"+StateGame.hitNum
+					+",hitRatio:"+StateGame.hitRatio
+					+",isFourRepeating:"+StateGame.isFourRepeating
+					+",second:"+StateGame.second
+					+",pasueState:"+StateGame.pasueState
+					+",isUsePasue:"+StateGame.isUsePasue
+					+",pasueTime:"+(StateGame.pasueTimeE-StateGame.pasueTimeS)
+					+",protectState:"+StateGame.protectState;
 					
-					+"/isFourRepeating:"+StateGame.isFourRepeating
-					+"/second:"+StateGame.second
-					+"/pasueState:"+StateGame.pasueState
-					+"/isUsePasue:"+StateGame.isUsePasue
-					+"/pasueTime:"+(StateGame.pasueTimeE-StateGame.pasueTimeS)
-					+"/protectState:"+StateGame.protectState
-					+"/protectTime:"+(StateGame.proEndTime-StateGame.proStartTime)
-					+"/isUseGlove:"+StateGame.isUseGlove
-					+"/golveFlag:"+StateGame.golveFlag
-					+"/isGolveShow:"+StateGame.isShowGlove
-					+"/gloveValideTime:"+(StateGame.gloveEndTime-StateGame.gloveStartTime)
-					
-					+"/isRewardLevel:"+StateGame.isRewardLevel
-					+"/isReward:"+StateGame.isReward
-					+"/reward_nums:"+StateGame.reward_nums
-					+"/batch:"+StateGame.batch
-					+"/rewardLevelFail:"+StateGame.rewardLevelFail
-					+"/haswolf_one:"+StateGame.HASWOLF_ONE
-					+"/haswolf_two:"+StateGame.HASWOLF_TWO
-					+"/haswolf_three:"+StateGame.HASWOLF_THREE
-					+"/haswolf_four:"+StateGame.HASWOLF_FOUR
-					+"/isfourwolf:"+StateGame.IS_FOUR_WOLF;
+	}
+	private void setRecordData2(){
+		recordData2 = "protectTime:"+(StateGame.proEndTime-StateGame.proStartTime)
+			+",isUseGlove:"+StateGame.isUseGlove
+			+",golveFlag:"+StateGame.golveFlag
+			+",isGolveShow:"+StateGame.isShowGlove
+			+",gloveValideTime:"+(StateGame.gloveEndTime-StateGame.gloveStartTime)
+			+",isRewardLevel:"+StateGame.isRewardLevel
+			+",isReward:"+StateGame.isReward
+			+",reward_nums:"+StateGame.reward_nums
+			+",batch:"+StateGame.batch
+			+",rewardLevelFail:"+StateGame.rewardLevelFail
+			+",haswolf_one:"+StateGame.HASWOLF_ONE
+			+",haswolf_two:"+StateGame.HASWOLF_TWO
+			+",haswolf_three:"+StateGame.HASWOLF_THREE
+			+",haswolf_four:"+StateGame.HASWOLF_FOUR
+			+",isfourwolf:"+StateGame.IS_FOUR_WOLF;
 	}
 	
 	private void initRecordInfo(String[] str){
@@ -333,62 +337,86 @@ public class SheepWarGameEngine extends GameCanvasEngine implements Common {
 		StateGame.level = Short.parseShort(str[7]);
 		StateGame.hitNum = Integer.parseInt(str[8]);
 		StateGame.hitRatio = Integer.parseInt(str[9]);
-		
 		StateGame.isFourRepeating = str[10].equals("true")?true:false;
 		StateGame.second = str[11].equals("true")?true:false;
 		StateGame.pasueState = str[12].equals("true")?true:false;
 		StateGame.isUsePasue = str[13].equals("true")?true:false;
 		StateGame.pasueValideTime = Integer.parseInt(str[14]);
 		StateGame.protectState = str[15].equals("true")?true:false;
-		StateGame.protectValideTime = Integer.parseInt(str[16]);
-		StateGame.isUseGlove = str[17].equals("true")?true:false;
-		StateGame.golveFlag = str[18].equals("true")?true:false;
-		StateGame.isShowGlove = str[19].equals("true")?true:false;
-		StateGame.gloveValideTime = Integer.parseInt(str[20]);
-		
-		StateGame.isRewardLevel = str[21].equals("true")?true:false;
-		StateGame.isReward = str[22].equals("true")?true:false;
-		StateGame.reward_nums = Integer.parseInt(str[23]);
-		StateGame.batch = Short.parseShort(str[24]);
-		StateGame.rewardLevelFail = str[25].equals("true")?true:false;
-		StateGame.HASWOLF_ONE = str[26].equals("true")?true:false;
-		StateGame.HASWOLF_TWO = str[27].equals("true")?true:false;
-		StateGame.HASWOLF_THREE = str[28].equals("true")?true:false;
-		StateGame.HASWOLF_FOUR = str[29].equals("true")?true:false;
-		StateGame.IS_FOUR_WOLF = str[30].equals("true")?true:false;
+	}
+	private void initRecordInfo2(String[] str){
+		StateGame.protectValideTime = Integer.parseInt(str[0]);
+		StateGame.isUseGlove = str[1].equals("true")?true:false;
+		StateGame.golveFlag = str[2].equals("true")?true:false;
+		StateGame.isShowGlove = str[3].equals("true")?true:false;
+		StateGame.gloveValideTime = Integer.parseInt(str[4]);
+		StateGame.isRewardLevel = str[5].equals("true")?true:false;
+		StateGame.isReward = str[6].equals("true")?true:false;
+		StateGame.reward_nums = Integer.parseInt(str[7]);
+		StateGame.batch = Short.parseShort(str[8]);
+		StateGame.rewardLevelFail = str[9].equals("true")?true:false;
+		StateGame.HASWOLF_ONE = str[10].equals("true")?true:false;
+		StateGame.HASWOLF_TWO = str[11].equals("true")?true:false;
+		StateGame.HASWOLF_THREE = str[12].equals("true")?true:false;
+		StateGame.HASWOLF_FOUR = str[13].equals("true")?true:false;
+		StateGame.IS_FOUR_WOLF = str[14].equals("true")?true:false;
 	}
 	
 	/*保存游戏记录*/
 	public void saveRecord(){
 		ServiceWrapper sw = getServiceWrapper();
 		setRecordData();
+		setRecordData2();
 		sw.saveRecord(recordId, recordData);
+		sw.saveRecord(recordId2, recordData2);
 		if(sw.isServiceSuccessful()){
 			printRecordInfo();
 		}
 	}
 	
 	/*读取游戏记录*/
-	public boolean readRecord(){
+	public int readRecord(){
 		try{
 			ServiceWrapper sw = getServiceWrapper();
 			String data = sw.loadRecord(recordId);
+			String data2 = sw.loadRecord(recordId2);
+			/*PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+			pt.setText("data字符串："+data);
+			pt.popup();
+			pt.setText("data2字符串："+data2);
+			pt.popup();*/
 			if(data==null){
-				return false;
+				result = -1;
+				return result;   
 			}
-			String[] ds = ConvertUtil.split(data, "/");
-		    gameRecordInfo = new String[ds.length];
-		    for(int i=0;i<ds.length;i++){
-		    	gameRecordInfo[i] = ConvertUtil.split(ds[i], ":")[1];
-		    }
-		    initRecordInfo(gameRecordInfo);
+			
+		    String[] datas = ConvertUtil.split(data, ",");
+		    String[] datas2 = ConvertUtil.split(data2, ",");
+			String[] d = new String[datas.length]; 
+			String[] d2 = new String[datas2.length]; 
+			for(int i=0;i<datas.length;i++){
+				d[i] = ConvertUtil.split(datas[i], ":")[1];
+			}
+			for(int i=0;i<datas2.length;i++){
+				d2[i] = ConvertUtil.split(datas2[i], ":")[1];
+			}
+			/*pt.setText("d["+datas.length+"]"+d[datas.length-1]);
+			pt.popup();*/
+		    initRecordInfo(d);
+		    initRecordInfo2(d2);
 		    printRecordInfo();
-		    return true;
+		    result = sw.getResult();
+			return result;
 		}catch(Exception e){
-			return false;
+			//PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+			errorMessage += "\n读取游戏记录出错" + e.getMessage();
+			/*pt.setText("错误=="+errorMessage);
+			pt.popup()*/;
+			result = -1;
+			return result;
 		}
 	}
-	
+	    
  	private void printRecordInfo() {
  		System.out.println("record_socres:"+StateGame.scores );
  		System.out.println("record_scores2:"+StateGame.scores2 );

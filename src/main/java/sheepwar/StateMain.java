@@ -131,6 +131,7 @@ public class StateMain implements Common{
 	
 	/*注意和界面按钮的顺序一致*/
 	private void processSubMenu() {
+		int result = engine.readRecord();
 		if (mainIndex == 0) { //新游戏
 			stateGame.weapon = new Weapon(stateGame);
 			stateGame.createRole = new CreateRole();
@@ -140,7 +141,7 @@ public class StateMain implements Common{
 			engine.state = STATUS_GAME_PLAYING;
 			clear();
 		} else if(mainIndex == 1){
-			if(engine.readRecord()){
+			if(result==0){
 				stateGame.weapon = new Weapon(stateGame);
 				stateGame.createRole = new CreateRole();
 				stateGame.batches = new Batches();
@@ -151,7 +152,7 @@ public class StateMain implements Common{
 				SheepWarGameEngine.isFirstGame = false;
 			}else{
 				PopupText pt = UIResource.getInstance().buildDefaultPopupText();
-				pt.setText("没有游戏记录，请重新开始游戏!");
+				pt.setText("没有游戏记录，请重新开始游戏!"+result);
 				pt.popup();
 				mainIndex=0;
 			}
@@ -180,7 +181,7 @@ public class StateMain implements Common{
 			engine.pm.sysProps();
 			
 			//保存数据
-			engine.saveAttainment();
+			//engine.saveAttainment();
 			ServiceWrapper sw = engine.getServiceWrapper();
 			sw.userQuit();
 		} 
