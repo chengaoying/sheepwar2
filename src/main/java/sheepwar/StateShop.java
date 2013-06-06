@@ -97,7 +97,7 @@ public class StateShop implements Common{
 								x+(spaceX+smallW)*j+136, y+(spaceY+smallH)*i+42, 20);
 						g.setColor(0x000000);
 						engine.setFont(25, true);
-						TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX]+"TV币或"+engine.getEngineService().getExpendAmountUnit(), 2, 452, 142, 140, 195);
+						TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX]+engine.getEngineService().getExpendAmountUnit(), 2, 452, 142, 140, 195);
 						engine.setDefaultFont();
 					}else{
 						engine.setFont(30,true);
@@ -137,7 +137,7 @@ public class StateShop implements Common{
 		 
 		engine.setFont(30, true);
 		g.setColor(0x000000);
-		g.drawString(String.valueOf(engine.getEngineService().getBalance())+engine.getEngineService().getExpendAmountUnit(),110,459, 20);//用户余额
+		g.drawString(String.valueOf(engine.getEngineService().getBalance())/*+engine.getEngineService().getExpendAmountUnit()*/,110,459, 20);//用户余额
 		engine.setDefaultFont();
 	}
 	
