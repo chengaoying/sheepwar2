@@ -150,7 +150,7 @@ public class StateGame implements Common{
 	public static boolean isUseGlove, isShowGlove, golveFlag=true;
 	public static long gloveEndTime, gloveStartTime;
 	public static int gloveValideTime;
-	private int gloveInterval = 20;
+	private int gloveInterval = 30;
 	
 	public boolean down;	//南瓜是否降落
 	
@@ -638,6 +638,7 @@ public class StateGame implements Common{
 		
 		
 		/*控制拳套时间间隔*/
+		System.out.println("拳头时间："+(gloveEndTime  - gloveStartTime));
 		gloveEndTime = System.currentTimeMillis()/1000;
 		if(!SheepWarGameEngine.isFirstGame && !isRewardLevel && golveFlag && (gloveEndTime  - gloveStartTime >= gloveInterval)){
 			isShowGlove = true;
