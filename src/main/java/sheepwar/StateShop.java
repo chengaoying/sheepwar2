@@ -8,6 +8,7 @@ import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.res.UIResource;
 import cn.ohyeah.stb.ui.PopupConfirm;
+import cn.ohyeah.stb.ui.PopupText;
 import cn.ohyeah.stb.ui.TextView;
 
 public class StateShop implements Common{
@@ -96,7 +97,7 @@ public class StateShop implements Common{
 								x+(spaceX+smallW)*j+136, y+(spaceY+smallH)*i+42, 20);
 						g.setColor(0x000000);
 						engine.setFont(25, true);
-						TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX]+engine.getEngineService().getExpendAmountUnit(), 2, 452, 142, 140, 195);
+						TextView.showMultiLineText(g, Resource.propIntroduce[shopY][shopX]+"TV币或"+engine.getEngineService().getExpendAmountUnit(), 2, 452, 142, 140, 195);
 						engine.setDefaultFont();
 					}else{
 						engine.setFont(30,true);
@@ -194,14 +195,11 @@ public class StateShop implements Common{
 		}else if (keyState.contains(KeyCode.OK)) {
 			keyState.remove(KeyCode.OK);
 			if(shopX==2 && shopY==0){//进入充值
-				/*keyState.clear();
-				engine.state = STATUS_GAME_RECHARGE;
-				engine.isRecharge = false;
-				running = false;*/
-				clear();
-				//StateRecharge sr = new StateRecharge(engine);
-				Recharge sr = new Recharge(engine);
-				sr.recharge();
+				/*Recharge sr = new Recharge(engine);
+				sr.recharge();*/
+				PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+				pt.setText("暂不支持充值，请到大厅充值!");
+				pt.popup();
 			}else if(shopX==2 && shopY==1){
 				running = false;
 				shopX = 0;shopY = 0;

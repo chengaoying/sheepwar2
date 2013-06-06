@@ -73,9 +73,10 @@ public class PropManager implements Common{
 	
 	private boolean buyProp(int propId, int propCount, int price, String propName){
 	
-		if (/*engine.getEngineService().getBalance()*/1000 >= price) {
+		//if (/*engine.getEngineService().getBalance()*/1000 >= price) {
 			ServiceWrapper sw = engine.getServiceWrapper();
-			sw.purchaseProp(propId, 1, "¹ºÂò"+propName);
+			//sw.purchaseProp(propId, 1, "¹ºÂò"+propName);
+			sw.expendTelcomsh(propId, "¹ºÂò"+propName);
 			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
 			if (sw.isServiceSuccessful()) {
 				pt.setText("¹ºÂò"+propName+"³É¹¦");
@@ -86,7 +87,7 @@ public class PropManager implements Common{
 			}
 			pt.popup();
 			return sw.isServiceSuccessful();
-		}else {
+		/*}else {
 				PopupConfirm pc = UIResource.getInstance().buildDefaultPopupConfirm();
 				pc.setText("ÓÎÏ·±Ò²»×ã,ÊÇ·ñ³äÖµ");
 				if (pc.popup() == 0) {
@@ -94,7 +95,7 @@ public class PropManager implements Common{
 					recharge.recharge();
 				}
 				return false;
-		}
+		}*/
 	}
 	
 	
