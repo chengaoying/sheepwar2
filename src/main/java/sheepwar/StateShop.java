@@ -195,11 +195,11 @@ public class StateShop implements Common{
 		}else if (keyState.contains(KeyCode.OK)) {
 			keyState.remove(KeyCode.OK);
 			if(shopX==2 && shopY==0){//进入充值
-				/*Recharge sr = new Recharge(engine);
-				sr.recharge();*/
-				PopupText pt = UIResource.getInstance().buildDefaultPopupText();
+				Recharge sr = new Recharge(engine);
+				sr.recharge();
+				/*PopupText pt = UIResource.getInstance().buildDefaultPopupText();
 				pt.setText("暂不支持充值，请到大厅充值!");
-				pt.popup();
+				pt.popup();*/
 			}else if(shopX==2 && shopY==1){
 				running = false;
 				shopX = 0;shopY = 0;

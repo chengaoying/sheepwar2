@@ -83,7 +83,6 @@ public class PropManager implements Common{
 			}
 			else {
 				pt.setText("¹ºÂò"+propName+"Ê§°Ü, Ô­Òò: "+sw.getServiceMessage());
-				
 			}
 			pt.popup();
 			return sw.isServiceSuccessful();
