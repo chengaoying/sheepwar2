@@ -2,6 +2,7 @@ package sheepwar;
 
 import javax.microedition.lcdui.Image;
 
+import cn.ohyeah.stb.game.Configurations;
 import cn.ohyeah.stb.game.Recharge;
 import cn.ohyeah.stb.game.SGraphics;
 import cn.ohyeah.stb.key.KeyCode;
@@ -73,7 +74,6 @@ public class StateShop implements Common{
 	
 		g.drawImage(shop, 220, 18, 20);
 		g.drawImage(shop_big, 29-12, 103, 20);
-		g.drawImage(shop_balance, 46, 457, 20);
 		g.drawImage(shop_midding, 434-12, 103, 20);
 		g.drawImage(shop_cloth, 434+10, 103+26, 20);
 		
@@ -134,11 +134,14 @@ public class StateShop implements Common{
 	   	 g.drawImage(shop_go_pay_base, 457-8, 429-5, 20);
 	   	 g.drawImage(shop_out, 457+16, 429+7, 20);
 		}
-		 
-		engine.setFont(30, true);
-		g.setColor(0x000000);
-		g.drawString(String.valueOf(engine.getEngineService().getBalance())/*+engine.getEngineService().getExpendAmountUnit()*/,110,459, 20);//用户余额
-		engine.setDefaultFont();
+		
+		if(!Configurations.getInstance().isServiceProviderShiXian()){
+			g.drawImage(shop_balance, 46, 457, 20);
+			engine.setFont(30, true);
+			g.setColor(0x000000);
+			g.drawString(String.valueOf(engine.getEngineService().getBalance())/*+engine.getEngineService().getExpendAmountUnit()*/,110,459, 20);//用户余额
+			engine.setDefaultFont();
+		}
 	}
 	
 	private int getPropIndex(int x, int y){

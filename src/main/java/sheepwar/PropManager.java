@@ -75,8 +75,8 @@ public class PropManager implements Common{
 	
 		//if (/*engine.getEngineService().getBalance()*/1000 >= price) {
 			ServiceWrapper sw = engine.getServiceWrapper();
+			sw.expendShiXian(price, "¹ºÂò"+propName);
 			//sw.purchaseProp(propId, 1, "¹ºÂò"+propName);
-			sw.expendTelcomsh(propId, "¹ºÂò"+propName);
 			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
 			if (sw.isServiceSuccessful()) {
 				pt.setText("¹ºÂò"+propName+"³É¹¦");
