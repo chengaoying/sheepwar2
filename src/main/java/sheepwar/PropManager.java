@@ -2,9 +2,7 @@ package sheepwar;
 
 import cn.ohyeah.itvgame.model.OwnProp;
 import cn.ohyeah.stb.game.ServiceWrapper;
-import cn.ohyeah.stb.game.StateRecharge;
 import cn.ohyeah.stb.res.UIResource;
-import cn.ohyeah.stb.ui.PopupConfirm;
 import cn.ohyeah.stb.ui.PopupText;
 
 
@@ -71,12 +69,28 @@ public class PropManager implements Common{
 		return -1;
 	}
 	
+	public void addPropNum(int propId){
+		int len = props.length;
+		for(int i=len-1;i>=0;i--){
+			if(props[i].getPropId()==propId){
+				props[i].setNums(props[i].getNums()+1);
+			}
+		}
+	}
+	public void reducePropNum(int propId){
+		int len = props.length;
+		for(int i=len-1;i>=0;i--){
+			if(props[i].getPropId()==propId){
+				props[i].setNums(props[i].getNums()-1);
+			}
+		}
+	}
+	
 	private boolean buyProp(int propId, int propCount, int price, String propName){
 	
 		//if (/*engine.getEngineService().getBalance()*/1000 >= price) {
 			ServiceWrapper sw = engine.getServiceWrapper();
 			sw.expendShiXian(price, "¹ºÂò"+propName);
-			//sw.purchaseProp(propId, 1, "¹ºÂò"+propName);
 			PopupText pt = UIResource.getInstance().buildDefaultPopupText();
 			if (sw.isServiceSuccessful()) {
 				pt.setText("¹ºÂò"+propName+"³É¹¦");

@@ -9,7 +9,6 @@ import cn.ohyeah.stb.key.KeyCode;
 import cn.ohyeah.stb.key.KeyState;
 import cn.ohyeah.stb.res.UIResource;
 import cn.ohyeah.stb.ui.PopupConfirm;
-import cn.ohyeah.stb.ui.PopupText;
 import cn.ohyeah.stb.ui.TextView;
 
 public class StateShop implements Common{
