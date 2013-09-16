@@ -17,6 +17,7 @@ public class StateGameSuccessOrFail implements Common{
 	
 	public int processGameSuccessOrFail(boolean isSuccess, Role own){
 		running = true;
+		index = 1;
 		try {
 			KeyState keyState = engine.getKeyState();
 			SGraphics g = engine.getSGraphics();
